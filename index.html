@@ -38,14 +38,14 @@
         #enter-btn:active, #enter-btn:hover { background: rgba(255,255,255,0.25); box-shadow: 0 0 25px rgba(255,255,255,0.3); }
 
         /* Nav */
-        nav { position: absolute; bottom: 40px; left: 50px; display: flex; gap: 40px; opacity: 0; transform: translateY(20px); z-index: 40; }
-        .nav-link { text-decoration: none; color: #777; font-size: 0.9rem; letter-spacing: 1.5px; cursor: pointer; transition: color 0.3s; padding: 10px 0; }
+        nav { position: absolute; bottom: 40px; left: 50px; display: flex; gap: 30px; opacity: 0; transform: translateY(20px); z-index: 40; flex-wrap: wrap;}
+        .nav-link { text-decoration: none; color: #777; font-size: 0.85rem; letter-spacing: 1.5px; cursor: pointer; transition: color 0.3s; padding: 5px 0; }
         .nav-link:hover, .nav-link.active { color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.6); border-bottom: 1px solid #fff; }
 
         /* Content Layout */
         .content-section {
             position: absolute; top: 0; right: 0; width: 50%; height: 100%;
-            background: linear-gradient(to left, rgba(0,0,0,0.95) 20%, rgba(0,0,0,0.8) 100%);
+            background: linear-gradient(to left, rgba(0,0,0,0.98) 20%, rgba(0,0,0,0.85) 100%);
             display: none; opacity: 0; padding: 80px 60px; box-sizing: border-box;
             overflow-y: auto; -webkit-overflow-scrolling: touch;
         }
@@ -53,100 +53,97 @@
         .content-section::-webkit-scrollbar { width: 6px; }
         .content-section::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
 
-        /* Typography & Components */
-        .text-block { margin-top: 60px; margin-bottom: 150px; }
+        /* Typography */
+        .text-block { margin-top: 40px; margin-bottom: 120px; }
         .text-block h2 { font-weight: 200; font-size: 2rem; margin-bottom: 40px; border-bottom: 1px solid #555; padding-bottom: 15px; color: #fff; letter-spacing: 2px; }
         .category-title { font-size: 1.1rem; color: #fff; margin-top: 50px; margin-bottom: 25px; padding-left: 10px; border-left: 3px solid #888; letter-spacing: 1px; }
-        .text-block p { line-height: 1.7; font-size: 0.9rem; color: #ccc; margin-bottom: 15px; text-align: justify; }
+        .text-block p { line-height: 1.8; font-size: 0.95rem; color: #ccc; margin-bottom: 20px; text-align: justify; }
+        .text-block h3 { font-size: 1.2rem; color: #ddd; margin-top: 30px; margin-bottom: 15px; }
 
-        /* About Photo Style */
-        .about-photo-container {
-            width: 100%;
-            margin-bottom: 40px;
-            overflow: hidden;
-            border-radius: 2px;
+        /* --- Method Page Specific --- */
+        .method-quote {
+            border-left: 2px solid #fff; padding-left: 20px; margin: 30px 0; font-style: italic; color: #aaa;
+        }
+        .method-list li { margin-bottom: 10px; color: #ccc; line-height: 1.6; }
+
+        /* --- New Gallery Grid (Covers) --- */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        .project-card {
+            cursor: pointer;
             position: relative;
+            transition: transform 0.3s;
         }
-        .about-photo {
-            width: 100%;
-            max-width: 300px; /* 限制最大寬度 */
-            height: auto;
-            display: block;
-            filter: grayscale(100%) contrast(1.2); /* 黑白風格 */
-            transition: filter 1s ease;
-            opacity: 0.9;
+        .project-card:hover { transform: translateY(-5px); }
+        .project-cover {
+            width: 100%; aspect-ratio: 4/3; object-fit: cover;
+            filter: grayscale(100%); transition: filter 0.5s;
+            border-radius: 2px;
         }
-        .about-photo:hover {
-            filter: grayscale(0%) contrast(1); /* 滑鼠移過去變彩色 */
+        .project-card:hover .project-cover { filter: grayscale(0%); }
+        .project-title {
+            margin-top: 10px; font-size: 0.9rem; color: #fff; letter-spacing: 1px;
         }
+        .project-year { font-size: 0.8rem; color: #666; font-family: monospace; }
 
-        /* Timeline */
+        /* --- Project Detail Overlay (The "Museum" View) --- */
+        #project-overlay {
+            position: fixed; top: 0; right: 0; width: 60%; height: 100%;
+            background: #0a0a0a; z-index: 100;
+            transform: translateX(100%); transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            overflow-y: auto; padding: 60px; box-sizing: border-box;
+            border-left: 1px solid #333;
+        }
+        #project-overlay.open { transform: translateX(0); }
+        
+        #close-project {
+            position: absolute; top: 30px; right: 30px; 
+            font-size: 1.5rem; color: #fff; cursor: pointer;
+            border: 1px solid #333; padding: 5px 15px; transition: all 0.3s;
+        }
+        #close-project:hover { background: #fff; color: #000; }
+
+        .detail-header { margin-bottom: 40px; margin-top: 20px;}
+        .detail-title { font-size: 2rem; color: #fff; margin-bottom: 10px; }
+        .detail-meta { font-family: monospace; color: #888; font-size: 0.9rem; margin-bottom: 30px; }
+        .detail-desc { line-height: 1.8; color: #ccc; margin-bottom: 40px; white-space: pre-wrap; }
+        
+        .detail-media { margin-bottom: 40px; }
+        .video-container {
+            position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin-bottom: 30px;
+        }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0; }
+        
+        .detail-images img {
+            width: 100%; margin-bottom: 20px; display: block;
+            filter: grayscale(20%); transition: filter 0.5s;
+        }
+        .detail-images img:hover { filter: grayscale(0%); }
+
+        /* Timeline & Other Styles from V8 */
         .timeline-item { position: relative; padding-left: 20px; margin-bottom: 25px; border-left: 1px solid #333; }
         .timeline-item::before { content: ''; position: absolute; left: -4px; top: 6px; width: 7px; height: 7px; background: #666; border-radius: 50%; }
         .year { font-size: 0.8rem; color: #888; font-family: monospace; display: block; margin-bottom: 3px; }
         .job-title { font-size: 0.95rem; color: #fff; font-weight: 500; }
         .job-desc { font-size: 0.85rem; color: #aaa; margin-top: 2px; }
-
-        /* Expandable */
         .expand-container { max-height: 200px; overflow: hidden; transition: max-height 0.8s ease; position: relative; }
         .expand-container.collapsed::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 50px; background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(5,5,5,0.9)); pointer-events: none; }
         .expand-btn { display: block; width: 100%; padding: 10px; margin-top: 10px; background: rgba(255,255,255,0.05); border: 1px solid #444; color: #888; cursor: pointer; text-align: center; font-size: 0.8rem; transition: all 0.3s; }
         .expand-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
-
-        /* Social Links */
+        .about-photo { width: 100%; max-width: 300px; filter: grayscale(100%) contrast(1.2); transition: filter 1s ease; opacity: 0.9; margin-bottom: 40px;}
+        .about-photo:hover { filter: grayscale(0%) contrast(1); }
         .social-links { margin-top: 30px; display: flex; gap: 15px; }
         .social-btn { padding: 8px 20px; border: 1px solid #666; color: #ccc; text-decoration: none; font-size: 0.9rem; border-radius: 2px; }
         .social-btn:hover { border-color: #fff; color: #fff; background: rgba(255,255,255,0.1); }
 
-        /* --- Gallery Styles (Masonry) --- */
-        .gallery-grid {
-            column-count: 2; /* 兩欄 */
-            column-gap: 20px;
-            width: 100%;
-        }
-        .gallery-item {
-            display: inline-block;
-            width: 100%;
-            margin-bottom: 20px;
-            cursor: pointer;
-            position: relative;
-            break-inside: avoid; /* 防止圖片被切斷 */
-        }
-        .gallery-img {
-            width: 100%;
-            height: auto;
-            border-radius: 2px;
-            filter: grayscale(80%) brightness(0.8);
-            transition: all 0.5s ease;
-            display: block;
-        }
-        .gallery-item:hover .gallery-img {
-            filter: grayscale(0%) brightness(1);
-            transform: scale(1.02);
-        }
-        .gallery-caption {
-            margin-top: 5px;
-            font-size: 0.8rem;
-            color: #888;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        .gallery-item:hover .gallery-caption { opacity: 1; }
-
-        /* Lightbox (大圖檢視) */
-        #lightbox {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95); z-index: 100;
-            display: none; justify-content: center; align-items: center;
-            opacity: 0; transition: opacity 0.5s;
-        }
-        #lightbox img { max-width: 90%; max-height: 90%; box-shadow: 0 0 30px rgba(255,255,255,0.1); }
-        #lightbox-close { position: absolute; top: 30px; right: 30px; color: #fff; font-size: 2rem; cursor: pointer; }
-
         @media (max-width: 768px) {
             .content-section { width: 100%; padding: 30px; padding-top: 80px; }
-            nav { bottom: 0; left: 0; width: 100%; background: rgba(10,10,10,0.95); padding: 15px 0; justify-content: center; gap: 30px; border-top: 1px solid #333; }
-            .gallery-grid { column-count: 1; } /* 手機改單欄 */
+            #project-overlay { width: 100%; padding: 30px; padding-top: 80px; }
+            nav { bottom: 0; left: 0; width: 100%; background: rgba(10,10,10,0.95); padding: 15px 0; justify-content: center; gap: 20px; border-top: 1px solid #333; }
+            .project-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -163,32 +160,51 @@
         </div>
 
         <nav id="main-nav" class="interactive">
+            <a class="nav-link" onclick="navigateTo('method')">METHOD</a>
             <a class="nav-link" onclick="navigateTo('about')">ABOUT</a>
             <a class="nav-link" onclick="navigateTo('experiences')">EXPERIENCES</a>
-            <a class="nav-link" onclick="navigateTo('gallery')">GALLERY</a>
+            <a class="nav-link" onclick="navigateTo('gallery')">WORKS</a>
         </nav>
+
+        <div id="method" class="content-section interactive">
+            <div class="text-block">
+                <h2>意義場行動表演法 / Method</h2>
+                
+                <div class="method-quote">
+                    「表演行動並非再現既有內容，而是在多重脈絡交會中即時生成可被感知的關係結構。」
+                </div>
+
+                <h3>1. 摘要 Abstract</h3>
+                <p>《意義場行動表演法》是一種以「意義生成」而非文本、角色或心理動機為起點的表演方法論。此方法將角色、語言、空間、物件、時間與觀者視為同時運作的意義場（field of meaning）。</p>
+                <p>台詞不被視為語義單位，而是一組可被拆解、重組並與其他脈絡交織的參數；角色亦非固定人格，而是暫時穩定的意義組態。</p>
+
+                <h3>2. 理論基礎 Theory</h3>
+                <p>此方法的核心假設是：當多條脈絡在行動中反覆交會，其重疊密度將自然產生結構上的合理性，而無需回溯至表演者的生命經驗或心理模擬。</p>
+                <p>演員的任務不在於「理解角色」，而在於辨認、延續或偏移這些交會所形成的路徑，並以行動回應其張力。由此，即興不再等同於自由反應，而是一種對意義場變化的即時運算。</p>
+                
+                <h3>3. 三種行動樣態 Action Modes</h3>
+                <ul class="method-list" style="margin-left: 20px;">
+                    <li><strong>獵人 (Hunter)：</strong>對高密度交會組態的辨識與追蹤能力。行動沿著已形成的結構推進，強調連續性與穩定性。</li>
+                    <li><strong>巫師 (Wizard)：</strong>在既有交會處引入另一層意義維度（如儀式、時間），基於已成立的結構進行擴展。</li>
+                    <li><strong>小孩 (Child)：</strong>刻意將行動投向非交會、非合理預期之處，以迫使意義場重新配置。具有實驗性與風險性。</li>
+                </ul>
+            </div>
+        </div>
 
         <div id="about" class="content-section interactive">
             <div class="text-block">
                 <h2>關於 / About</h2>
-                
                 <div class="about-photo-container">
                     <img src="profile.jpg" alt="Po-Hao Tseng" class="about-photo" onerror="this.style.display='none'">
                 </div>
-
                 <div class="category-title">Introduction 簡介</div>
                 <p>台北藝術大學藝術跨域研究所畢。從小學習中國音樂，而後曾師承周定邦先生學習台灣唸歌。</p>
                 <p>2012年與友人創立《迷宮迴廊》樂團，2013年參與《小嫩豬》樂團。2014年創立鬼講堂，與表演者吳宗恩、戴開成共創改編焦吧哖事件。2018年於臺北和鳴南樂社學習南管。</p>
                 <p>近年常參與劇場與聲音相關創作，曾與各國藝術家：Kitt Johnson（丹麥）、坂本弘道、內橋和久、千野秀一、李世揚、李慈湄、黃思農等人合作或即興音樂交流。</p>
-                <p>近來在音樂間流浪以及嘗試理解何謂「在當場」，除鬼講堂計畫試圖理解抗日事件中的多重敘事問題及背後社會成因外，音樂作品則與社會議題及個人情感相關。</p>
-
                 <div class="category-title">Focus 專注領域</div>
                 <p>演奏、歌唱、詞曲創作、唸歌創作演唱、藝術創作、藝術理論</p>
-
                 <div class="category-title">Contact 聯絡</div>
                 <p>Email: jerry801022@gmail.com</p>
-                <p>Phone: +886 988 463 036</p>
-                
                 <div class="social-links">
                     <a href="https://www.facebook.com/share/1ATPLBnGpg/?mibextid=wwXIfr" target="_blank" class="social-btn">Facebook</a>
                     <a href="https://www.instagram.com/po_hao_tseng?igsh=MTV2dXFiODZwZW4wYg%3D%3D&utm_source=qr" target="_blank" class="social-btn">Instagram</a>
@@ -199,16 +215,13 @@
         <div id="experiences" class="content-section interactive">
             <div class="text-block">
                 <h2>經歷 / Experience</h2>
-
                 <div class="category-title">Education 學歷</div>
                 <div class="timeline-item"><span class="year">Present</span><div class="job-title">台北藝術大學 藝術跨領域研究所 (MFA)</div></div>
                 <div class="timeline-item"><span class="year">2010 - 2015</span><div class="job-title">台南藝術大學 材質創作與設計系 (BA)</div></div>
-
                 <div class="category-title">Experience 現職</div>
                 <div class="timeline-item"><span class="year">Now</span><div class="job-title">藝術、音樂、劇場相關工作者</div></div>
                 <div class="timeline-item"><span class="year">Now</span><div class="job-title">《小嫩豬》樂團樂手</div></div>
                 <div class="timeline-item"><span class="year">Now</span><div class="job-title">《鬼講堂》計劃人</div></div>
-
                 <div class="category-title">Live Performances 個人創作演出</div>
                 <div id="list-performances" class="expand-container collapsed">
                     <div class="timeline-item"><span class="year">2020</span><div class="job-title">漫遊者劇場《池子》</div><div class="job-desc">臺灣大學水源校區</div></div>
@@ -217,7 +230,6 @@
                     <div class="timeline-item"><span class="year">2015</span><div class="job-title">《中國城藝術行動》</div></div>
                 </div>
                 <button class="expand-btn" onclick="toggleExpand('list-performances', this)">+ View Full List</button>
-                
                 <div class="category-title">Lecture of Ghost 鬼講堂</div>
                 <div id="list-ghost" class="expand-container collapsed">
                     <div class="timeline-item"><span class="year">2016</span><div class="job-title">台北雙年展《當下檔案・未來系譜》</div></div>
@@ -226,11 +238,9 @@
                     <div class="timeline-item"><span class="year">2015</span><div class="job-title">鬼講堂成立</div></div>
                 </div>
                 <button class="expand-btn" onclick="toggleExpand('list-ghost', this)">+ View Full List</button>
-
                 <div class="category-title">Awards 獎項經歷</div>
                 <div class="timeline-item"><span class="year">2019</span><div class="job-title">台新藝術獎 年度大獎</div><div class="job-desc">《明白歌-未竟的故人事》再拒劇團</div></div>
                 <div class="timeline-item"><span class="year">2012</span><div class="job-title">南面而歌 原創歌曲 評審推薦獎</div></div>
-
                 <div class="category-title">Collaborations & Others</div>
                 <div id="list-others" class="expand-container collapsed">
                     <div class="timeline-item"><span class="year">2021</span><div class="job-title">《島遊情書》臺灣歷史博物館</div></div>
@@ -244,66 +254,136 @@
 
         <div id="gallery" class="content-section interactive">
             <div class="text-block">
-                <h2>作品 / Gallery</h2>
-                <p>點擊圖片可放大檢視。</p>
-                <div id="gallery-container" class="gallery-grid">
+                <h2>作品 / Works</h2>
+                <p>點擊專案以閱讀詳細檔案與影像。</p>
+                <div id="project-grid-container" class="project-grid">
                     </div>
             </div>
         </div>
 
-        <div id="lightbox" class="interactive" onclick="closeLightbox()">
-            <div id="lightbox-close">&times;</div>
-            <img id="lightbox-img" src="" alt="Full View">
+        <div id="project-overlay" class="interactive">
+            <div id="close-project" onclick="closeProject()">× CLOSE</div>
+            
+            <div id="project-content">
+                </div>
         </div>
     </div>
 
     <script>
-        // --- 設定：畫廊圖片清單 ---
-        // 請在這裡填入您的作品檔名 (需上傳到 GitHub)
-        // 您可以隨時新增更多 {}
-        const galleryData = [
-            { src: 'work1.jpg', title: '作品名稱 01' },
-            { src: 'work2.jpg', title: '作品名稱 02' },
-            { src: 'work3.jpg', title: '作品名稱 03' },
-            // 如果還沒有上傳作品，以下是佔位圖片範例 (可刪除)
-            { src: 'https://images.unsplash.com/photo-1518640467707-6811f4a6ab73?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', title: '黑白實驗 I' },
-            { src: 'https://images.unsplash.com/photo-1507608616759-54f48f0af0ee?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', title: '雨中迷霧' },
-            { src: 'https://images.unsplash.com/photo-1516663235285-845fac339ca7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', title: '紋理與噪點' }
+        // --- 核心：作品資料庫 (Project Database) ---
+        // 請在此處填寫您的作品資料
+        const projects = [
+            {
+                id: 1,
+                title: "漫遊者劇場《池子》",
+                year: "2020",
+                cover: "work1-cover.jpg", // 封面圖
+                description: "臺灣大學水源校區 (原國防醫學院)，臺北。", // 簡述 (列表用)
+                fullDescription: "這是一個關於空間記憶與身體介入的場域特定創作。在原國防醫學院的遺址中，我們試圖透過漫遊者的視角，重新測量歷史的重量。\n\n表演者在廢棄的池子周圍移動，聲音在空曠的建築中迴盪，形成了一個獨特的意義場。觀眾不再是被動的觀看者，而是場域中的一部分。", // 完整論述 (支援換行)
+                video: "", // 如果有 YouTube 影片，請填入 Embed 網址 (例如: https://www.youtube.com/embed/xxxxxx)
+                images: [
+                    "work1-01.jpg", 
+                    "work1-02.jpg",
+                    "work1-03.jpg"
+                ]
+            },
+            {
+                id: 2,
+                title: "鬼講堂",
+                year: "2014-Present",
+                cover: "work2-cover.jpg",
+                description: "與表演者吳宗恩、戴開成共創，改編焦吧哖事件。",
+                fullDescription: "《鬼講堂》是一個持續進行的計畫，試圖理解抗日事件中的多重敘事問題及背後社會成因。\n\n透過變文、唸歌與現代劇場的結合，我們召喚歷史的幽靈，在當下進行對話。這不僅是一場演出，更是一次集體的降靈儀式。",
+                video: "", 
+                images: [
+                    "work2-01.jpg",
+                    "work2-02.jpg"
+                ]
+            },
+            // 下方為範例 (若無圖片會顯示灰色塊)
+            {
+                id: 3,
+                title: "中國城藝術行動",
+                year: "2015",
+                cover: "https://images.unsplash.com/photo-1518640467707-6811f4a6ab73?w=800&q=80",
+                description: "台南中國城，運河無崁蓋演出。",
+                fullDescription: "針對台南中國城拆除前的藝術行動。記錄消逝的城市紋理。",
+                video: "",
+                images: [
+                    "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=800&q=80",
+                    "https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=800&q=80"
+                ]
+            }
         ];
 
-        // --- 畫廊生成邏輯 ---
-        function renderGallery() {
-            const container = document.getElementById('gallery-container');
+        // --- 渲染作品列表 ---
+        function renderProjects() {
+            const container = document.getElementById('project-grid-container');
             container.innerHTML = '';
             
-            galleryData.forEach(item => {
+            projects.forEach((p, index) => {
                 const div = document.createElement('div');
-                div.className = 'gallery-item';
+                div.className = 'project-card';
+                div.onclick = () => openProject(index);
+                
+                // 處理圖片載入失敗的情況
+                const imgSrc = p.cover ? p.cover : 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iNzUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiMzMzMiLz48L3N2Zz4=';
+                
                 div.innerHTML = `
-                    <img src="${item.src}" class="gallery-img" alt="${item.title}" onclick="openLightbox('${item.src}')">
-                    <div class="gallery-caption">${item.title}</div>
+                    <img src="${imgSrc}" class="project-cover" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iNzUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiMzMzMiLz48L3N2Zz4='">
+                    <div class="project-title">${p.title}</div>
+                    <div class="project-year">${p.year}</div>
                 `;
                 container.appendChild(div);
             });
         }
 
-        // --- Lightbox 邏輯 ---
-        function openLightbox(src) {
-            const lightbox = document.getElementById('lightbox');
-            const img = document.getElementById('lightbox-img');
-            img.src = src;
-            lightbox.style.display = 'flex';
-            // 延遲一點點讓淡入動畫生效
-            setTimeout(() => { lightbox.style.opacity = '1'; }, 10);
+        // --- 打開作品詳情 (Detail View) ---
+        function openProject(index) {
+            const p = projects[index];
+            const content = document.getElementById('project-content');
+            
+            // 生成詳情 HTML
+            let html = `
+                <div class="detail-header">
+                    <div class="detail-title">${p.title}</div>
+                    <div class="detail-meta">${p.year}</div>
+                </div>
+                <div class="detail-desc">${p.fullDescription}</div>
+            `;
+
+            // 如果有影片
+            if (p.video) {
+                html += `
+                    <div class="detail-media">
+                        <div class="video-container">
+                            <iframe src="${p.video}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 生成圖片列表
+            if (p.images && p.images.length > 0) {
+                html += '<div class="detail-images">';
+                p.images.forEach(img => {
+                    html += `<img src="${img}" onerror="this.style.display='none'">`;
+                });
+                html += '</div>';
+            }
+
+            content.innerHTML = html;
+            
+            // 滑出視窗
+            document.getElementById('project-overlay').classList.add('open');
         }
 
-        function closeLightbox() {
-            const lightbox = document.getElementById('lightbox');
-            lightbox.style.opacity = '0';
-            setTimeout(() => { lightbox.style.display = 'none'; }, 500);
+        function closeProject() {
+            document.getElementById('project-overlay').classList.remove('open');
         }
 
-        // --- 3D Scene Code (Same as before) ---
+
+        // --- Three.js & Basic Logic (Same as before) ---
         let scene, camera, renderer, clock;
         let bgParticles, fgParticles, linesMesh;
         let mouse = new THREE.Vector2(9999, 9999);
@@ -319,7 +399,7 @@
 
         init();
         animate();
-        renderGallery(); // 啟動畫廊
+        renderProjects(); // Init Gallery
 
         function init() {
             const container = document.getElementById('canvas-container');
@@ -335,7 +415,6 @@
 
             const sprite = createGlowSprite();
             
-            // BG
             const bgGeo = new THREE.BufferGeometry();
             const bgPos = [];
             for (let i = 0; i < BG_COUNT; i++) {
@@ -346,7 +425,6 @@
             bgParticles = new THREE.Points(bgGeo, bgMat);
             scene.add(bgParticles);
 
-            // FG
             const fgGeo = new THREE.BufferGeometry();
             const fgPos = [];
             const fgVel = [];
@@ -360,7 +438,6 @@
             fgParticles.userData = { velocity: fgVel };
             scene.add(fgParticles);
 
-            // Lines
             const lineGeo = new THREE.BufferGeometry();
             const linePos = new Float32Array(FG_COUNT * 2 * 3 * 2);
             lineGeo.setAttribute('position', new THREE.BufferAttribute(linePos, 3));
@@ -486,7 +563,9 @@
         window.navigateTo = function(id) {
             document.querySelectorAll('.content-section').forEach(el => { el.classList.remove('active'); gsap.to(el, { opacity: 0, duration: 0.5 }); });
             document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
-            event.target.classList.add('active');
+            const btn = Array.from(document.querySelectorAll('.nav-link')).find(b => b.getAttribute('onclick').includes(id));
+            if(btn) btn.classList.add('active');
+            
             const target = document.getElementById(id);
             if(target) { target.classList.add('active'); gsap.to(target, { opacity: 1, duration: 1, delay: 0.5 }); target.scrollTop = 0; }
         }
