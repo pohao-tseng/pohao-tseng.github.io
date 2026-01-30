@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PO-HAO TSENG | 意義場 V2</title>
+    <title>PO-HAO TSENG | 意義場 V3</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
     <style>
         :root {
-            --bg-color: #050505; /* 更深的黑，讓光暈更明顯 */
-            --text-color: #dcdcdc;
-            --accent-color: #a0a0a0;
+            --bg-color: #000000;
+            --text-color: #f0f0f0;
         }
 
         body, html {
@@ -20,7 +19,7 @@
             height: 100%;
             overflow: hidden;
             background-color: var(--bg-color);
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* 改用無襯線體，更乾淨 */
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             color: var(--text-color);
         }
 
@@ -56,79 +55,83 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: radial-gradient(circle, rgba(5,5,5,0) 0%, rgba(5,5,5,0.8) 100%);
-            transition: opacity 1.5s ease;
+            /* 讓背景更深邃 */
+            background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(0,0,0,0.9) 100%);
         }
 
         h1 {
-            font-weight: 200;
-            letter-spacing: 8px;
-            font-size: 1.2rem;
-            margin-bottom: 3rem;
+            font-weight: 100;
+            letter-spacing: 12px;
+            font-size: 1.1rem;
+            margin-bottom: 4rem;
             text-transform: uppercase;
-            opacity: 0.8;
+            color: rgba(255,255,255,0.9);
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
         }
 
         #enter-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: var(--text-color);
-            padding: 15px 50px;
-            font-size: 0.8rem;
+            background: transparent;
+            border: none;
+            color: rgba(255,255,255,0.7);
+            padding: 20px;
+            font-size: 0.9rem;
             cursor: pointer;
-            transition: all 0.5s ease;
-            letter-spacing: 3px;
-            border-radius: 2px;
-            backdrop-filter: blur(5px);
+            letter-spacing: 4px;
+            position: relative;
+            overflow: hidden;
+            transition: color 0.3s;
+        }
+        
+        #enter-btn::after {
+            content: '';
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 1px;
+            background: rgba(255,255,255,0.5);
+            transition: width 0.5s ease;
         }
 
         #enter-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.6);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            color: #fff;
+            text-shadow: 0 0 8px rgba(255,255,255,0.5);
         }
 
-        /* Navigation */
+        #enter-btn:hover::after {
+            width: 50%;
+        }
+
+        /* Navigation - 極簡化 */
         nav {
             position: absolute;
             top: 40px;
             right: 50px;
             display: flex;
-            gap: 40px;
+            flex-direction: column; /* 改為垂直排列，更有現代感 */
+            gap: 15px;
             opacity: 0;
-            transform: translateY(-20px);
+            transform: translateX(20px);
         }
 
         .nav-link {
             text-decoration: none;
-            color: #666;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
+            color: #555;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-align: right;
             cursor: pointer;
-            transition: color 0.4s;
-            position: relative;
+            transition: all 0.5s;
         }
 
         .nav-link:hover, .nav-link.active {
             color: #fff;
+            transform: translateX(-10px);
+            text-shadow: 0 0 5px rgba(255,255,255,0.5);
         }
 
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0%;
-            height: 1px;
-            background: #fff;
-            transition: width 0.3s;
-        }
-
-        .nav-link:hover::after, .nav-link.active::after {
-            width: 100%;
-        }
-
-        /* Content Sections */
+        /* Content */
         .content-section {
             position: absolute;
             top: 0;
@@ -137,60 +140,50 @@
             height: 100%;
             display: none;
             opacity: 0;
-            pointer-events: none; /* 預設不擋住背景 */
         }
         
         .content-section.active {
             display: block;
-            pointer-events: auto;
         }
 
         .content-inner {
             position: absolute;
-            top: 50%;
-            left: 10%; /* 靠左排版，讓右邊留給意義場 */
-            transform: translateY(-50%);
-            width: 40%;
-            max-width: 500px;
-            padding: 40px;
-            background: linear-gradient(90deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
-            border-left: 1px solid rgba(255,255,255,0.1);
+            bottom: 10%; /* 文字沉在下方，讓上方留給視覺 */
+            left: 10%;
+            width: 50%;
+            max-width: 600px;
+        }
+
+        .text-block h2 {
+            font-weight: 200;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #fff;
+            letter-spacing: 3px;
         }
 
         .text-block p {
             line-height: 1.8;
-            font-size: 0.95rem;
-            color: #ccc;
-            margin-bottom: 20px;
+            font-size: 0.9rem;
+            color: #bbb;
+            margin-bottom: 15px;
             text-align: justify;
         }
 
-        .text-block h2 {
-            font-weight: 300;
-            font-size: 1.5rem;
-            margin-bottom: 30px;
-            color: #fff;
-        }
-
-        /* 標記強調 */
-        .highlight {
-            color: #fff;
-            border-bottom: 1px solid #555;
-        }
-
+        /* 手機適配 */
         @media (max-width: 768px) {
             .content-inner {
-                width: 80%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                background: rgba(0,0,0,0.85);
+                width: 85%;
+                bottom: 15%;
             }
             nav {
-                width: 100%;
+                flex-direction: row;
+                top: auto;
+                bottom: 30px;
                 right: 0;
+                width: 100%;
                 justify-content: center;
-                background: rgba(0,0,0,0.9);
-                padding: 15px 0;
+                gap: 25px;
             }
         }
     </style>
@@ -202,7 +195,7 @@
     <div id="ui-layer">
         <div id="landing-screen" class="interactive">
             <h1>PO-HAO TSENG</h1>
-            <button id="enter-btn">ENTER FIELD</button>
+            <button id="enter-btn">ENTER / 進入</button>
         </div>
 
         <nav id="main-nav" class="interactive">
@@ -214,10 +207,9 @@
         <div id="about" class="content-section interactive">
             <div class="content-inner">
                 <div class="text-block">
-                    <h2>意義場行動表演法</h2>
-                    <p>角色、語言、環境與時間皆為<span class="highlight">可變參數</span>。</p>
-                    <p>我們不追求穩定的詮釋，而是在多重脈絡交會中，尋找<span class="highlight">即時生成的結構</span>。</p>
-                    <p>當多條脈絡在行動中反覆交會，其重疊密度將自然產生結構上的合理性。演員的任務不在於「理解角色」，而在於辨認、延續或偏移這些交會所形成的路徑。</p>
+                    <h2>意義場</h2>
+                    <p>這不是一個固定的空間，而是一個持續生成的過程。</p>
+                    <p>在這裡，脈絡是流動的，如同這些粒子。每一個瞬間的交會都產生了暫時的結構，但隨即消散，重組為新的意義。</p>
                 </div>
             </div>
         </div>
@@ -225,20 +217,20 @@
         <div id="experiences" class="content-section interactive">
             <div class="content-inner">
                 <div class="text-block">
-                    <h2>經歷 / Contexts</h2>
-                    <p><strong>2026</strong> | 未命名的結構測試 [台北]</p>
-                    <p><strong>2025</strong> | 湧現的邊界 [台南藝術節]</p>
-                    <p><strong>2023</strong> | 駐村藝術家, 巴黎西帖國際藝術村</p>
-                    <p><strong>2022</strong> | 導演, 《虛構的重力》</p>
+                    <h2>經歷路徑</h2>
+                    <p>2026 | 結構測試 - 台北</p>
+                    <p>2025 | 湧現的邊界 - 台南藝術節</p>
+                    <p>2023 | 駐村 - 巴黎西帖</p>
+                    <p>（更多時間軸資料...）</p>
                 </div>
             </div>
         </div>
-
+        
         <div id="gallery" class="content-section interactive">
             <div class="content-inner">
                 <div class="text-block">
-                    <h2>作品 / Traces</h2>
-                    <p>（此區域將呈現作品的視覺殘留）</p>
+                    <h2>殘留物</h2>
+                    <p>影像載入中...</p>
                 </div>
             </div>
         </div>
@@ -249,204 +241,145 @@
     </audio>
 
     <script>
-        let scene, camera, renderer, particles;
-        let positions, velocities;
-        let raycaster, mouse;
-        let lineGeometry, linesMesh;
-        
-        // 參數設定
-        const PARTICLE_COUNT = 1500; // 粒子數量
-        const CONNECTION_DIST = 40;  // 連線觸發距離
-        const MOUSE_DIST = 150;      // 滑鼠影響範圍
+        let scene, camera, renderer;
+        let particles, cloudParticles;
+        let mouse = new THREE.Vector2();
+        let raycaster;
+        let clock = new THREE.Clock();
 
+        // 參數設定
+        const PARTICLE_COUNT = 3000; // 活躍粒子數量 (大幅增加)
+        const CLOUD_COUNT = 50;      // 背景霧氣數量
+        
         function init() {
             const container = document.getElementById('canvas-container');
             
+            // 1. 場景設置
             scene = new THREE.Scene();
-            // 霧氣：讓遠處的粒子消失在深處
-            scene.fog = new THREE.FogExp2(0x050505, 0.0015);
+            // 使用深色霧氣創造景深
+            scene.fog = new THREE.FogExp2(0x000000, 0.001);
 
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 2000);
-            camera.position.z = 400;
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 3000);
+            camera.position.z = 600;
 
-            renderer = new THREE.WebGLRenderer({ alpha: false, antialias: true }); // alpha false 效能較好
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(window.devicePixelRatio);
             container.appendChild(renderer.domElement);
 
-            // 1. 建立「霧狀」材質 (程式生成漸層圓點，不需外部圖片)
-            const sprite = getSprite();
-            
-            // 2. 建立粒子系統
-            const geometry = new THREE.BufferGeometry();
-            positions = [];
-            velocities = [];
+            // 2. 創建材質
+            const dotSprite = getDotSprite();
+            const cloudSprite = getCloudSprite();
+
+            // 3. 系統 A: 活躍神經粒子 (Active Neurons)
+            const pGeometry = new THREE.BufferGeometry();
+            const positions = [];
+            const randoms = []; // 用來存儲每個粒子的隨機特性，讓它們閃爍頻率不同
+            const sizes = [];   // 大小不一
 
             for (let i = 0; i < PARTICLE_COUNT; i++) {
-                // 隨機分佈在廣大空間
-                const x = (Math.random() - 0.5) * 1000;
-                const y = (Math.random() - 0.5) * 800;
-                const z = (Math.random() - 0.5) * 800;
-                positions.push(x, y, z);
+                // 使用球體分佈而不是立方體，讓視覺更像一團星雲
+                const r = 800 * Math.cbrt(Math.random()); // 半徑分佈
+                const theta = Math.random() * 2 * Math.PI;
+                const phi = Math.acos(2 * Math.random() - 1);
+                
+                const x = r * Math.sin(phi) * Math.cos(theta);
+                const y = r * Math.sin(phi) * Math.sin(theta);
+                const z = r * Math.cos(phi);
 
-                // 每個粒子有自己的漂浮速度 (模擬意識流動)
-                velocities.push({
-                    x: (Math.random() - 0.5) * 0.3,
-                    y: (Math.random() - 0.5) * 0.3,
-                    z: (Math.random() - 0.5) * 0.3
-                });
+                positions.push(x, y, z);
+                randoms.push(Math.random()); 
+                sizes.push(Math.random() * 2 + 0.5); // 0.5 ~ 2.5
             }
 
-            geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+            pGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+            pGeometry.setAttribute('aRandom', new THREE.Float32BufferAttribute(randoms, 1));
+            pGeometry.setAttribute('aSize', new THREE.Float32BufferAttribute(sizes, 1));
 
-            const material = new THREE.PointsMaterial({
-                color: 0x88ccff, // 微微的冷光藍白
-                size: 8,         // 粒子較大但模糊
-                map: sprite,     // 使用漸層材質
-                blending: THREE.AdditiveBlending, // 重點：疊加混合模式！重疊處會變亮
-                depthWrite: false, // 關閉深度寫入，避免遮擋問題
+            // 自定義 Shader 材質 (為了讓粒子有呼吸感)
+            // 這裡使用簡單的 PointsMaterial 搭配動畫模擬
+            const pMaterial = new THREE.PointsMaterial({
+                color: 0xffffff,
+                size: 3,
+                map: dotSprite,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false,
                 transparent: true,
-                opacity: 0.6
+                opacity: 0.8,
+                sizeAttenuation: true
             });
 
-            particles = new THREE.Points(geometry, material);
+            particles = new THREE.Points(pGeometry, pMaterial);
+            // 儲存原始位置以便計算流動
+            particles.geometry.userData = { originalPositions: positions.slice() };
             scene.add(particles);
 
-            // 3. 建立連線系統 (模擬神經網絡)
-            // 我們先建立一個空的 BufferGeometry，每幀更新
-            lineGeometry = new THREE.BufferGeometry();
-            const lineMaterial = new THREE.LineBasicMaterial({
-                color: 0xffffff,
+            // 4. 系統 B: 背景霧氣 (Chaos/Fog)
+            // 這些是巨大、緩慢的煙霧
+            const cGeometry = new THREE.BufferGeometry();
+            const cPositions = [];
+            
+            for(let i=0; i<CLOUD_COUNT; i++) {
+                const x = (Math.random() - 0.5) * 1500;
+                const y = (Math.random() - 0.5) * 800;
+                const z = (Math.random() - 0.5) * 1000 - 200; // 稍微放後面一點
+                cPositions.push(x, y, z);
+            }
+            cGeometry.setAttribute('position', new THREE.Float32BufferAttribute(cPositions, 3));
+            
+            const cMaterial = new THREE.PointsMaterial({
+                size: 400, // 非常大
+                map: cloudSprite,
                 transparent: true,
-                opacity: 0.15,
-                blending: THREE.AdditiveBlending
+                opacity: 0.08, // 非常淡
+                blending: THREE.AdditiveBlending,
+                depthWrite: false
             });
-            linesMesh = new THREE.LineSegments(lineGeometry, lineMaterial);
-            scene.add(linesMesh);
+            
+            cloudParticles = new THREE.Points(cGeometry, cMaterial);
+            scene.add(cloudParticles);
 
-            // 4. 互動
+
+            // 5. 事件
             raycaster = new THREE.Raycaster();
-            mouse = new THREE.Vector2(9999, 9999); // 初始滑鼠在畫布外
-
             document.addEventListener('mousemove', onDocumentMouseMove, false);
             window.addEventListener('resize', onWindowResize, false);
 
             animate();
         }
 
-        // 程式生成圓形漸層貼圖 (替代方塊)
-        function getSprite() {
+        // 產生銳利的發光點
+        function getDotSprite() {
             const canvas = document.createElement('canvas');
-            canvas.width = 32;
-            canvas.height = 32;
-            const context = canvas.getContext('2d');
-            const gradient = context.createRadialGradient(16, 16, 0, 16, 16, 16);
-            gradient.addColorStop(0, 'rgba(255,255,255,1)');
-            gradient.addColorStop(0.2, 'rgba(255,255,255,0.6)');
-            gradient.addColorStop(0.5, 'rgba(255,255,255,0.1)');
-            gradient.addColorStop(1, 'rgba(0,0,0,0)');
-            context.fillStyle = gradient;
-            context.fillRect(0, 0, 32, 32);
-            
-            const texture = new THREE.Texture(canvas);
-            texture.needsUpdate = true;
-            return texture;
+            canvas.width = 16;
+            canvas.height = 16;
+            const ctx = canvas.getContext('2d');
+            const grad = ctx.createRadialGradient(8,8,0, 8,8,8);
+            grad.addColorStop(0, 'rgba(255,255,255,1)');
+            grad.addColorStop(0.4, 'rgba(200,200,255,0.5)');
+            grad.addColorStop(1, 'rgba(0,0,0,0)');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0,0,16,16);
+            return new THREE.CanvasTexture(canvas);
+        }
+
+        // 產生柔和的霧氣團
+        function getCloudSprite() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 64;
+            canvas.height = 64;
+            const ctx = canvas.getContext('2d');
+            const grad = ctx.createRadialGradient(32,32,0, 32,32,32);
+            grad.addColorStop(0, 'rgba(100,100,100,1)'); // 灰色調
+            grad.addColorStop(1, 'rgba(0,0,0,0)');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0,0,64,64);
+            return new THREE.CanvasTexture(canvas);
         }
 
         function onDocumentMouseMove(event) {
-            event.preventDefault();
             mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
             mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-        }
-
-        function animate() {
-            requestAnimationFrame(animate);
-
-            // 1. 更新粒子位置 (有機漂浮)
-            const positionsArray = particles.geometry.attributes.position.array;
-            
-            for (let i = 0; i < PARTICLE_COUNT; i++) {
-                let ix = i * 3;
-                let iy = i * 3 + 1;
-                let iz = i * 3 + 2;
-
-                // 加上速度
-                positionsArray[ix] += velocities[i].x;
-                positionsArray[iy] += velocities[i].y;
-                positionsArray[iz] += velocities[i].z;
-
-                // 邊界檢查 (如果飄太遠就瞬移回對面，形成無限循環)
-                if (positionsArray[ix] > 500) positionsArray[ix] = -500;
-                if (positionsArray[ix] < -500) positionsArray[ix] = 500;
-                if (positionsArray[iy] > 400) positionsArray[iy] = -400;
-                if (positionsArray[iy] < -400) positionsArray[iy] = 400;
-            }
-            particles.geometry.attributes.position.needsUpdate = true;
-
-            // 2. 緩慢旋轉整個場域 (宇宙感)
-            particles.rotation.y += 0.0005;
-
-            // 3. 計算連線 (神經網絡 / 意義生成)
-            // 為了效能，我們只計算「滑鼠附近」的粒子之間的連線
-            // 這象徵「表演者的行動」觸發了意義的連結
-            
-            // 更新 Raycaster
-            raycaster.setFromCamera(mouse, camera);
-            // 找到滑鼠射線穿過的附近區域
-            // 這裡我們簡化：將滑鼠投影到 Z=0 平面，計算它與粒子的距離
-            
-            const mousePos3D = new THREE.Vector3(mouse.x, mouse.y, 0.5);
-            mousePos3D.unproject(camera);
-            const dir = mousePos3D.sub(camera.position).normalize();
-            const distance = -camera.position.z / dir.z;
-            const targetPos = camera.position.clone().add(dir.multiplyScalar(distance));
-            
-            // 尋找附近的粒子並建立連線
-            const linePositions = [];
-            const p1 = new THREE.Vector3();
-            const p2 = new THREE.Vector3();
-
-            // 限制：只檢查部分粒子或優化算法（全檢查太慢）
-            // 這裡做一個視覺近似：如果粒子靠近滑鼠投影點，且彼此靠近，就連線
-            
-            // 由於效能考量，我們在JS中做簡易距離判斷
-            // 把粒子座標轉為世界座標有點慢，這裡我們假設粒子系統旋轉不大
-            
-            let connectCount = 0;
-            for (let i = 0; i < PARTICLE_COUNT; i++) {
-                const ix = i * 3;
-                p1.set(positionsArray[ix], positionsArray[ix+1], positionsArray[ix+2]);
-                
-                // 應用粒子系統的旋轉
-                p1.applyEuler(particles.rotation);
-
-                // 如果粒子距離滑鼠指出的點很近 (Meaning Field Activation)
-                if (p1.distanceTo(targetPos) < MOUSE_DIST) {
-                    
-                    // 讓這個粒子稍微被滑鼠吸引 (互動)
-                    // positionsArray[ix] += (targetPos.x - p1.x) * 0.01; // 這樣會破壞 buffer array，暫時不做物理吸引
-                    
-                    // 尋找它的鄰居
-                    for (let j = i + 1; j < PARTICLE_COUNT; j++) {
-                        const jx = j * 3;
-                        p2.set(positionsArray[jx], positionsArray[jx+1], positionsArray[jx+2]);
-                        p2.applyEuler(particles.rotation);
-
-                        if (p2.distanceTo(targetPos) < MOUSE_DIST) {
-                            if (p1.distanceTo(p2) < CONNECTION_DIST) {
-                                linePositions.push(p1.x, p1.y, p1.z);
-                                linePositions.push(p2.x, p2.y, p2.z);
-                                connectCount++;
-                                if(connectCount > 500) break; // 限制連線數量上限，保護效能
-                            }
-                        }
-                    }
-                }
-            }
-            
-            lineGeometry.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
-
-            renderer.render(scene, camera);
         }
 
         function onWindowResize() {
@@ -455,40 +388,100 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         }
 
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = clock.getElapsedTime();
+
+            // --- 1. 更新活躍粒子 (流體運動) ---
+            const positions = particles.geometry.attributes.position.array;
+            const originalPositions = particles.geometry.userData.originalPositions;
+            const randoms = particles.geometry.attributes.aRandom.array;
+            
+            // 計算滑鼠在世界空間的位置 (大概值)
+            const mousePos3D = new THREE.Vector3(mouse.x, mouse.y, 0.5);
+            mousePos3D.unproject(camera);
+            const dir = mousePos3D.sub(camera.position).normalize();
+            const distance = -camera.position.z / dir.z; // 投影到 z=0 平面
+            const target = camera.position.clone().add(dir.multiplyScalar(distance));
+
+            for (let i = 0; i < PARTICLE_COUNT; i++) {
+                const px = originalPositions[i * 3];
+                const py = originalPositions[i * 3 + 1];
+                const pz = originalPositions[i * 3 + 2];
+                
+                // 有機波動：每個粒子根據自己的位置有不同的波形移動
+                // 這是模擬「脈絡的自然浮動」
+                const waveX = Math.sin(py * 0.002 + time * 0.5 + randoms[i] * 10) * 10;
+                const waveY = Math.cos(px * 0.002 + time * 0.3 + randoms[i] * 10) * 10;
+                
+                // 滑鼠互動：距離滑鼠越近，擾動越大 (攪動意義場)
+                let mx = positions[i*3];
+                let my = positions[i*3+1];
+                
+                // 簡單的距離檢測
+                const dx = mx - target.x;
+                const dy = my - target.y;
+                const dist = Math.sqrt(dx*dx + dy*dy);
+                
+                let repelX = 0;
+                let repelY = 0;
+
+                // 200單位內產生互動
+                if (dist < 200) {
+                    const force = (200 - dist) / 200;
+                    // 這裡做一個漩渦效果：根據角度旋轉
+                    repelX = dx * force * 0.05 + Math.sin(time * 5) * 2;
+                    repelY = dy * force * 0.05 + Math.cos(time * 5) * 2;
+                }
+
+                // 最終位置 = 原始位置 + 自然波動 + 滑鼠擾動
+                positions[i * 3]     = px + waveX + repelX;
+                positions[i * 3 + 1] = py + waveY + repelY;
+                positions[i * 3 + 2] = pz; // Z軸保持相對穩定，製造層次感
+            }
+            particles.geometry.attributes.position.needsUpdate = true;
+            
+            // 微微旋轉整個活躍層
+            particles.rotation.y = time * 0.02;
+
+            // --- 2. 更新背景霧氣 (極緩慢) ---
+            cloudParticles.rotation.z = time * 0.01;
+            cloudParticles.rotation.x = Math.sin(time * 0.05) * 0.1;
+
+            renderer.render(scene, camera);
+        }
+
         // --- 頁面邏輯 ---
         document.getElementById('enter-btn').addEventListener('click', () => {
             const audio = document.getElementById('bg-music');
             audio.volume = 0.8;
             audio.play().catch(e => console.log("Audio needed user interaction"));
 
-            gsap.to('#landing-screen', { duration: 2, opacity: 0, pointerEvents: 'none' });
-            gsap.to('nav', { duration: 1.5, opacity: 1, y: 0, delay: 1 });
+            gsap.to('#landing-screen', { duration: 1.5, opacity: 0, pointerEvents: 'none' });
+            gsap.to('nav', { duration: 1.5, opacity: 1, x: 0, delay: 0.5 });
             
-            // 相機推進，進入意義場
+            // 相機推進穿過雲層
             gsap.to(camera.position, { duration: 4, z: 200, ease: "power2.inOut" });
         });
 
         window.navigateTo = function(id) {
-            // 隱藏舊內容
             document.querySelectorAll('.content-section').forEach(el => {
                 el.classList.remove('active');
                 gsap.to(el, { opacity: 0, duration: 0.5 });
             });
             
-            // 更新選單
             document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
             event.target.classList.add('active');
 
-            // 顯示新內容
             const target = document.getElementById(id);
             target.classList.add('active');
             gsap.to(target, { opacity: 1, duration: 1, delay: 0.5 });
 
-            // 視覺回饋：切換頁面時，粒子場做一個 "擾動"
-            // 這裡簡單用相機位置偏移來模擬
-            const randomX = (Math.random() - 0.5) * 50;
-            const randomY = (Math.random() - 0.5) * 50;
-            gsap.to(camera.position, { x: randomX, y: randomY, duration: 2, ease: "power2.out" });
+            // 切換頁面時，粒子場做一個比較大的擾動
+             gsap.fromTo(particles.rotation, 
+                { x: Math.random() * 0.5 }, 
+                { x: 0, duration: 3, ease: "elastic.out(1, 0.3)" }
+            );
         }
 
         init();
