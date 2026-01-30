@@ -1,0 +1,569 @@
+{\rtf1\ansi\ansicpg950\cocoartf2636
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset136 PingFangTC-Regular;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 <!DOCTYPE html>\
+<html lang="zh-TW">\
+<head>\
+    <meta charset="UTF-8">\
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">\
+    <title>PO-HAO TSENG | 
+\f1 \'b7\'4e\'b8\'71\'b3\'f5
+\f0 </title>\
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>\
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>\
+    <style>\
+        /* --- 
+\f1 \'b0\'f2\'c2\'a6\'b3\'5d\'a9\'77
+\f0  --- */\
+        :root \{\
+            --bg-color: #0d0d0d; /* 
+\f1 \'b7\'a5\'b2\'60\'a6\'c7\'a1\'41\'ab\'44\'a5\'fe\'b6\'c2
+\f0  */\
+            --text-color: #e0e0e0;\
+            --accent-color: #888;\
+        \}\
+\
+        body, html \{\
+            margin: 0;\
+            padding: 0;\
+            width: 100%;\
+            height: 100%;\
+            overflow: hidden; /* 
+\f1 \'b8\'54\'a4\'ee\'b1\'b2\'b0\'ca\'a1\'41\'a5\'b4\'b3\'79\'a8\'48\'ae\'fb\'b7\'50
+\f0  */\
+            background-color: var(--bg-color);\
+            font-family: 'Courier New', Courier, monospace; /* 
+\f1 \'b5\'a5\'bc\'65\'a6\'72\'c5\'e9\'a7\'65\'b2\'7b\'b9\'42\'ba\'e2\'b7\'50
+\f0  */\
+            color: var(--text-color);\
+        \}\
+\
+        /* --- 3D 
+\f1 \'ad\'49\'b4\'ba\'b5\'65\'a5\'ac
+\f0  --- */\
+        #canvas-container \{\
+            position: fixed;\
+            top: 0;\
+            left: 0;\
+            width: 100%;\
+            height: 100%;\
+            z-index: 1;\
+            opacity: 0.8;\
+        \}\
+\
+        /* --- UI 
+\f1 \'bc\'68\'af\'c5
+\f0  --- */\
+        #ui-layer \{\
+            position: relative;\
+            z-index: 10;\
+            width: 100%;\
+            height: 100%;\
+            pointer-events: none; /* 
+\f1 \'c5\'fd\'b7\'c6\'b9\'ab\'ac\'ef\'b3\'7a
+\f0  UI 
+\f1 \'be\'de\'a7\'40
+\f0  3D */\
+        \}\
+\
+        /* 
+\f1 \'a4\'b9\'b3\'5c\'c2\'49\'c0\'bb\'aa\'ba\'a4\'b8\'af\'c0
+\f0  */\
+        .interactive \{\
+            pointer-events: auto;\
+        \}\
+\
+        /* --- 
+\f1 \'b6\'69\'a4\'4a\'ad\'b6\'ad\'b1
+\f0  (Landing) --- */\
+        #landing-screen \{\
+            position: absolute;\
+            top: 0;\
+            left: 0;\
+            width: 100%;\
+            height: 100%;\
+            display: flex;\
+            flex-direction: column;\
+            justify-content: center;\
+            align-items: center;\
+            background: rgba(13, 13, 13, 0.6); /* 
+\f1 \'b7\'4c\'b7\'4c\'be\'42\'b8\'6e
+\f0  */\
+            transition: opacity 1s ease;\
+        \}\
+\
+        h1 \{\
+            font-weight: 300;\
+            letter-spacing: 5px;\
+            font-size: 1.5rem;\
+            margin-bottom: 2rem;\
+            text-transform: uppercase;\
+        \}\
+\
+        #enter-btn \{\
+            background: transparent;\
+            border: 1px solid var(--text-color);\
+            color: var(--text-color);\
+            padding: 15px 40px;\
+            font-family: inherit;\
+            font-size: 1rem;\
+            cursor: pointer;\
+            transition: all 0.3s ease;\
+            letter-spacing: 2px;\
+        \}\
+\
+        #enter-btn:hover \{\
+            background: var(--text-color);\
+            color: var(--bg-color);\
+            box-shadow: 0 0 15px rgba(255,255,255,0.3);\
+        \}\
+\
+        /* --- 
+\f1 \'be\'c9\'c4\'fd\'a6\'43
+\f0  --- */\
+        nav \{\
+            position: absolute;\
+            top: 30px;\
+            right: 40px;\
+            display: flex;\
+            gap: 30px;\
+            opacity: 0; /* 
+\f1 \'aa\'ec\'a9\'6c\'c1\'f4\'c2\'c3
+\f0  */\
+            transform: translateY(-20px);\
+            transition: opacity 1s ease, transform 1s ease;\
+        \}\
+\
+        .nav-link \{\
+            text-decoration: none;\
+            color: var(--accent-color);\
+            font-size: 0.9rem;\
+            cursor: pointer;\
+            transition: color 0.3s;\
+        \}\
+\
+        .nav-link:hover, .nav-link.active \{\
+            color: var(--text-color);\
+            text-decoration: line-through; /* 
+\f1 \'a7\'52\'b0\'a3\'bd\'75\'ad\'b7\'ae\'e6\'a1\'41\'a9\'49\'c0\'b3\'b8\'d1\'ba\'63
+\f0  */\
+        \}\
+\
+        /* --- 
+\f1 \'a4\'ba\'ae\'65\'b0\'cf\'b0\'ec
+\f0  --- */\
+        .content-section \{\
+            position: absolute;\
+            top: 50%;\
+            left: 50%;\
+            transform: translate(-50%, -50%);\
+            width: 80%;\
+            max-width: 800px;\
+            height: 70vh;\
+            display: none; /* 
+\f1 \'aa\'ec\'a9\'6c\'a4\'a3\'c5\'e3\'a5\'dc
+\f0  */\
+            opacity: 0;\
+            overflow-y: auto; /* 
+\f1 \'a4\'ba\'ae\'65\'b9\'4c\'aa\'f8\'a5\'69\'b1\'b2\'b0\'ca
+\f0  */\
+            padding: 20px;\
+            /* 
+\f1 \'a8\'f7\'b6\'62\'ac\'fc\'a4\'c6
+\f0  */\
+            scrollbar-width: thin;\
+            scrollbar-color: #555 transparent;\
+        \}\
+\
+        .content-section.active \{\
+            display: block;\
+        \}\
+\
+        .text-block \{\
+            background: rgba(0, 0, 0, 0.7); /* 
+\f1 \'bc\'57\'a5\'5b\'a4\'e5\'a6\'72\'a5\'69\'c5\'aa\'a9\'ca
+\f0  */\
+            padding: 30px;\
+            border-left: 1px solid var(--text-color);\
+            line-height: 1.8;\
+            font-size: 0.95rem;\
+            margin-bottom: 50px;\
+        \}\
+\
+        h2 \{\
+            font-size: 1.2rem;\
+            border-bottom: 1px solid #333;\
+            padding-bottom: 10px;\
+            margin-bottom: 20px;\
+        \}\
+\
+        /* --- 
+\f1 \'a4\'e2\'be\'f7\'aa\'a9\'be\'41\'b0\'74
+\f0  --- */\
+        @media (max-width: 768px) \{\
+            nav \{\
+                top: auto;\
+                bottom: 20px;\
+                right: 0;\
+                width: 100%;\
+                justify-content: center;\
+                background: rgba(0,0,0,0.8);\
+                padding: 15px 0;\
+            \}\
+            .content-section \{\
+                width: 90%;\
+                height: 60vh;\
+            \}\
+        \}\
+    </style>\
+</head>\
+<body>\
+\
+    <div id="canvas-container"></div>\
+\
+    <div id="ui-layer">\
+        \
+        <div id="landing-screen" class="interactive">\
+            <h1>PO-HAO TSENG</h1>\
+            <button id="enter-btn">ENTER MEANING FIELD</button>\
+            <p style="font-size: 0.7rem; margin-top: 20px; color: #666;">
+\f1 \'ab\'d8\'c4\'b3\'b0\'74\'c0\'b9\'a6\'d5\'be\'f7\'c5\'e9\'c5\'e7
+\f0 </p>\
+        </div>\
+\
+        <nav id="main-nav" class="interactive">\
+            <a class="nav-link" onclick="navigateTo('about')">ABOUT</a>\
+            <a class="nav-link" onclick="navigateTo('experiences')">EXPERIENCES</a>\
+            <a class="nav-link" onclick="navigateTo('gallery')">GALLERY</a>\
+        </nav>\
+\
+        <div id="about" class="content-section interactive">\
+            <div class="text-block">\
+                <h2>
+\f1 \'c3\'f6\'a9\'f3
+\f0  / Introduction</h2>\
+                <p>
+\f1 \'a1\'6d\'b7\'4e\'b8\'71\'b3\'f5\'a6\'e6\'b0\'ca\'aa\'ed\'ba\'74\'aa\'6b\'a1\'6e\'ac\'4f\'a4\'40\'ad\'d3\'ab\'f9\'c4\'f2\'a5\'cd\'a6\'a8\'aa\'ba\'b9\'4c\'b5\'7b\'a1\'43
+\f0 </p>\
+                <br>\
+                <p>
+\f1 \'a6\'b9\'a4\'e8\'aa\'6b\'b1\'4e\'a8\'a4\'a6\'e2\'a1\'42\'bb\'79\'a8\'a5\'a1\'42\'aa\'c5\'b6\'a1\'a1\'42\'aa\'ab\'a5\'f3\'a1\'42\'ae\'c9\'b6\'a1\'bb\'50\'c6\'5b\'aa\'cc\'b5\'f8\'ac\'b0\'a6\'50\'ae\'c9\'b9\'42\'a7\'40\'aa\'ba\'b7\'4e\'b8\'71\'b3\'f5\'a1\'5d
+\f0 field of meaning
+\f1 \'a1\'5e\'a1\'41\'aa\'ed\'ba\'74\'a6\'e6\'b0\'ca\'a8\'c3\'ab\'44\'a6\'41\'b2\'7b\'ac\'4a\'a6\'b3\'a4\'ba\'ae\'65\'a1\'41\'a6\'d3\'ac\'4f\'a6\'62\'a6\'68\'ad\'ab\'af\'df\'b5\'b8\'a5\'e6\'b7\'7c\'a4\'a4\'a7\'59\'ae\'c9\'a5\'cd\'a6\'a8\'a5\'69\'b3\'51\'b7\'50\'aa\'be\'aa\'ba\'c3\'f6\'ab\'59\'b5\'b2\'ba\'63\'a1\'43
+\f0 </p>\
+                <br>\
+                <p>
+\f1 \'ba\'74\'ad\'fb\'aa\'ba\'a5\'f4\'b0\'c8\'a4\'a3\'a6\'62\'a9\'f3\'a1\'75\'b2\'7a\'b8\'d1\'a8\'a4\'a6\'e2\'a1\'76\'a1\'41\'a6\'d3\'a6\'62\'a9\'f3\'bf\'eb\'bb\'7b\'a1\'42\'a9\'b5\'c4\'f2\'a9\'ce\'b0\'be\'b2\'be\'b3\'6f\'a8\'c7\'a5\'e6\'b7\'7c\'a9\'d2\'a7\'ce\'a6\'a8\'aa\'ba\'b8\'f4\'ae\'7c\'a1\'43
+\f0 </p>\
+            </div>\
+            <div class="text-block">\
+                <h2>
+\f1 \'aa\'f1\'b4\'c1\'ba\'74\'a5\'58
+\f0  / Recent Works</h2>\
+                <p>2026 - 
+\f1 \'a5\'bc\'a9\'52\'a6\'57\'aa\'ba\'b5\'b2\'ba\'63\'b4\'fa\'b8\'d5
+\f0  [
+\f1 \'a5\'78\'a5\'5f
+\f0 ]</p>\
+                <p>2025 - 
+\f1 \'b4\'e9\'b2\'7b\'aa\'ba\'c3\'e4\'ac\'c9
+\f0  [
+\f1 \'a5\'78\'ab\'6e\'c3\'c0\'b3\'4e\'b8\'60
+\f0 ]</p>\
+            </div>\
+        </div>\
+\
+        <div id="experiences" class="content-section interactive">\
+            <div class="text-block">\
+                <h2>
+\f1 \'b8\'67\'be\'fa
+\f0  / Experiences</h2>\
+                <p>2023 | 
+\f1 \'be\'6e\'a7\'f8\'c3\'c0\'b3\'4e\'ae\'61
+\f0 , 
+\f1 \'a4\'da\'be\'a4\'a6\'e8\'a9\'ab\'b0\'ea\'bb\'da\'c3\'c0\'b3\'4e\'a7\'f8
+\f0 </p>\
+                <p>2022 | 
+\f1 \'be\'c9\'ba\'74
+\f0 , 
+\f1 \'a1\'6d\'b5\'ea\'ba\'63\'aa\'ba\'ad\'ab\'a4\'4f\'a1\'6e
+\f0 </p>\
+                <p>2020 | 
+\f1 \'aa\'ed\'ba\'74\'aa\'cc
+\f0 , 
+\f1 \'a5\'78\'a5\'5f\'c2\'f9\'a6\'7e\'ae\'69
+\f0 </p>\
+                <br>\
+                <p>
+\f1 \'a1\'5d\'a6\'b9\'b3\'42\'ac\'b0\'bd\'64\'a8\'d2\'a4\'ba\'ae\'65\'a1\'41\'bd\'d0\'b6\'f1\'a4\'4a\'b1\'7a\'aa\'ba\'b8\'d4\'b2\'d3\'a6\'7e\'aa\'ed\'a1\'5e
+\f0 </p>\
+            </div>\
+        </div>\
+\
+        <div id="gallery" class="content-section interactive">\
+            <div class="text-block">\
+                <h2>
+\f1 \'a7\'40\'ab\'7e\'b6\'b0
+\f0  / Gallery</h2>\
+                <p>
+\f1 \'bc\'76\'b9\'b3\'b8\'fc\'a4\'4a\'a4\'a4
+\f0 ...</p>\
+                <p>
+\f1 \'a1\'5d\'b3\'6f\'b8\'cc\'b1\'4e\'b3\'5d\'ad\'70\'ac\'b0\'c2\'72\'a5\'ac\'ac\'79\'a9\'ce\'be\'ee\'a6\'56\'b1\'b2\'b0\'ca\'aa\'ba\'b9\'cf\'a4\'f9\'ae\'69\'a5\'dc\'b0\'cf\'a1\'5e
+\f0 </p>\
+            </div>\
+        </div>\
+\
+    </div>\
+\
+    <audio id="bg-music" loop>\
+        <source src="bgm.mp3" type="audio/mpeg">\
+    </audio>\
+\
+    <script>\
+        // --- 
+\f1 \'c5\'dc\'bc\'c6\'ab\'c5\'a7\'69
+\f0  ---\
+        let scene, camera, renderer, particles, particleSystem;\
+        let isEntered = false;\
+        let mouseX = 0, mouseY = 0;\
+        \
+        // --- 
+\f1 \'aa\'ec\'a9\'6c\'a4\'c6
+\f0  Three.js 
+\f1 \'b3\'f5\'b4\'ba
+\f0  ---\
+        function init() \{\
+            const container = document.getElementById('canvas-container');\
+            \
+            // 1. 
+\f1 \'b3\'f5\'b4\'ba
+\f0 \
+            scene = new THREE.Scene();\
+            // 
+\f1 \'b2\'4b\'a5\'5b\'a4\'40\'c2\'49\'b0\'67\'c3\'fa\'ae\'c4\'aa\'47\'c5\'fd\'b2\'c9\'a4\'6c\'a6\'62\'bb\'b7\'b3\'42\'b2\'48\'a5\'58
+\f0 \
+            scene.fog = new THREE.FogExp2(0x0d0d0d, 0.002);\
+\
+            // 2. 
+\f1 \'ac\'db\'be\'f7
+\f0 \
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);\
+            camera.position.z = 100;\
+\
+            // 3. 
+\f1 \'b4\'e8\'ac\'56\'be\'b9
+\f0 \
+            renderer = new THREE.WebGLRenderer(\{ alpha: true, antialias: true \});\
+            renderer.setSize(window.innerWidth, window.innerHeight);\
+            renderer.setPixelRatio(window.devicePixelRatio);\
+            container.appendChild(renderer.domElement);\
+\
+            // 4. 
+\f1 \'b3\'d0\'ab\'d8\'b2\'c9\'a4\'6c
+\f0  (
+\f1 \'b4\'58\'a6\'f3\'c3\'fa
+\f0 )\
+            createParticles();\
+\
+            // 5. 
+\f1 \'a8\'c6\'a5\'f3\'ba\'ca\'c5\'a5
+\f0 \
+            window.addEventListener('resize', onWindowResize, false);\
+            document.addEventListener('mousemove', onDocumentMouseMove, false);\
+\
+            // 6. 
+\f1 \'b6\'7d\'a9\'6c\'b0\'ca\'b5\'65\'b0\'6a\'b0\'e9
+\f0 \
+            animate();\
+        \}\
+\
+        // --- 
+\f1 \'b3\'d0\'ab\'d8\'b2\'c9\'a4\'6c\'a8\'74\'b2\'ce
+\f0  ---\
+        function createParticles() \{\
+            const geometry = new THREE.BufferGeometry();\
+            const count = 3000; // 
+\f1 \'b2\'c9\'a4\'6c\'bc\'c6\'b6\'71
+\f0 \
+            const positions = [];\
+            \
+            for (let i = 0; i < count; i++) \{\
+                // 
+\f1 \'a6\'62\'a4\'40\'ad\'d3\'a5\'df\'a4\'e8\'c5\'e9\'aa\'c5\'b6\'a1\'a4\'ba\'c0\'48\'be\'f7\'a4\'c0\'a7\'47
+\f0 \
+                const x = (Math.random() - 0.5) * 400;\
+                const y = (Math.random() - 0.5) * 400;\
+                const z = (Math.random() - 0.5) * 400;\
+                positions.push(x, y, z);\
+            \}\
+\
+            geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));\
+\
+            // 
+\f1 \'b2\'c9\'a4\'6c\'a7\'f7\'bd\'e8
+\f0 \
+            const material = new THREE.PointsMaterial(\{\
+                color: 0xaaaaaa,\
+                size: 1.5,\
+                transparent: true,\
+                opacity: 0.6,\
+                sizeAttenuation: true\
+            \});\
+\
+            particleSystem = new THREE.Points(geometry, material);\
+            scene.add(particleSystem);\
+        \}\
+\
+        // --- 
+\f1 \'b0\'ca\'b5\'65\'b0\'6a\'b0\'e9
+\f0  ---\
+        function animate() \{\
+            requestAnimationFrame(animate);\
+\
+            // 
+\f1 \'b2\'c9\'a4\'6c\'a6\'db\'a8\'ad\'aa\'ba\'bd\'77\'ba\'43\'b1\'db\'c2\'e0
+\f0  (
+\f1 \'b4\'e9\'b2\'7b\'b7\'50
+\f0 )\
+            if(particleSystem) \{\
+                particleSystem.rotation.y += 0.001;\
+                particleSystem.rotation.x += 0.0005;\
+\
+                // 
+\f1 \'ae\'da\'be\'da\'b7\'c6\'b9\'ab\'a6\'ec\'b8\'6d\'b2\'a3\'a5\'cd\'b7\'4c\'b4\'54\'b0\'be\'b2\'be
+\f0  (
+\f1 \'a4\'ac\'b0\'ca\'b1\'69\'a4\'4f
+\f0 )\
+                particleSystem.rotation.x += (mouseY * 0.0001);\
+                particleSystem.rotation.y += (mouseX * 0.0001);\
+            \}\
+\
+            renderer.render(scene, camera);\
+        \}\
+\
+        // --- 
+\f1 \'a4\'ac\'b0\'ca\'c5\'de\'bf\'e8
+\f0  ---\
+        \
+        // 
+\f1 \'c2\'49\'c0\'bb
+\f0  ENTER\
+        document.getElementById('enter-btn').addEventListener('click', () => \{\
+            // 
+\f1 \'bc\'bd\'a9\'f1\'ad\'b5\'bc\'d6
+\f0 \
+            const audio = document.getElementById('bg-music');\
+            audio.volume = 0.5;\
+            audio.play().catch(e => console.log("Audio play failed", e));\
+\
+            // 
+\f1 \'b0\'ca\'b5\'65\'a1\'47\'b2\'48\'a5\'58
+\f0  Landing
+\f1 \'a1\'41\'b2\'48\'a4\'4a\'be\'c9\'c4\'fd\'a6\'43
+\f0 \
+            gsap.to('#landing-screen', \{ duration: 1.5, opacity: 0, pointerEvents: 'none', display: 'none' \});\
+            gsap.to('nav', \{ duration: 1.5, opacity: 1, y: 0, delay: 0.5 \});\
+\
+            // 3D 
+\f1 \'b0\'ca\'b5\'65\'a1\'47\'ac\'db\'be\'f7\'b1\'c0\'b6\'69\'a1\'41\'a7\'cf\'a9\'bb\'b6\'69\'a4\'4a\'b0\'67\'c3\'fa
+\f0 \
+            gsap.to(camera.position, \{ duration: 3, z: 60, ease: "power2.inOut" \});\
+            \
+            // 
+\f1 \'b2\'c9\'a4\'6c\'a5\'5b\'b3\'74\'b1\'db\'c2\'e0\'a4\'40\'a4\'55
+\f0 \
+            gsap.to(particleSystem.rotation, \{ duration: 2, y: "+=1", ease: "power2.out" \});\
+\
+            isEntered = true;\
+        \});\
+\
+        // 
+\f1 \'ad\'b6\'ad\'b1\'be\'c9\'af\'e8
+\f0 \
+        window.navigateTo = function(sectionId) \{\
+            // 
+\f1 \'c1\'f4\'c2\'c3\'a9\'d2\'a6\'b3\'a4\'ba\'ae\'65
+\f0 \
+            document.querySelectorAll('.content-section').forEach(el => \{\
+                gsap.to(el, \{ duration: 0.5, opacity: 0, display: 'none' \});\
+            \});\
+\
+            // 
+\f1 \'b2\'be\'b0\'a3\'a9\'d2\'a6\'b3
+\f0  Nav Active 
+\f1 \'aa\'ac\'ba\'41
+\f0 \
+            document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));\
+\
+            // 3D 
+\f1 \'ae\'c4\'aa\'47\'a1\'47\'b4\'b2\'b6\'7d\'b0\'67\'c3\'fa
+\f0  (
+\f1 \'b2\'c9\'a4\'6c\'c2\'58\'b4\'b2
+\f0 )\
+            // 
+\f1 \'a7\'da\'ad\'cc\'b3\'7a\'b9\'4c\'a7\'ef\'c5\'dc\'ac\'db\'be\'f7\'a6\'ec\'b8\'6d\'a8\'d3\'bc\'d2\'c0\'c0\'a1\'75\'ac\'ef\'b9\'4c\'a1\'76\'a9\'ce\'a1\'75\'b0\'68\'ab\'e1\'a1\'76\'aa\'ba\'b7\'50\'c4\'b1\'a1\'41\'c5\'fd\'aa\'c5\'b6\'a1\'af\'64\'a5\'d5
+\f0 \
+            gsap.to(camera.position, \{ \
+                duration: 1.5, \
+                z: 120, // 
+\f1 \'a9\'d4\'bb\'b7\'a1\'41\'c5\'fd\'b2\'c9\'a4\'6c\'c5\'dc\'a6\'a8\'ad\'49\'b4\'ba\'c0\'f0
+\f0 \
+                y: 20,  // 
+\f1 \'b5\'79\'b7\'4c\'b2\'be\'b0\'ca\'b5\'f8\'a8\'a4
+\f0 \
+                ease: "power2.inOut" \
+            \});\
+\
+            // 
+\f1 \'c5\'e3\'a5\'dc\'a5\'d8\'bc\'d0\'a4\'ba\'ae\'65
+\f0 \
+            const target = document.getElementById(sectionId);\
+            if(target) \{\
+                gsap.to(target, \{ \
+                    duration: 1, \
+                    display: 'block', \
+                    opacity: 1, \
+                    delay: 0.8 // 
+\f1 \'b5\'a5\'c3\'fa\'b4\'b2\'b6\'7d\'a4\'40\'c2\'49\'a6\'41\'c5\'e3\'a5\'dc\'a6\'72
+\f0 \
+                \});\
+                \
+                // 
+\f1 \'bc\'d0\'b0\'4f\'b7\'ed\'ab\'65\'bf\'ef\'b3\'e6
+\f0 \
+                const activeLink = Array.from(document.querySelectorAll('.nav-link'))\
+                    .find(el => el.getAttribute('onclick').includes(sectionId));\
+                if(activeLink) activeLink.classList.add('active');\
+            \}\
+        \};\
+\
+        // 
+\f1 \'b7\'c6\'b9\'ab\'ba\'ca\'c5\'a5
+\f0 \
+        function onDocumentMouseMove(event) \{\
+            mouseX = (event.clientX - window.innerWidth / 2) * 0.05;\
+            mouseY = (event.clientY - window.innerHeight / 2) * 0.05;\
+        \}\
+\
+        // 
+\f1 \'b5\'f8\'b5\'a1\'bd\'d5\'be\'e3
+\f0 \
+        function onWindowResize() \{\
+            camera.aspect = window.innerWidth / window.innerHeight;\
+            camera.updateProjectionMatrix();\
+            renderer.setSize(window.innerWidth, window.innerHeight);\
+        \}\
+\
+        // 
+\f1 \'b1\'d2\'b0\'ca
+\f0 \
+        init();\
+\
+    </script>\
+</body>\
+</html>}
