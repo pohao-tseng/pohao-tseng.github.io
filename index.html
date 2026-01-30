@@ -14,212 +14,139 @@
         }
 
         body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: var(--bg-color);
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            overflow: hidden; background-color: var(--bg-color);
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            color: var(--text-color);
-            -webkit-tap-highlight-color: transparent;
+            color: var(--text-color); -webkit-tap-highlight-color: transparent;
         }
 
-        #canvas-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
-
-        #ui-layer {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
-
-        .interactive {
-            pointer-events: auto;
-        }
+        #canvas-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+        #ui-layer { position: relative; z-index: 10; width: 100%; height: 100%; pointer-events: none; }
+        .interactive { pointer-events: auto; }
 
         /* Landing */
         #landing-screen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: rgba(5,5,5,0.85);
-            transition: opacity 1.5s ease;
-            z-index: 50;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            background: rgba(5,5,5,0.85); transition: opacity 1.5s ease; z-index: 50;
         }
-
-        h1 {
-            font-weight: 300;
-            letter-spacing: 8px;
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
-            text-transform: uppercase;
-            text-shadow: 0 0 15px rgba(255,255,255,0.3);
-            text-align: center;
-        }
-
+        h1 { font-weight: 300; letter-spacing: 8px; font-size: 1.5rem; margin-bottom: 2rem; text-transform: uppercase; text-shadow: 0 0 15px rgba(255,255,255,0.3); text-align: center; }
         #enter-btn {
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.4);
-            color: #fff;
-            padding: 15px 50px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            letter-spacing: 3px;
+            background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.4); color: #fff;
+            padding: 15px 50px; font-size: 0.9rem; cursor: pointer; transition: all 0.3s ease; letter-spacing: 3px;
         }
-
-        #enter-btn:active, #enter-btn:hover {
-            background: rgba(255,255,255,0.25);
-            box-shadow: 0 0 25px rgba(255,255,255,0.3);
-        }
+        #enter-btn:active, #enter-btn:hover { background: rgba(255,255,255,0.25); box-shadow: 0 0 25px rgba(255,255,255,0.3); }
 
         /* Nav */
-        nav {
-            position: absolute;
-            bottom: 40px;
-            left: 50px;
-            display: flex;
-            gap: 40px;
-            opacity: 0;
-            transform: translateY(20px);
-            z-index: 40;
-        }
+        nav { position: absolute; bottom: 40px; left: 50px; display: flex; gap: 40px; opacity: 0; transform: translateY(20px); z-index: 40; }
+        .nav-link { text-decoration: none; color: #777; font-size: 0.9rem; letter-spacing: 1.5px; cursor: pointer; transition: color 0.3s; padding: 10px 0; }
+        .nav-link:hover, .nav-link.active { color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.6); border-bottom: 1px solid #fff; }
 
-        .nav-link {
-            text-decoration: none;
-            color: #777;
-            font-size: 0.9rem;
-            letter-spacing: 1.5px;
-            cursor: pointer;
-            transition: color 0.3s;
-            padding: 10px 0;
-        }
-
-        .nav-link:hover, .nav-link.active {
-            color: #fff;
-            text-shadow: 0 0 10px rgba(255,255,255,0.6);
-            border-bottom: 1px solid #fff;
-        }
-
-        /* Content */
+        /* Content Layout */
         .content-section {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 50%;
-            height: 100%;
+            position: absolute; top: 0; right: 0; width: 50%; height: 100%;
             background: linear-gradient(to left, rgba(0,0,0,0.95) 20%, rgba(0,0,0,0.8) 100%);
-            display: none;
-            opacity: 0;
-            padding: 80px 60px;
-            box-sizing: border-box;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
+            display: none; opacity: 0; padding: 80px 60px; box-sizing: border-box;
+            overflow-y: auto; -webkit-overflow-scrolling: touch;
         }
-        
-        .content-section.active {
-            display: block;
-        }
-
+        .content-section.active { display: block; }
         .content-section::-webkit-scrollbar { width: 6px; }
         .content-section::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
 
+        /* Typography & Components */
         .text-block { margin-top: 60px; margin-bottom: 150px; }
         .text-block h2 { font-weight: 200; font-size: 2rem; margin-bottom: 40px; border-bottom: 1px solid #555; padding-bottom: 15px; color: #fff; letter-spacing: 2px; }
-        
-        /* Sub-heading */
-        .category-title {
-            font-size: 1.1rem;
-            color: #fff;
-            margin-top: 50px;
-            margin-bottom: 25px;
-            padding-left: 10px;
-            border-left: 3px solid #888;
-            letter-spacing: 1px;
-        }
+        .category-title { font-size: 1.1rem; color: #fff; margin-top: 50px; margin-bottom: 25px; padding-left: 10px; border-left: 3px solid #888; letter-spacing: 1px; }
+        .text-block p { line-height: 1.7; font-size: 0.9rem; color: #ccc; margin-bottom: 15px; text-align: justify; }
 
-        .text-block p {
-            line-height: 1.7;
-            font-size: 0.9rem;
-            color: #ccc;
-            margin-bottom: 15px;
-            text-align: justify;
-        }
-
-        /* Timeline Item */
-        .timeline-item {
+        /* About Photo Style */
+        .about-photo-container {
+            width: 100%;
+            margin-bottom: 40px;
+            overflow: hidden;
+            border-radius: 2px;
             position: relative;
-            padding-left: 20px;
-            margin-bottom: 25px;
-            border-left: 1px solid #333;
         }
-        .timeline-item::before {
-            content: ''; position: absolute; left: -4px; top: 6px; width: 7px; height: 7px; background: #666; border-radius: 50%;
+        .about-photo {
+            width: 100%;
+            max-width: 300px; /* 限制最大寬度 */
+            height: auto;
+            display: block;
+            filter: grayscale(100%) contrast(1.2); /* 黑白風格 */
+            transition: filter 1s ease;
+            opacity: 0.9;
         }
-        .year { font-size: 0.8rem; color: #888; font-family: monospace; display: block; margin-bottom: 3px;}
+        .about-photo:hover {
+            filter: grayscale(0%) contrast(1); /* 滑鼠移過去變彩色 */
+        }
+
+        /* Timeline */
+        .timeline-item { position: relative; padding-left: 20px; margin-bottom: 25px; border-left: 1px solid #333; }
+        .timeline-item::before { content: ''; position: absolute; left: -4px; top: 6px; width: 7px; height: 7px; background: #666; border-radius: 50%; }
+        .year { font-size: 0.8rem; color: #888; font-family: monospace; display: block; margin-bottom: 3px; }
         .job-title { font-size: 0.95rem; color: #fff; font-weight: 500; }
         .job-desc { font-size: 0.85rem; color: #aaa; margin-top: 2px; }
 
-        /* Expandable Section (折疊選單) */
-        .expand-container {
-            max-height: 200px; /* 預設只顯示前幾個 */
-            overflow: hidden;
-            transition: max-height 0.8s ease;
-            position: relative;
-        }
-        
-        /* 遮罩效果，讓列表下方看起來漸層消失 */
-        .expand-container.collapsed::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0; width: 100%; height: 50px;
-            background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(5,5,5,0.9));
-            pointer-events: none;
-        }
-
-        .expand-btn {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid #444;
-            color: #888;
-            cursor: pointer;
-            text-align: center;
-            font-size: 0.8rem;
-            transition: all 0.3s;
-        }
-        .expand-btn:hover {
-            background: rgba(255,255,255,0.1);
-            color: #fff;
-        }
+        /* Expandable */
+        .expand-container { max-height: 200px; overflow: hidden; transition: max-height 0.8s ease; position: relative; }
+        .expand-container.collapsed::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 50px; background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(5,5,5,0.9)); pointer-events: none; }
+        .expand-btn { display: block; width: 100%; padding: 10px; margin-top: 10px; background: rgba(255,255,255,0.05); border: 1px solid #444; color: #888; cursor: pointer; text-align: center; font-size: 0.8rem; transition: all 0.3s; }
+        .expand-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
 
         /* Social Links */
         .social-links { margin-top: 30px; display: flex; gap: 15px; }
-        .social-btn {
-            padding: 8px 20px; border: 1px solid #666; color: #ccc; text-decoration: none; font-size: 0.9rem; border-radius: 2px;
-        }
+        .social-btn { padding: 8px 20px; border: 1px solid #666; color: #ccc; text-decoration: none; font-size: 0.9rem; border-radius: 2px; }
         .social-btn:hover { border-color: #fff; color: #fff; background: rgba(255,255,255,0.1); }
+
+        /* --- Gallery Styles (Masonry) --- */
+        .gallery-grid {
+            column-count: 2; /* 兩欄 */
+            column-gap: 20px;
+            width: 100%;
+        }
+        .gallery-item {
+            display: inline-block;
+            width: 100%;
+            margin-bottom: 20px;
+            cursor: pointer;
+            position: relative;
+            break-inside: avoid; /* 防止圖片被切斷 */
+        }
+        .gallery-img {
+            width: 100%;
+            height: auto;
+            border-radius: 2px;
+            filter: grayscale(80%) brightness(0.8);
+            transition: all 0.5s ease;
+            display: block;
+        }
+        .gallery-item:hover .gallery-img {
+            filter: grayscale(0%) brightness(1);
+            transform: scale(1.02);
+        }
+        .gallery-caption {
+            margin-top: 5px;
+            font-size: 0.8rem;
+            color: #888;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .gallery-item:hover .gallery-caption { opacity: 1; }
+
+        /* Lightbox (大圖檢視) */
+        #lightbox {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); z-index: 100;
+            display: none; justify-content: center; align-items: center;
+            opacity: 0; transition: opacity 0.5s;
+        }
+        #lightbox img { max-width: 90%; max-height: 90%; box-shadow: 0 0 30px rgba(255,255,255,0.1); }
+        #lightbox-close { position: absolute; top: 30px; right: 30px; color: #fff; font-size: 2rem; cursor: pointer; }
 
         @media (max-width: 768px) {
             .content-section { width: 100%; padding: 30px; padding-top: 80px; }
             nav { bottom: 0; left: 0; width: 100%; background: rgba(10,10,10,0.95); padding: 15px 0; justify-content: center; gap: 30px; border-top: 1px solid #333; }
+            .gallery-grid { column-count: 1; } /* 手機改單欄 */
         }
     </style>
 </head>
@@ -245,6 +172,10 @@
             <div class="text-block">
                 <h2>關於 / About</h2>
                 
+                <div class="about-photo-container">
+                    <img src="profile.jpg" alt="Po-Hao Tseng" class="about-photo" onerror="this.style.display='none'">
+                </div>
+
                 <div class="category-title">Introduction 簡介</div>
                 <p>台北藝術大學藝術跨域研究所畢。從小學習中國音樂，而後曾師承周定邦先生學習台灣唸歌。</p>
                 <p>2012年與友人創立《迷宮迴廊》樂團，2013年參與《小嫩豬》樂團。2014年創立鬼講堂，與表演者吳宗恩、戴開成共創改編焦吧哖事件。2018年於臺北和鳴南樂社學習南管。</p>
@@ -270,171 +201,109 @@
                 <h2>經歷 / Experience</h2>
 
                 <div class="category-title">Education 學歷</div>
-                <div class="timeline-item">
-                    <span class="year">Present</span>
-                    <div class="job-title">台北藝術大學 藝術跨領域研究所 (MFA)</div>
-                    <div class="job-desc">Trans-disciplinary Arts, Taipei University of the Arts</div>
-                </div>
-                <div class="timeline-item">
-                    <span class="year">2010 - 2015</span>
-                    <div class="job-title">台南藝術大學 材質創作與設計系 (BA)</div>
-                    <div class="job-desc">Material Art and Design, Tainan University of the Arts</div>
-                </div>
+                <div class="timeline-item"><span class="year">Present</span><div class="job-title">台北藝術大學 藝術跨領域研究所 (MFA)</div></div>
+                <div class="timeline-item"><span class="year">2010 - 2015</span><div class="job-title">台南藝術大學 材質創作與設計系 (BA)</div></div>
 
                 <div class="category-title">Experience 現職</div>
-                <div class="timeline-item">
-                    <span class="year">Now</span>
-                    <div class="job-title">藝術、音樂、劇場相關工作者</div>
-                </div>
-                <div class="timeline-item">
-                    <span class="year">Now</span>
-                    <div class="job-title">《小嫩豬》樂團樂手</div>
-                    <div class="job-desc">Bandsman of Little Sexy Young Pig Band</div>
-                </div>
-                <div class="timeline-item">
-                    <span class="year">Now</span>
-                    <div class="job-title">《鬼講堂》計劃人</div>
-                    <div class="job-desc">Organizer of Lecture Of Ghost</div>
-                </div>
-                <div class="timeline-item">
-                    <span class="year">2014-2015</span>
-                    <div class="job-title">冠筑樂集 / 冠彥樂集 二胡樂師</div>
-                </div>
-                 <div class="timeline-item">
-                    <span class="year">2010-2015</span>
-                    <div class="job-title">迷宮迴廊樂團主唱</div>
-                    <div class="job-desc">Vocal of Maze Of Corridors Band</div>
-                </div>
+                <div class="timeline-item"><span class="year">Now</span><div class="job-title">藝術、音樂、劇場相關工作者</div></div>
+                <div class="timeline-item"><span class="year">Now</span><div class="job-title">《小嫩豬》樂團樂手</div></div>
+                <div class="timeline-item"><span class="year">Now</span><div class="job-title">《鬼講堂》計劃人</div></div>
 
                 <div class="category-title">Live Performances 個人創作演出</div>
                 <div id="list-performances" class="expand-container collapsed">
-                    <div class="timeline-item"><span class="year">2020</span><div class="job-title">漫遊者劇場《池子》</div><div class="job-desc">臺灣大學水源校區，臺北</div></div>
-                    <div class="timeline-item"><span class="year">2019</span><div class="job-title">《落對話-譯○》聲音劇場</div><div class="job-desc">空總創新基地，臺北</div></div>
-                    <div class="timeline-item"><span class="year">2017</span><div class="job-title">《日日新微型表演行動》</div><div class="job-desc">太原五百完人塚，台北</div></div>
-                    <div class="timeline-item"><span class="year">2015</span><div class="job-title">《中國城藝術行動》</div><div class="job-desc">《運河無崁蓋》演出，中國城，台南</div></div>
+                    <div class="timeline-item"><span class="year">2020</span><div class="job-title">漫遊者劇場《池子》</div><div class="job-desc">臺灣大學水源校區</div></div>
+                    <div class="timeline-item"><span class="year">2019</span><div class="job-title">《落對話-譯○》聲音劇場</div></div>
+                    <div class="timeline-item"><span class="year">2017</span><div class="job-title">《日日新微型表演行動》</div></div>
+                    <div class="timeline-item"><span class="year">2015</span><div class="job-title">《中國城藝術行動》</div></div>
                 </div>
                 <button class="expand-btn" onclick="toggleExpand('list-performances', this)">+ View Full List</button>
-
+                
                 <div class="category-title">Lecture of Ghost 鬼講堂</div>
                 <div id="list-ghost" class="expand-container collapsed">
-                     <p style="font-size:0.8rem; color:#888; margin-bottom:15px;">計畫人：曾伯豪 | 成員：吳宗恩、戴開成</p>
-                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">台北雙年展《當下檔案・未來系譜》</div><div class="job-desc">鬼講堂第二講演出，紀州庵文學森林</div></div>
-                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">大稻埕國際藝術節《鬼話練習曲》讀劇</div><div class="job-desc">衣戲院，台北</div></div>
-                    <div class="timeline-item"><span class="year">2015</span><div class="job-title">《鬼講堂第二講前言》</div><div class="job-desc">寶藏巖國際藝術村 尖蚪</div></div>
-                    <div class="timeline-item"><span class="year">2015</span><div class="job-title">大稻埕國際藝術節《鬼講堂第一講》</div><div class="job-desc">小酒趴，台北</div></div>
-                    <div class="timeline-item"><span class="year">2015</span><div class="job-title">草埕文化工作室《都市傳說》</div><div class="job-desc">台南321巷藝術聚落</div></div>
-                    <div class="timeline-item"><span class="year">2015</span><div class="job-title">鬼講堂成立 (April)</div></div>
+                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">台北雙年展《當下檔案・未來系譜》</div></div>
+                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">大稻埕國際藝術節《鬼話練習曲》</div></div>
+                    <div class="timeline-item"><span class="year">2015</span><div class="job-title">大稻埕國際藝術節《鬼講堂第一講》</div></div>
+                    <div class="timeline-item"><span class="year">2015</span><div class="job-title">鬼講堂成立</div></div>
                 </div>
                 <button class="expand-btn" onclick="toggleExpand('list-ghost', this)">+ View Full List</button>
 
-                <div class="category-title">Group Exhibitions 聯展</div>
-                <div id="list-exhibitions" class="expand-container collapsed">
-                    <div class="timeline-item"><span class="year">2017</span><div class="job-title">《破碎的神聖》</div><div class="job-desc">空總創新基地，台北</div></div>
-                    <div class="timeline-item"><span class="year">2017</span><div class="job-title">《高雄獎夢幻隊與四道戰帖》</div><div class="job-desc">高雄美術館</div></div>
-                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">《2016水田部落行為藝術節》</div><div class="job-desc">水田部落，新竹</div></div>
-                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">《月讀展2.0：爽》</div><div class="job-desc">海馬迴光畫館，台南</div></div>
-                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">《藝術新聲十校聯展》</div><div class="job-desc">台中圖書館</div></div>
-                    <div class="timeline-item"><span class="year">2015</span><div class="job-title">《2015藝術家博覽會》</div><div class="job-desc">花博爭艷館，台北</div></div>
-                    <div class="timeline-item"><span class="year">2014</span><div class="job-title">《焦慮彼得》材質創作與設計系畢展</div><div class="job-desc">華山文創園區</div></div>
-                    <div class="timeline-item"><span class="year">2014</span><div class="job-title">《關於那些我想／說的未來》</div><div class="job-desc">寶藏巖國際藝術村</div></div>
-                    <div class="timeline-item"><span class="year">2012</span><div class="job-title">《磨合的一致》系展</div><div class="job-desc">中山創意基地URS21</div></div>
-                    <div class="timeline-item"><span class="year">2012</span><div class="job-title">《緣住交際》大崎藝術聚落探勘</div><div class="job-desc">台南藝術大學</div></div>
-                </div>
-                <button class="expand-btn" onclick="toggleExpand('list-exhibitions', this)">+ View Full List</button>
-
-                <div class="category-title">Collaborations 合作</div>
-                <div id="list-collabs" class="expand-container collapsed">
-                    <div class="timeline-item"><span class="year">2021</span><div class="job-title">《島遊情書》臺灣歷史博物館</div><div class="job-desc">文學配音及音樂設計</div></div>
-                    <div class="timeline-item"><span class="year">2020</span><div class="job-title">《話鼓電臺》說唱的技倆</div><div class="job-desc">線上收聽節目錄製</div></div>
-                    <div class="timeline-item"><span class="year">2020</span><div class="job-title">《新北線上博物館》</div><div class="job-desc">再拒劇團臺語翻譯，配音合作</div></div>
-                    <div class="timeline-item"><span class="year">2019</span><div class="job-title">《層中隙》 Kitt Johnson</div><div class="job-desc">表演藝術現地製作，臺南</div></div>
-                    <div class="timeline-item"><span class="year">2019</span><div class="job-title">《明白歌-未竟的故人事》再拒劇團</div><div class="job-desc">演員、樂手、音樂設計</div></div>
-                    <div class="timeline-item"><span class="year">2018</span><div class="job-title">《我歌我茶》劇場音樂合作</div><div class="job-desc">客家文化主題公園</div></div>
-                    <div class="timeline-item"><span class="year">2018</span><div class="job-title">《一時間差-珠珠娜娜in釜山》</div><div class="job-desc">音樂設計、現場樂手，韓國釜山</div></div>
-                    <div class="timeline-item"><span class="year">2018</span><div class="job-title">《白晝之夜》 / 《TPAM》</div><div class="job-desc">黃思農 年度考核協奏</div></div>
-                    <div class="timeline-item"><span class="year">2017</span><div class="job-title">《交陪》福士正一舞踏演出</div><div class="job-desc">臺中</div></div>
-                    <div class="timeline-item"><span class="year">2017</span><div class="job-title">《年度考核協奏》再拒劇團</div><div class="job-desc">演員，台北市立美術館</div></div>
-                    <div class="timeline-item"><span class="year">2017</span><div class="job-title">《其境‧他方》再拒劇團</div><div class="job-desc">聲音演員</div></div>
-                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">差事劇團《尋里山》</div><div class="job-desc">環境劇場演出 (南投/高雄/台中)</div></div>
-                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">《飛魚馬戲團─爆發前夕篇》</div><div class="job-desc">現場演奏，蘭嶼</div></div>
-                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">《苗‧春祭》〈弧於〉</div><div class="job-desc">行為藝術演出，台中</div></div>
-                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">差事劇團《返鄉的進擊》</div><div class="job-desc">音樂演出及戲劇演出，彰化大城鄉</div></div>
-                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">《東亞大笨蛋串聯Party》</div><div class="job-desc">策展合作，台北</div></div>
-                    <div class="timeline-item"><span class="year">2015</span><div class="job-title">差事劇團《女媧變身》</div><div class="job-desc">現場音樂製作，寶藏巖</div></div>
-                </div>
-                <button class="expand-btn" onclick="toggleExpand('list-collabs', this)">+ View Full List</button>
-
                 <div class="category-title">Awards 獎項經歷</div>
-                <div class="timeline-item">
-                    <span class="year">2019</span>
-                    <div class="job-title">台新藝術獎 年度大獎</div>
-                    <div class="job-desc">《明白歌-未竟的故人事》再拒劇團</div>
-                </div>
-                <div class="timeline-item">
-                    <span class="year">2013</span>
-                    <div class="job-title">《莿桐音樂季》個人組第二名</div>
-                    <div class="job-desc">南藝大歌唱比賽</div>
-                </div>
-                <div class="timeline-item">
-                    <span class="year">2012</span>
-                    <div class="job-title">南面而歌 原創歌曲 評審推薦獎</div>
-                    <div class="job-desc">作品《連根拔起》</div>
-                </div>
-                <div class="timeline-item">
-                    <span class="year">2012</span>
-                    <div class="job-title">《莿桐音樂季》個人組首獎</div>
-                </div>
+                <div class="timeline-item"><span class="year">2019</span><div class="job-title">台新藝術獎 年度大獎</div><div class="job-desc">《明白歌-未竟的故人事》再拒劇團</div></div>
+                <div class="timeline-item"><span class="year">2012</span><div class="job-title">南面而歌 原創歌曲 評審推薦獎</div></div>
 
-                <div class="category-title">Curator 策展經驗</div>
-                <div id="list-curator" class="expand-container collapsed">
-                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">《仙渡莊計畫II：想像的地理中心》</div><div class="job-desc">八里大舟造船廠/關渡三合院</div></div>
-                    <div class="timeline-item"><span class="year">2015</span><div class="job-title">《藝跨所五大行動》</div><div class="job-desc">包含：工作室接力開放展、貓打架、阿呼呼地獄、投錯胎放映會等</div></div>
-                    <div class="timeline-item"><span class="year">2014</span><div class="job-title">《如是《》聞 – 千手計畫》</div><div class="job-desc">台南藝術大學</div></div>
+                <div class="category-title">Collaborations & Others</div>
+                <div id="list-others" class="expand-container collapsed">
+                    <div class="timeline-item"><span class="year">2021</span><div class="job-title">《島遊情書》臺灣歷史博物館</div></div>
+                    <div class="timeline-item"><span class="year">2019</span><div class="job-title">《層中隙》 Kitt Johnson</div></div>
+                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">《仙渡莊計畫II》策展</div></div>
+                    <div class="timeline-item"><span class="year">2018</span><div class="job-title">《夷》個人音樂會</div></div>
                 </div>
-                <button class="expand-btn" onclick="toggleExpand('list-curator', this)">+ View Full List</button>
-
-                <div class="category-title">Music Performances 音樂演出</div>
-                <div id="list-music" class="expand-container collapsed">
-                    <div class="timeline-item"><span class="year">2021</span><div class="job-title">《家●變 藝術計劃 開幕演出》</div><div class="job-desc">政大藝文中心</div></div>
-                    <div class="timeline-item"><span class="year">2020</span><div class="job-title">《寂靜的迴響》白色恐怖人權音樂會</div></div>
-                    <div class="timeline-item"><span class="year">2019</span><div class="job-title">《內橋和久-即興音樂會》</div><div class="job-desc">打里折空間，臺中</div></div>
-                    <div class="timeline-item"><span class="year">2019</span><div class="job-title">《和鳴南樂社演出》</div><div class="job-desc">鹿港南管春祭，演唱《感謝公主》</div></div>
-                    <div class="timeline-item"><span class="year">2019</span><div class="job-title">《九歌聲音文件集結4年展》</div><div class="job-desc">收錄歌曲《南風起》</div></div>
-                    <div class="timeline-item"><span class="year">2018</span><div class="job-title">《夷》個人音樂會</div><div class="job-desc">流民棧，臺北</div></div>
-                    <div class="timeline-item"><span class="year">2018</span><div class="job-title">《大音希聲-南、北管談X彈實驗音樂》</div></div>
-                    <div class="timeline-item"><span class="year">2018</span><div class="job-title">《怨憎會別離》曲目發表</div><div class="job-desc">今秋藝術節，鹿港龍山寺</div></div>
-                    <div class="timeline-item"><span class="year">2018</span><div class="job-title">《YNGEL專場演出/ with 曾伯豪》</div><div class="job-desc">玩具島小劇場，臺中</div></div>
-                    <div class="timeline-item"><span class="year">2017</span><div class="job-title">《陳映真追思會》</div><div class="job-desc">客家文化園區</div></div>
-                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">《趨豬達乳，道德八景》小嫩豬專場</div><div class="job-desc">PIPE 台北 / 院子劇場 高雄</div></div>
-                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">《差事20週年音樂會》</div></div>
-                    <div class="timeline-item"><span class="year">2015</span><div class="job-title">《苗‧春祭》小嫩豬演出</div></div>
-                    <div class="timeline-item"><span class="year">2015</span><div class="job-title">《巨獸搖滾音樂祭》</div></div>
-                </div>
-                <button class="expand-btn" onclick="toggleExpand('list-music', this)">+ View Full List</button>
-
-                <div class="category-title">Article & Workshop</div>
-                <div id="list-misc" class="expand-container collapsed">
-                    <div class="timeline-item"><span class="year">2019</span><div class="job-title">音樂評論 《傳統與現代的對話》</div></div>
-                    <div class="timeline-item"><span class="year">2019</span><div class="job-title">ARTPLUS 九月號 訪問</div></div>
-                    <div class="timeline-item"><span class="year">2019</span><div class="job-title">《明白歌》親子工作坊</div></div>
-                    <div class="timeline-item"><span class="year">2018</span><div class="job-title">表演工作坊，臺南藝術大學</div></div>
-                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">人聲與即興舞蹈工作坊</div><div class="job-desc">台北藝術大學</div></div>
-                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">〈做作他人——（非）關田調工作坊〉</div></div>
-                </div>
-                <button class="expand-btn" onclick="toggleExpand('list-misc', this)">+ View Full List</button>
-
+                <button class="expand-btn" onclick="toggleExpand('list-others', this)">+ View Full List</button>
             </div>
         </div>
 
         <div id="gallery" class="content-section interactive">
             <div class="text-block">
                 <h2>作品 / Gallery</h2>
-                <p>影像載入中...</p>
+                <p>點擊圖片可放大檢視。</p>
+                <div id="gallery-container" class="gallery-grid">
+                    </div>
             </div>
+        </div>
+
+        <div id="lightbox" class="interactive" onclick="closeLightbox()">
+            <div id="lightbox-close">&times;</div>
+            <img id="lightbox-img" src="" alt="Full View">
         </div>
     </div>
 
     <script>
+        // --- 設定：畫廊圖片清單 ---
+        // 請在這裡填入您的作品檔名 (需上傳到 GitHub)
+        // 您可以隨時新增更多 {}
+        const galleryData = [
+            { src: 'work1.jpg', title: '作品名稱 01' },
+            { src: 'work2.jpg', title: '作品名稱 02' },
+            { src: 'work3.jpg', title: '作品名稱 03' },
+            // 如果還沒有上傳作品，以下是佔位圖片範例 (可刪除)
+            { src: 'https://images.unsplash.com/photo-1518640467707-6811f4a6ab73?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', title: '黑白實驗 I' },
+            { src: 'https://images.unsplash.com/photo-1507608616759-54f48f0af0ee?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', title: '雨中迷霧' },
+            { src: 'https://images.unsplash.com/photo-1516663235285-845fac339ca7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', title: '紋理與噪點' }
+        ];
+
+        // --- 畫廊生成邏輯 ---
+        function renderGallery() {
+            const container = document.getElementById('gallery-container');
+            container.innerHTML = '';
+            
+            galleryData.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'gallery-item';
+                div.innerHTML = `
+                    <img src="${item.src}" class="gallery-img" alt="${item.title}" onclick="openLightbox('${item.src}')">
+                    <div class="gallery-caption">${item.title}</div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // --- Lightbox 邏輯 ---
+        function openLightbox(src) {
+            const lightbox = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            img.src = src;
+            lightbox.style.display = 'flex';
+            // 延遲一點點讓淡入動畫生效
+            setTimeout(() => { lightbox.style.opacity = '1'; }, 10);
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.style.opacity = '0';
+            setTimeout(() => { lightbox.style.display = 'none'; }, 500);
+        }
+
+        // --- 3D Scene Code (Same as before) ---
         let scene, camera, renderer, clock;
         let bgParticles, fgParticles, linesMesh;
         let mouse = new THREE.Vector2(9999, 9999);
@@ -450,35 +319,27 @@
 
         init();
         animate();
+        renderGallery(); // 啟動畫廊
 
         function init() {
             const container = document.getElementById('canvas-container');
             clock = new THREE.Clock();
-
-            // 1. Scene
             scene = new THREE.Scene();
             scene.fog = new THREE.FogExp2(0x050505, 0.001);
-
             camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 3000);
             camera.position.z = 600;
-
-            // 2. Renderer
             renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(window.devicePixelRatio);
             container.appendChild(renderer.domElement);
 
-            // 3. Particles & Visuals
             const sprite = createGlowSprite();
             
             // BG
             const bgGeo = new THREE.BufferGeometry();
             const bgPos = [];
             for (let i = 0; i < BG_COUNT; i++) {
-                const x = (Math.random() - 0.5) * 3000;
-                const y = (Math.random() - 0.5) * 2000;
-                const z = (Math.random() - 0.5) * 2000 - 500;
-                bgPos.push(x, y, z);
+                bgPos.push((Math.random()-0.5)*3000, (Math.random()-0.5)*2000, (Math.random()-0.5)*2000 - 500);
             }
             bgGeo.setAttribute('position', new THREE.Float32BufferAttribute(bgPos, 3));
             const bgMat = new THREE.PointsMaterial({ color: 0x888888, size: 8, map: sprite, transparent: true, opacity: 0.2, blending: THREE.AdditiveBlending, depthWrite: false });
@@ -507,21 +368,18 @@
             linesMesh = new THREE.LineSegments(lineGeo, lineMat);
             scene.add(linesMesh);
 
-            // 4. Input Events
             raycaster = new THREE.Raycaster();
             document.addEventListener('mousemove', onMouseMove, false);
             document.addEventListener('touchmove', onTouchMove, { passive: false });
             document.addEventListener('touchstart', onTouchMove, { passive: false });
             window.addEventListener('resize', onResize, false);
             
-            // 5. Pre-setup Audio Logic (Wait for user interaction)
             listener = new THREE.AudioListener();
             camera.add(listener);
             sound = new THREE.Audio(listener);
             audioLoader = new THREE.AudioLoader();
         }
 
-        // --- Core Functions ---
         function createGlowSprite() {
             const c = document.createElement('canvas'); c.width=64; c.height=64;
             const ctx=c.getContext('2d');
@@ -531,17 +389,8 @@
             return new THREE.CanvasTexture(c);
         }
 
-        function onTouchMove(e) {
-            if(e.touches.length===1) {
-                const t = e.touches[0];
-                mouse.x = (t.clientX/window.innerWidth)*2-1;
-                mouse.y = -(t.clientY/window.innerHeight)*2+1;
-            }
-        }
-        function onMouseMove(e) {
-            mouse.x = (e.clientX/window.innerWidth)*2-1;
-            mouse.y = -(e.clientY/window.innerHeight)*2+1;
-        }
+        function onTouchMove(e) { if(e.touches.length===1) { const t = e.touches[0]; mouse.x = (t.clientX/window.innerWidth)*2-1; mouse.y = -(t.clientY/window.innerHeight)*2+1; } }
+        function onMouseMove(e) { mouse.x = (e.clientX/window.innerWidth)*2-1; mouse.y = -(e.clientY/window.innerHeight)*2+1; }
 
         function animate() {
             requestAnimationFrame(animate);
@@ -570,7 +419,6 @@
             }
             fgParticles.geometry.attributes.position.needsUpdate = true;
 
-            // Connections Logic
             raycaster.setFromCamera(mouse, camera);
             const vec = new THREE.Vector3(mouse.x, mouse.y, 0.5);
             vec.unproject(camera);
@@ -609,70 +457,38 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         }
 
-        // --- Interaction Logic (Revised for Mobile Audio) ---
         document.getElementById('enter-btn').addEventListener('click', () => {
-            
-            // 1. Mobile Fix: Force Audio Context Resume IMMEDIATELY inside click handler
-            if (listener.context.state === 'suspended') {
-                listener.context.resume().then(() => {
-                    console.log("AudioContext resumed successfully");
-                });
-            }
-
-            // 2. Start Loading Audio
+            if (listener.context.state === 'suspended') { listener.context.resume(); }
             document.getElementById('audio-status').innerText = "Loading...";
-            
             audioLoader.load('bgm.mp3', 
                 function(buffer) {
-                    sound.setBuffer(buffer);
-                    sound.setLoop(true);
-                    sound.setVolume(0.8);
-                    sound.play(); // Play immediately after load
-                    analyser = new THREE.AudioAnalyser(sound, 32);
-                    isAudioActive = true;
+                    sound.setBuffer(buffer); sound.setLoop(true); sound.setVolume(0.8); sound.play();
+                    analyser = new THREE.AudioAnalyser(sound, 32); isAudioActive = true;
                     document.getElementById('audio-status').innerText = "Playing";
                 },
                 undefined,
-                function(err) {
-                    console.warn("Audio error:", err);
-                    document.getElementById('audio-status').innerText = "Silent Mode";
-                }
+                function() { document.getElementById('audio-status').innerText = "Silent Mode"; }
             );
-
-            // 3. UI Transition
             gsap.to('#landing-screen', { duration: 1.5, opacity: 0, pointerEvents: 'none' });
             gsap.to('nav', { duration: 1, opacity: 1, y: 0, delay: 0.5 });
             gsap.to(camera.position, { duration: 2.5, z: 400, ease: "power2.inOut" });
         });
 
-        // Expand/Collapse Function
-        window.toggleExpand = function(elementId, btn) {
-            const content = document.getElementById(elementId);
+        window.toggleExpand = function(id, btn) {
+            const content = document.getElementById(id);
             if (content.style.maxHeight === 'none') {
-                content.style.maxHeight = '200px';
-                content.classList.add('collapsed');
-                btn.innerText = '+ View Full List';
+                content.style.maxHeight = '200px'; content.classList.add('collapsed'); btn.innerText = '+ View Full List';
             } else {
-                content.style.maxHeight = 'none'; // Allow full expansion
-                content.classList.remove('collapsed');
-                btn.innerText = '- Collapse List';
+                content.style.maxHeight = 'none'; content.classList.remove('collapsed'); btn.innerText = '- Collapse List';
             }
         };
 
         window.navigateTo = function(id) {
-            document.querySelectorAll('.content-section').forEach(el => {
-                el.classList.remove('active');
-                gsap.to(el, { opacity: 0, duration: 0.5 });
-            });
+            document.querySelectorAll('.content-section').forEach(el => { el.classList.remove('active'); gsap.to(el, { opacity: 0, duration: 0.5 }); });
             document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
             event.target.classList.add('active');
-            
             const target = document.getElementById(id);
-            if(target) {
-                target.classList.add('active');
-                gsap.to(target, { opacity: 1, duration: 1, delay: 0.5 });
-                target.scrollTop = 0;
-            }
+            if(target) { target.classList.add('active'); gsap.to(target, { opacity: 1, duration: 1, delay: 0.5 }); target.scrollTop = 0; }
         }
     </script>
 </body>
