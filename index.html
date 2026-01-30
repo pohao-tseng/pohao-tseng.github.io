@@ -95,14 +95,12 @@
         #test-ui, #result-ui {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             display: none; flex-direction: column; justify-content: center; align-items: center;
-            z-index: 60; pointer-events: none; /* Let clicks pass through for interaction */
+            z-index: 60; pointer-events: none;
         }
         #test-ui.active, #result-ui.active { display: flex; }
-        
         .test-msg { font-size: 1.2rem; color: #fff; letter-spacing: 2px; text-align: center; margin-bottom: 20px; text-shadow: 0 0 10px #000; }
         .timer { font-size: 4rem; font-weight: 100; color: #fff; font-family: monospace; }
         
-        /* RESULT UI */
         #result-ui { background: rgba(0,0,0,0.6); pointer-events: auto; }
         .result-title { font-size: 3rem; color: #fff; letter-spacing: 5px; margin-bottom: 10px; text-transform: uppercase; text-shadow: 0 0 20px rgba(255,255,255,0.5); }
         .result-desc { font-size: 1rem; color: #ccc; max-width: 600px; text-align: center; line-height: 1.6; margin-bottom: 40px; }
@@ -113,21 +111,25 @@
         }
         .result-btn:hover { background: #fff; color: #000; }
 
-        /* Other Styles (Timeline, Expand, Photo, Gallery) */
+        /* Other Styles */
         .photo-wrapper { width: 100%; max-width: 300px; margin-bottom: 40px; perspective: 1000px; }
         .about-photo { width: 100%; height: auto; display: block; filter: grayscale(100%) contrast(1.2) brightness(0.9); transition: filter 0.5s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transform-style: preserve-3d; }
         .photo-wrapper:hover .about-photo { filter: grayscale(0%) contrast(1) brightness(1); }
+        
         .timeline-item { position: relative; padding-left: 20px; margin-bottom: 25px; border-left: 1px solid #333; }
         .timeline-item::before { content: ''; position: absolute; left: -4px; top: 6px; width: 7px; height: 7px; background: #666; border-radius: 50%; }
         .year { font-size: 0.8rem; color: #888; font-family: monospace; display: block; margin-bottom: 3px; }
         .job-title { font-size: 0.95rem; color: #fff; font-weight: 500; }
         .job-desc { font-size: 0.85rem; color: #aaa; margin-top: 2px; }
+        
         .expand-container { max-height: 0; overflow: hidden; transition: max-height 0.8s ease; position: relative; }
         .expand-container.collapsed { max-height: 280px; } 
         .expand-container.collapsed::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 80px; background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(5,5,5,0.95)); pointer-events: none; }
         .method-expand.collapsed { max-height: 0; } 
+        
         .expand-btn { display: block; width: 100%; padding: 12px; margin-top: 15px; background: rgba(255,255,255,0.05); border: 1px solid #444; color: #888; cursor: pointer; text-align: center; font-size: 0.8rem; transition: all 0.3s; }
         .expand-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
         .project-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
         .project-card { cursor: pointer; position: relative; transition: transform 0.3s; }
         .project-card:hover { transform: translateY(-5px); }
@@ -135,10 +137,12 @@
         .project-card:hover .project-cover { filter: grayscale(0%); }
         .project-title { margin-top: 10px; font-size: 0.9rem; color: #fff; letter-spacing: 1px; }
         .project-year { font-size: 0.8rem; color: #666; font-family: monospace; }
+        
         #project-overlay { position: fixed; top: 0; right: 0; width: 60%; height: 100%; background: #0a0a0a; z-index: 100; transform: translateX(100%); transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1); overflow-y: auto; padding: 60px; box-sizing: border-box; border-left: 1px solid #333; }
         #project-overlay.open { transform: translateX(0); }
         #close-project { position: absolute; top: 30px; right: 30px; font-size: 1.5rem; color: #fff; cursor: pointer; border: 1px solid #333; padding: 5px 15px; transition: all 0.3s; }
         #close-project:hover { background: #fff; color: #000; }
+        
         .detail-header { margin-bottom: 40px; margin-top: 20px;}
         .detail-title { font-size: 2rem; color: #fff; margin-bottom: 10px; }
         .detail-meta { font-family: monospace; color: #888; font-size: 0.9rem; margin-bottom: 30px; }
@@ -148,6 +152,7 @@
         .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0; }
         .detail-images img { width: 100%; margin-bottom: 20px; display: block; filter: grayscale(20%); transition: filter 0.5s; }
         .detail-images img:hover { filter: grayscale(0%); }
+
         .social-links { margin-top: 30px; display: flex; gap: 15px; }
         .social-btn { padding: 8px 20px; border: 1px solid #666; color: #ccc; text-decoration: none; font-size: 0.9rem; border-radius: 2px; }
         .social-btn:hover { border-color: #fff; color: #fff; background: rgba(255,255,255,0.1); }
@@ -268,16 +273,20 @@
                 </div>
                 <div class="zh-only">
                     <p>台北藝術大學藝術跨域研究所畢。從小學習中國音樂，而後曾師承周定邦先生學習台灣唸歌。</p>
-                    <p>近年常參與劇場與聲音相關創作，試圖理解何謂「在當場」。</p>
-                    <div class="category-title">聯絡</div>
-                    <p>Email: jerry801022@gmail.com</p>
+                    <p>2012年與友人創立《迷宮迴廊》樂團，2013年參與《小嫩豬》樂團。2014年創立鬼講堂。近年常參與劇場與聲音相關創作，曾與各國藝術家合作或即興音樂交流。</p>
+                    <p>近來在音樂間流浪以及嘗試理解何謂「在當場」，除鬼講堂計畫試圖理解抗日事件中的多重敘事問題及背後社會成因外，音樂作品則與社會議題及個人情感相關。</p>
+                    <div class="category-title">專注領域</div>
+                    <p>演奏、歌唱、詞曲創作、唸歌創作演唱、藝術創作、藝術理論</p>
                 </div>
                 <div class="en-only">
-                    <p>MFA, Trans-disciplinary Arts, TNUA. Studied Taiwanese "Nian Ge" under Master Ding-Bang Chou.</p>
-                    <p>Actively involved in theater and sound art, exploring the concept of "Being in the Scene."</p>
-                    <div class="category-title">Contact</div>
-                    <p>Email: jerry801022@gmail.com</p>
+                    <p>MFA, Trans-disciplinary Arts, TNUA. Studied Taiwanese "Nian Ge" (chanting) under Master Ding-Bang Chou.</p>
+                    <p>Founded "Maze Of Corridors" (2012) and "Lecture of Ghost" (2014). Joined "Little Sexy Young Pig" (2013). Active in theater and sound art, collaborating with artists like Kitt Johnson, Hiromichi Sakamoto, and Kazuhisa Uchihashi.</p>
+                    <p>Exploring "Being in the Scene." Works span from historical narrative deconstruction to social issues and personal emotions.</p>
+                    <div class="category-title">Focus</div>
+                    <p>Music Performance, Composition, Nian Ge, Art Creation, Art Theory</p>
                 </div>
+                <div class="category-title">Contact</div>
+                <p>Email: jerry801022@gmail.com</p>
                 <div class="social-links">
                     <a href="https://www.facebook.com/share/1ATPLBnGpg/?mibextid=wwXIfr" target="_blank" class="social-btn">Facebook</a>
                     <a href="https://www.instagram.com/po_hao_tseng?igsh=MTV2dXFiODZwZW4wYg%3D%3D&utm_source=qr" target="_blank" class="social-btn">Instagram</a>
@@ -288,23 +297,166 @@
         <div id="experiences" class="content-section interactive">
             <div class="text-block">
                 <h2 class="decode-text" data-zh="經歷" data-en="Experience">經歷</h2>
+                
                 <div class="zh-only">
                     <div class="category-title">學歷</div>
                     <div class="timeline-item"><span class="year">Present</span><div class="job-title">台北藝術大學 藝術跨領域研究所 (MFA)</div></div>
+                    <div class="timeline-item"><span class="year">2010 - 2015</span><div class="job-title">台南藝術大學 材質創作與設計系 (BA)</div></div>
+                    
                     <div class="category-title">現職</div>
                     <div class="timeline-item"><span class="year">Now</span><div class="job-title">藝術、音樂、劇場相關工作者</div></div>
+                    <div class="timeline-item"><span class="year">Now</span><div class="job-title">《小嫩豬》樂團樂手</div></div>
                     <div class="timeline-item"><span class="year">Now</span><div class="job-title">《鬼講堂》計劃人</div></div>
-                    <button class="expand-btn" onclick="toggleExpand('zh-full-list', this)">+ 查看完整列表 (Demo)</button>
-                    <div id="zh-full-list" class="expand-container collapsed">
-                        <div class="timeline-item"><span class="year">2019</span><div class="job-title">台新藝術獎 年度大獎</div></div>
-                        <div class="timeline-item"><span class="year">2016</span><div class="job-title">台北雙年展《當下檔案・未來系譜》</div></div>
+
+                    <div class="category-title">個人創作演出</div>
+                    <div id="zh-perf" class="expand-container collapsed">
+                        <div class="timeline-item"><span class="year">2020</span><div class="job-title">漫遊者劇場《池子》</div><div class="job-desc">臺灣大學水源校區</div></div>
+                        <div class="timeline-item"><span class="year">2019</span><div class="job-title">《落對話-譯○》聲音劇場</div><div class="job-desc">空總創新基地</div></div>
+                        <div class="timeline-item"><span class="year">2017</span><div class="job-title">《日日新微型表演行動》</div><div class="job-desc">太原五百完人塚</div></div>
+                        <div class="timeline-item"><span class="year">2015</span><div class="job-title">《中國城藝術行動》</div><div class="job-desc">台南中國城</div></div>
                     </div>
+                    <button class="expand-btn" onclick="toggleExpand('zh-perf', this)">+ 查看完整列表</button>
+
+                    <div class="category-title">鬼講堂</div>
+                    <div id="zh-ghost" class="expand-container collapsed">
+                        <div class="timeline-item"><span class="year">2016</span><div class="job-title">台北雙年展《當下檔案・未來系譜》</div><div class="job-desc">鬼講堂第二講演出</div></div>
+                        <div class="timeline-item"><span class="year">2016</span><div class="job-title">大稻埕國際藝術節《鬼話練習曲》</div></div>
+                        <div class="timeline-item"><span class="year">2015</span><div class="job-title">《鬼講堂第二講前言》</div><div class="job-desc">寶藏巖</div></div>
+                        <div class="timeline-item"><span class="year">2015</span><div class="job-title">大稻埕國際藝術節《鬼講堂第一講》</div></div>
+                        <div class="timeline-item"><span class="year">2015</span><div class="job-title">《都市傳說》草埕文化工作室</div></div>
+                        <div class="timeline-item"><span class="year">2015</span><div class="job-title">鬼講堂成立 (April)</div></div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleExpand('zh-ghost', this)">+ 查看完整列表</button>
+                    
+                    <div class="category-title">聯展</div>
+                    <div id="zh-exhibit" class="expand-container collapsed">
+                        <div class="timeline-item"><span class="year">2017</span><div class="job-title">《破碎的神聖》</div><div class="job-desc">空總創新基地</div></div>
+                        <div class="timeline-item"><span class="year">2017</span><div class="job-title">《高雄獎夢幻隊與四道戰帖》</div><div class="job-desc">高雄美術館</div></div>
+                        <div class="timeline-item"><span class="year">2016</span><div class="job-title">《2016水田部落行為藝術節》</div><div class="job-desc">新竹</div></div>
+                        <div class="timeline-item"><span class="year">2016</span><div class="job-title">《月讀展2.0：爽》</div><div class="job-desc">台南海馬迴光畫館</div></div>
+                        <div class="timeline-item"><span class="year">2015</span><div class="job-title">《2015藝術家博覽會》</div><div class="job-desc">花博爭艷館</div></div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleExpand('zh-exhibit', this)">+ 查看完整列表</button>
+
+                    <div class="category-title">合作與其他</div>
+                    <div id="zh-collab" class="expand-container collapsed">
+                        <div class="timeline-item"><span class="year">2021</span><div class="job-title">《島遊情書》臺灣歷史博物館</div><div class="job-desc">文學配音及音樂設計</div></div>
+                        <div class="timeline-item"><span class="year">2020</span><div class="job-title">《新北線上博物館》</div><div class="job-desc">再拒劇團臺語翻譯，配音合作</div></div>
+                        <div class="timeline-item"><span class="year">2019</span><div class="job-title">《層中隙》 Kitt Johnson</div><div class="job-desc">表演藝術現地製作</div></div>
+                        <div class="timeline-item"><span class="year">2019</span><div class="job-title">《明白歌-未竟的故人事》再拒劇團</div><div class="job-desc">演員、樂手、音樂設計</div></div>
+                        <div class="timeline-item"><span class="year">2018</span><div class="job-title">《一時間差-珠珠娜娜in釜山》</div><div class="job-desc">音樂設計、現場樂手</div></div>
+                        <div class="timeline-item"><span class="year">2018</span><div class="job-title">《白晝之夜》 / 《TPAM》</div><div class="job-desc">黃思農 年度考核協奏</div></div>
+                        <div class="timeline-item"><span class="year">2017</span><div class="job-title">《交陪》福士正一舞踏演出</div></div>
+                        <div class="timeline-item"><span class="year">2016</span><div class="job-title">差事劇團《尋里山》</div><div class="job-desc">環境劇場演出</div></div>
+                        <div class="timeline-item"><span class="year">2015</span><div class="job-title">差事劇團《女媧變身》</div><div class="job-desc">現場音樂製作</div></div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleExpand('zh-collab', this)">+ 查看完整列表</button>
+
+                    <div class="category-title">獎項</div>
+                    <div class="timeline-item"><span class="year">2019</span><div class="job-title">台新藝術獎 年度大獎</div><div class="job-desc">《明白歌-未竟的故人事》再拒劇團</div></div>
+                    <div class="timeline-item"><span class="year">2012</span><div class="job-title">南面而歌 原創歌曲 評審推薦獎</div><div class="job-desc">作品《連根拔起》</div></div>
+
+                    <div class="category-title">策展</div>
+                    <div id="zh-curator" class="expand-container collapsed">
+                        <div class="timeline-item"><span class="year">2016</span><div class="job-title">《仙渡莊計畫II：想像的地理中心》</div></div>
+                        <div class="timeline-item"><span class="year">2015</span><div class="job-title">《藝跨所五大行動》</div></div>
+                        <div class="timeline-item"><span class="year">2014</span><div class="job-title">《如是《》聞 – 千手計畫》</div></div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleExpand('zh-curator', this)">+ 查看完整列表</button>
+
+                    <div class="category-title">音樂演出</div>
+                    <div id="zh-music" class="expand-container collapsed">
+                        <div class="timeline-item"><span class="year">2021</span><div class="job-title">《家●變 藝術計劃 開幕演出》</div></div>
+                        <div class="timeline-item"><span class="year">2020</span><div class="job-title">《寂靜的迴響》白色恐怖人權音樂會</div></div>
+                        <div class="timeline-item"><span class="year">2019</span><div class="job-title">《內橋和久-即興音樂會》</div></div>
+                        <div class="timeline-item"><span class="year">2019</span><div class="job-title">《和鳴南樂社演出》</div></div>
+                        <div class="timeline-item"><span class="year">2018</span><div class="job-title">《夷》個人音樂會</div></div>
+                        <div class="timeline-item"><span class="year">2016</span><div class="job-title">《趨豬達乳，道德八景》小嫩豬專場</div></div>
+                        <div class="timeline-item"><span class="year">2016</span><div class="job-title">《差事20週年音樂會》</div></div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleExpand('zh-music', this)">+ 查看完整列表</button>
+
+                    <div class="category-title">文章與工作坊</div>
+                    <div id="zh-misc" class="expand-container collapsed">
+                        <div class="timeline-item"><span class="year">2019</span><div class="job-title">音樂評論 《傳統與現代的對話》</div></div>
+                        <div class="timeline-item"><span class="year">2019</span><div class="job-title">ARTPLUS 九月號 訪問</div></div>
+                        <div class="timeline-item"><span class="year">2019</span><div class="job-title">《明白歌》親子工作坊</div></div>
+                        <div class="timeline-item"><span class="year">2016</span><div class="job-title">人聲與即興舞蹈工作坊</div></div>
+                        <div class="timeline-item"><span class="year">2016</span><div class="job-title">〈做作他人——（非）關田調工作坊〉</div></div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleExpand('zh-misc', this)">+ 查看完整列表</button>
                 </div>
+
                 <div class="en-only">
                     <div class="category-title">Education</div>
                     <div class="timeline-item"><span class="year">Present</span><div class="job-title">MFA, Trans-disciplinary Arts, TNUA</div></div>
+                    <div class="timeline-item"><span class="year">2010 - 2015</span><div class="job-title">BA, Material Art and Design, TNNUA</div></div>
+                    
                     <div class="category-title">Current Position</div>
+                    <div class="timeline-item"><span class="year">Now</span><div class="job-title">Artist, Musician, Performer</div></div>
+                    <div class="timeline-item"><span class="year">Now</span><div class="job-title">Musician, Little Sexy Young Pig Band</div></div>
                     <div class="timeline-item"><span class="year">Now</span><div class="job-title">Organizer, Lecture Of Ghost</div></div>
+
+                    <div class="category-title">Live Performances</div>
+                    <div id="en-perf" class="expand-container collapsed">
+                        <div class="timeline-item"><span class="year">2020</span><div class="job-title">Flâneur Theatre "Pond"</div><div class="job-desc">NTU Shuiyuan Campus, Taipei</div></div>
+                        <div class="timeline-item"><span class="year">2019</span><div class="job-title">Sound Theatre "Dialogue-Translation O"</div></div>
+                        <div class="timeline-item"><span class="year">2017</span><div class="job-title">Mini-performance of Daily Renovation</div></div>
+                        <div class="timeline-item"><span class="year">2015</span><div class="job-title">Chinatown Art Action</div></div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleExpand('en-perf', this)">+ View Full List</button>
+
+                    <div class="category-title">Lecture of Ghost</div>
+                    <div id="en-ghost" class="expand-container collapsed">
+                        <div class="timeline-item"><span class="year">2016</span><div class="job-title">Taipei Biennial</div><div class="job-desc">Lecture of Ghost II</div></div>
+                        <div class="timeline-item"><span class="year">2016</span><div class="job-title">TTTIFA "Practice Song of Vagrant"</div></div>
+                        <div class="timeline-item"><span class="year">2015</span><div class="job-title">TTTIFA Lecture of Ghost I</div></div>
+                        <div class="timeline-item"><span class="year">2015</span><div class="job-title">Founded Lecture of Ghost</div></div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleExpand('en-ghost', this)">+ View Full List</button>
+
+                    <div class="category-title">Group Exhibitions</div>
+                    <div id="en-exhibit" class="expand-container collapsed">
+                        <div class="timeline-item"><span class="year">2017</span><div class="job-title">"Shattered Sanctity"</div></div>
+                        <div class="timeline-item"><span class="year">2017</span><div class="job-title">Kaohsiung Awards</div></div>
+                        <div class="timeline-item"><span class="year">2016</span><div class="job-title">Shuita Tribe Performance Art Festival</div></div>
+                        <div class="timeline-item"><span class="year">2015</span><div class="job-title">Artist Fair Taiwan</div></div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleExpand('en-exhibit', this)">+ View Full List</button>
+
+                    <div class="category-title">Collaborations</div>
+                    <div id="en-collab" class="expand-container collapsed">
+                        <div class="timeline-item"><span class="year">2021</span><div class="job-title">Music Design, NMTH</div></div>
+                        <div class="timeline-item"><span class="year">2019</span><div class="job-title">"In-Between" with Kitt Johnson</div></div>
+                        <div class="timeline-item"><span class="year">2019</span><div class="job-title">"The Song of Clarity" (Against Again Troupe)</div></div>
+                        <div class="timeline-item"><span class="year">2018</span><div class="job-title">"Yi" Solo Concert</div></div>
+                        <div class="timeline-item"><span class="year">2018</span><div class="job-title">Nuit Blanche Taipei (Concerto of Annual Evaluation)</div></div>
+                        <div class="timeline-item"><span class="year">2017</span><div class="job-title">Shoichi Fukushi Butoh Performance</div></div>
+                        <div class="timeline-item"><span class="year">2016</span><div class="job-title">"Finding Satoyama" (Assignment Theatre)</div></div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleExpand('en-collab', this)">+ View Full List</button>
+
+                    <div class="category-title">Awards</div>
+                    <div class="timeline-item"><span class="year">2019</span><div class="job-title">Taishin Arts Award (Grand Prize)</div><div class="job-desc">"The Song of Clarity" (Against Again Troupe)</div></div>
+                    <div class="timeline-item"><span class="year">2012</span><div class="job-title">Original Music Awards (Jury Recommendation)</div></div>
+                    
+                    <div class="category-title">Curator</div>
+                    <div id="en-curator" class="expand-container collapsed">
+                        <div class="timeline-item"><span class="year">2016</span><div class="job-title">Xanadu Project II</div></div>
+                        <div class="timeline-item"><span class="year">2015</span><div class="job-title">TNUA 5 Actions</div></div>
+                        <div class="timeline-item"><span class="year">2014</span><div class="job-title">Thus Have I Heard - Thousand Hands Project</div></div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleExpand('en-curator', this)">+ View Full List</button>
+
+                    <div class="category-title">Music Performances</div>
+                    <div id="en-music" class="expand-container collapsed">
+                        <div class="timeline-item"><span class="year">2021</span><div class="job-title">Metamorphosis Art Project Opening</div></div>
+                        <div class="timeline-item"><span class="year">2020</span><div class="job-title">White Terror Human Rights Concert</div></div>
+                        <div class="timeline-item"><span class="year">2019</span><div class="job-title">Kazuhisa Uchihashi Improv Concert</div></div>
+                        <div class="timeline-item"><span class="year">2019</span><div class="job-title">Nanyin Performance</div></div>
+                        <div class="timeline-item"><span class="year">2016</span><div class="job-title">Little Sexy Young Pig Concert</div></div>
+                    </div>
+                    <button class="expand-btn" onclick="toggleExpand('en-music', this)">+ View Full List</button>
                 </div>
             </div>
         </div>
@@ -326,15 +478,14 @@
         // --- DATA & CONFIG ---
         let currentLang = 'zh';
         const projects = [
-            { id: 1, cover: "work1-cover.jpg", year: "2020", zh: { title: "漫遊者劇場《池子》", desc: "臺北", full: "這是一個關於空間記憶與身體介入的場域特定創作。" }, en: { title: "Flâneur Theatre: Pond", desc: "Taipei", full: "A site-specific creation about spatial memory and bodily intervention." }, images: ["work1-01.jpg"] },
-            { id: 2, cover: "work2-cover.jpg", year: "2014-Present", zh: { title: "鬼講堂", desc: "焦吧哖事件", full: "試圖理解抗日事件中的多重敘事問題。" }, en: { title: "Lecture of Ghost", desc: "Tapani Incident", full: "Attempting to understand the multiple narratives behind anti-Japanese incidents." }, images: ["work2-01.jpg"] },
+            { id: 1, cover: "work1-cover.jpg", year: "2020", zh: { title: "漫遊者劇場《池子》", desc: "臺北", full: "這是一個關於空間記憶與身體介入的場域特定創作。" }, en: { title: "Flâneur Theatre: Pond", desc: "Taipei", full: "A site-specific creation about spatial memory and bodily intervention." }, images: ["work1-01.jpg", "work1-02.jpg", "work1-03.jpg"] },
+            { id: 2, cover: "work2-cover.jpg", year: "2014-Present", zh: { title: "鬼講堂", desc: "焦吧哖事件", full: "試圖理解抗日事件中的多重敘事問題。" }, en: { title: "Lecture of Ghost", desc: "Tapani Incident", full: "Attempting to understand the multiple narratives behind anti-Japanese incidents." }, images: ["work2-01.jpg", "work2-02.jpg"] },
             { id: 3, cover: "https://images.unsplash.com/photo-1518640467707-6811f4a6ab73?w=800&q=80", year: "2015", zh: { title: "中國城藝術行動", desc: "台南", full: "記錄消逝的城市紋理。" }, en: { title: "Chinatown Art Action", desc: "Tainan", full: "Recording the vanishing urban texture." }, images: [] }
         ];
 
         // --- TEST SYSTEM VARIABLES ---
         let isTesting = false;
-        let testStartTime = 0;
-        let testData = []; // {x, y, time}
+        let testData = [];
         let testTimerInt;
         let resultMode = 'normal'; // normal, hunter, wizard, child
 
@@ -346,8 +497,10 @@
                 const div = document.createElement('div');
                 div.className = 'project-card';
                 div.onclick = () => openProject(index);
+                // Magnetic Trigger
                 div.onmouseenter = () => hoverEffect(true);
                 div.onmouseleave = () => hoverEffect(false);
+                
                 const info = p[currentLang];
                 const imgSrc = p.cover ? p.cover : 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iNzUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiMzMzMiLz48L3N2Zz4=';
                 div.innerHTML = `<img src="${imgSrc}" class="project-cover" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iNzUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiMzMzMiLz48L3N2Zz4='"><div class="project-title">${info.title}</div><div class="project-year">${p.year}</div>`;
@@ -402,115 +555,72 @@
         // --- METHOD INTERACTION TEST LOGIC ---
         function startTest() {
             navigateTo('home');
-            // Hide header and nav for immersion
-            gsap.to('#site-header', { opacity: 0 });
-            gsap.to('#main-nav', { opacity: 0 });
-            
-            isTesting = true;
-            testData = [];
+            gsap.to('#site-header', { opacity: 0 }); gsap.to('#main-nav', { opacity: 0 });
+            isTesting = true; testData = [];
             document.getElementById('test-ui').classList.add('active');
-            
             let timeLeft = 10;
             document.getElementById('test-timer').innerText = timeLeft;
-            
             testTimerInt = setInterval(() => {
                 timeLeft--;
                 document.getElementById('test-timer').innerText = timeLeft;
-                if(timeLeft <= 0) {
-                    endTest();
-                }
+                if(timeLeft <= 0) endTest();
             }, 1000);
         }
 
         function endTest() {
-            clearInterval(testTimerInt);
-            isTesting = false;
+            clearInterval(testTimerInt); isTesting = false;
             document.getElementById('test-ui').classList.remove('active');
-            
-            // Analyze Data
             analyzeResult();
-            
-            // Show Result UI
             document.getElementById('result-ui').classList.add('active');
         }
 
         function analyzeResult() {
-            if(testData.length < 10) { resultMode = 'hunter'; return; } // Too little movement
-
-            let totalDist = 0;
-            let stops = 0;
-            let speedSum = 0;
-            let directionChanges = 0;
-            let lastAngle = 0;
-
+            if(testData.length < 10) { resultMode = 'hunter'; updateResultText(); return; }
+            let stops = 0, speedSum = 0, directionChanges = 0, lastAngle = 0;
             for(let i=1; i<testData.length; i++) {
                 const d = Math.sqrt(Math.pow(testData[i].x - testData[i-1].x, 2) + Math.pow(testData[i].y - testData[i-1].y, 2));
-                totalDist += d;
-                const speed = d; // since interval is consistent roughly per frame
-                speedSum += speed;
-                
-                if(speed < 2) stops++;
-
+                speedSum += d; if(d < 2) stops++;
                 const angle = Math.atan2(testData[i].y - testData[i-1].y, testData[i].x - testData[i-1].x);
                 if(Math.abs(angle - lastAngle) > 0.5) directionChanges++;
                 lastAngle = angle;
             }
-
             const avgSpeed = speedSum / testData.length;
             const stopRatio = stops / testData.length;
-
-            // Simple Heuristic Logic
-            // Hunter: Low speed, high stops
-            // Child: High speed, high direction changes
-            // Wizard: Moderate speed, circular (hard to detect perfectly, using fallback)
-
-            if (avgSpeed < 5 || stopRatio > 0.4) {
-                resultMode = 'hunter';
-            } else if (avgSpeed > 15 || directionChanges > testData.length * 0.3) {
-                resultMode = 'child';
-            } else {
-                resultMode = 'wizard';
-            }
-
+            
+            if (avgSpeed < 5 || stopRatio > 0.4) resultMode = 'hunter';
+            else if (avgSpeed > 15 || directionChanges > testData.length * 0.3) resultMode = 'child';
+            else resultMode = 'wizard';
             updateResultText();
         }
 
         function updateResultText() {
             const titleEl = document.getElementById('res-type');
             const descEl = document.getElementById('res-desc');
-            
             if(resultMode === 'hunter') {
                 titleEl.innerText = currentLang === 'zh' ? '獵人 HUNTER' : 'HUNTER';
-                descEl.innerText = currentLang === 'zh' 
-                    ? '掌握脈絡交匯點的觀察者。你的移動沉穩而精確，善於在混亂中尋找結構。' 
-                    : 'The Observer of intersecting contexts. Your movement is steady and precise, skilled at finding structure in chaos.';
+                descEl.innerText = currentLang === 'zh' ? '掌握脈絡交匯點的觀察者。你的移動沉穩而精確，善於在混亂中尋找結構。' : 'The Observer of intersecting contexts. Your movement is steady and precise.';
             } else if (resultMode === 'child') {
                 titleEl.innerText = currentLang === 'zh' ? '小孩 CHILD' : 'CHILD';
-                descEl.innerText = currentLang === 'zh' 
-                    ? '在規則之外創造遊戲的玩家。你的能量充滿爆發力，試圖打破既有的意義場邊界。' 
-                    : 'The Player who creates games outside the rules. Your energy is explosive, attempting to break the boundaries of the meaning field.';
+                descEl.innerText = currentLang === 'zh' ? '在規則之外創造遊戲的玩家。你的能量充滿爆發力，試圖打破既有的意義場邊界。' : 'The Player who creates games outside the rules. Your energy is explosive.';
             } else {
                 titleEl.innerText = currentLang === 'zh' ? '巫師 WIZARD' : 'WIZARD';
-                descEl.innerText = currentLang === 'zh' 
-                    ? '在脈絡交匯點生長新意義的操作者。你透過持續的運作與迴旋，編織出新的可能性。' 
-                    : 'The Operator growing new meaning at intersections. Through continuous operation and weaving, you create new possibilities.';
+                descEl.innerText = currentLang === 'zh' ? '在脈絡交匯點生長新意義的操作者。你透過持續的運作與迴旋，編織出新的可能性。' : 'The Operator growing new meaning at intersections. You weave new possibilities.';
             }
         }
 
         function resetTest(retry) {
             document.getElementById('result-ui').classList.remove('active');
-            if(retry) {
-                resultMode = 'normal'; // Reset visuals temporarily
-                startTest();
-            }
+            if(retry) { resultMode = 'normal'; startTest(); }
+            else { resultMode = 'normal'; finishTest(); } // If clicking 'retry' but not restarting, default to normal logic? Actually retry should call startTest.
         }
 
         function finishTest() {
             document.getElementById('result-ui').classList.remove('active');
-            // Bring back UI
-            gsap.to('#site-header', { opacity: 1 });
-            gsap.to('#main-nav', { opacity: 1 });
-            // Visuals remain in the detected mode for user to play with
+            gsap.to('#site-header', { opacity: 1 }); gsap.to('#main-nav', { opacity: 1 });
+            // Keep the result visual active, or reset? Let's keep it active for fun, 
+            // but if user hovers gallery later, it might conflict. 
+            // Let's reset to normal so gallery works.
+            resultMode = 'normal';
         }
 
 
@@ -545,7 +655,6 @@
             
             const sprite = createGlowSprite();
             
-            // BG
             const bgGeo = new THREE.BufferGeometry();
             const bgPos = [];
             for (let i = 0; i < BG_COUNT; i++) bgPos.push((Math.random()-0.5)*3000, (Math.random()-0.5)*2000, (Math.random()-0.5)*2000 - 500);
@@ -554,19 +663,13 @@
             bgParticles = new THREE.Points(bgGeo, bgMat);
             scene.add(bgParticles);
             
-            // FG
             const fgGeo = new THREE.BufferGeometry();
-            const fgPos = [], fgVel = [], fgOrigin = [];
+            const fgPos = [], fgVel = [];
             for (let i = 0; i < FG_COUNT; i++) {
-                const x = (Math.random()-0.5)*1200;
-                const y = (Math.random()-0.5)*900;
-                const z = (Math.random()-0.5)*600;
-                fgPos.push(x, y, z);
-                fgOrigin.push(x, y, z);
+                fgPos.push((Math.random()-0.5)*1200, (Math.random()-0.5)*900, (Math.random()-0.5)*600);
                 fgVel.push({x: (Math.random()-0.5)*0.4, y: (Math.random()-0.5)*0.4, z: (Math.random()-0.5)*0.4});
             }
             fgGeo.setAttribute('position', new THREE.Float32BufferAttribute(fgPos, 3));
-            fgGeo.setAttribute('origin', new THREE.Float32BufferAttribute(fgOrigin, 3));
             
             const fgMat = new THREE.PointsMaterial({ color: 0xffffff, size: 5, map: sprite, transparent: true, opacity: 0.9, blending: THREE.AdditiveBlending, depthWrite: false });
             fgParticles = new THREE.Points(fgGeo, fgMat);
@@ -607,14 +710,9 @@
             const time = clock.getElapsedTime();
             if (isAudioActive && analyser) { const data = analyser.getAverageFrequency(); pulseFactor = 1 + (data / 256) * 0.6; } else { pulseFactor = 1 + Math.sin(time * 2) * 0.1; }
             
-            // Record Data if Testing
-            if(isTesting) {
-                // Approximate mouse position in world space for recording isn't strictly necessary, screen space is fine
-                // Here we record normalized screen space
-                testData.push({x: mouse.x, y: mouse.y, t: Date.now()});
-            }
+            if(isTesting) { testData.push({x: mouse.x, y: mouse.y}); }
 
-            // --- PARTICLES BEHAVIOR SWITCH ---
+            // MAGNETIC FACTOR
             let magneticFactor = isHoveringProject ? 2.5 : 1;
             bgParticles.rotation.y = time * 0.05 * magneticFactor; 
             bgParticles.material.opacity = 0.2 * pulseFactor;
@@ -633,67 +731,33 @@
                 let vy = vel[i].y * pulseFactor;
                 let vz = vel[i].z * pulseFactor;
 
-                // SPECIAL BEHAVIORS BASED ON RESULT
                 if(resultMode === 'hunter') {
-                    // Hunter: Particles slowly gather towards mouse (Focus/Structure)
-                    const dx = targetPos.x - pos[ix];
-                    const dy = targetPos.y - pos[ix+1];
-                    const d = Math.sqrt(dx*dx + dy*dy);
-                    if(d < 400) {
-                        vx += dx * 0.002;
-                        vy += dy * 0.002;
-                        // High friction
-                        vx *= 0.5; vy *= 0.5;
-                    }
-                    fgParticles.material.color.setHex(0xaaddff); // Blue-ish white
-
+                    const dx = targetPos.x - pos[ix]; const dy = targetPos.y - pos[ix+1]; const d = Math.sqrt(dx*dx + dy*dy);
+                    if(d < 400) { vx += dx * 0.002; vy += dy * 0.002; vx *= 0.5; vy *= 0.5; }
+                    fgParticles.material.color.setHex(0xaaddff);
                 } else if (resultMode === 'child') {
-                    // Child: Particles explode/scatter from mouse (Chaos)
-                    const dx = targetPos.x - pos[ix];
-                    const dy = targetPos.y - pos[ix+1];
-                    const d = Math.sqrt(dx*dx + dy*dy);
-                    if(d < 300) {
-                        vx -= dx * 0.05 + (Math.random()-0.5)*2;
-                        vy -= dy * 0.05 + (Math.random()-0.5)*2;
-                    }
-                    fgParticles.material.color.setHex(0xffaa88); // Red-ish white
-
+                    const dx = targetPos.x - pos[ix]; const dy = targetPos.y - pos[ix+1]; const d = Math.sqrt(dx*dx + dy*dy);
+                    if(d < 300) { vx -= dx * 0.05 + (Math.random()-0.5)*2; vy -= dy * 0.05 + (Math.random()-0.5)*2; }
+                    fgParticles.material.color.setHex(0xffaa88);
                 } else if (resultMode === 'wizard') {
-                    // Wizard: Spiral/Vortex around mouse (Operation)
-                    const dx = pos[ix] - targetPos.x;
-                    const dy = pos[ix+1] - targetPos.y;
-                    const d = Math.sqrt(dx*dx + dy*dy);
-                    if(d < 400) {
-                        // Rotation force: (-y, x)
-                        vx += -dy * 0.005;
-                        vy += dx * 0.005;
-                        // Gentle attraction
-                        vx -= dx * 0.001;
-                        vy -= dy * 0.001;
-                    }
-                     fgParticles.material.color.setHex(0xcc88ff); // Purple-ish white
-
+                    const dx = pos[ix] - targetPos.x; const dy = pos[ix+1] - targetPos.y; const d = Math.sqrt(dx*dx + dy*dy);
+                    if(d < 400) { vx += -dy * 0.005; vy += dx * 0.005; vx -= dx * 0.001; vy -= dy * 0.001; }
+                    fgParticles.material.color.setHex(0xcc88ff);
                 } else {
-                    // Normal + Magnetic for Gallery
+                    // Normal Mode (includes Magnetic Effect)
                     fgParticles.material.color.setHex(0xffffff);
                     if(isHoveringProject) {
-                        const dx = targetPos.x - pos[ix];
-                        const dy = targetPos.y - pos[ix+1];
-                        if(Math.abs(dx) < 300 && Math.abs(dy) < 300) {
-                            vx += dx * 0.005; vy += dy * 0.005;
-                        }
+                        const dx = targetPos.x - pos[ix]; const dy = targetPos.y - pos[ix+1];
+                        if(Math.abs(dx) < 300 && Math.abs(dy) < 300) { vx += dx * 0.005; vy += dy * 0.005; }
                     }
                 }
 
                 pos[ix]+=vx; pos[ix+1]+=vy; pos[ix+2]+=vz;
-                
-                // Bounds
                 if(pos[ix]>600) pos[ix]=-600; if(pos[ix]<-600) pos[ix]=600;
                 if(pos[ix+1]>500) pos[ix+1]=-500; if(pos[ix+1]<-500) pos[ix+1]=500;
             }
             fgParticles.geometry.attributes.position.needsUpdate = true;
 
-            // Connections
             let idx = 0; const lineArr = linesMesh.geometry.attributes.position.array;
             const p1 = new THREE.Vector3(), p2 = new THREE.Vector3(); const radius = MOUSE_RADIUS * pulseFactor;
             for(let i=0; i<FG_COUNT; i++) {
@@ -748,22 +812,11 @@
         window.navigateTo = function(id) {
             document.querySelectorAll('.content-section').forEach(el => { el.classList.remove('active'); gsap.to(el, { opacity: 0, duration: 0.5 }); });
             document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
-            
-            if(id === 'home') {
-                gsap.to(camera.position, { duration: 2, z: 400, x: 0, y: 0, ease: "power2.inOut" });
-                return; 
-            }
-
+            if(id === 'home') { gsap.to(camera.position, { duration: 2, z: 400, x: 0, y: 0, ease: "power2.inOut" }); return; }
             const btn = Array.from(document.querySelectorAll('.nav-link')).find(b => b.getAttribute('onclick').includes(id));
             if(btn) btn.classList.add('active');
-            
             const target = document.getElementById(id);
-            if(target) { 
-                target.classList.add('active'); 
-                gsap.to(target, { opacity: 1, duration: 1, delay: 0.5 }); 
-                target.scrollTop = 0; 
-                decodeTextEffect();
-            }
+            if(target) { target.classList.add('active'); gsap.to(target, { opacity: 1, duration: 1, delay: 0.5 }); target.scrollTop = 0; decodeTextEffect(); }
         }
     </script>
 </body>
