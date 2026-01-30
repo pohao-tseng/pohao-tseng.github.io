@@ -477,17 +477,39 @@
     <script>
         // --- DATA & CONFIG ---
         let currentLang = 'zh';
+        // 已修正：Project 1 改回 層中隙 (In-Between)，並保留圖片陣列結構供您填入多張圖片
         const projects = [
-            { id: 1, cover: "work1-cover.jpg", year: "2020", zh: { title: "漫遊者劇場《池子》", desc: "臺北", full: "這是一個關於空間記憶與身體介入的場域特定創作。" }, en: { title: "Flâneur Theatre: Pond", desc: "Taipei", full: "A site-specific creation about spatial memory and bodily intervention." }, images: ["work1-01.jpg", "work1-02.jpg", "work1-03.jpg"] },
-            { id: 2, cover: "work2-cover.jpg", year: "2014-Present", zh: { title: "鬼講堂", desc: "焦吧哖事件", full: "試圖理解抗日事件中的多重敘事問題。" }, en: { title: "Lecture of Ghost", desc: "Tapani Incident", full: "Attempting to understand the multiple narratives behind anti-Japanese incidents." }, images: ["work2-01.jpg", "work2-02.jpg"] },
-            { id: 3, cover: "https://images.unsplash.com/photo-1518640467707-6811f4a6ab73?w=800&q=80", year: "2015", zh: { title: "中國城藝術行動", desc: "台南", full: "記錄消逝的城市紋理。" }, en: { title: "Chinatown Art Action", desc: "Tainan", full: "Recording the vanishing urban texture." }, images: [] }
+            { 
+                id: 1, 
+                cover: "work1-cover.jpg", 
+                year: "2019", 
+                zh: { title: "漫遊者劇場《層中隙》", desc: "與 Kitt Johnson 合作", full: "這是一個關於空間記憶與身體介入的場域特定創作。與丹麥藝術家 Kitt Johnson 合作，在台南的巷弄與老屋之間，透過漫遊者的視角，重新測量歷史的重量。" }, 
+                en: { title: "Flâneur Theatre: In-Between", desc: "Collab with Kitt Johnson", full: "A site-specific creation about spatial memory and bodily intervention. In collaboration with Danish artist Kitt Johnson, set in the alleys and old houses of Tainan." }, 
+                images: ["work1-01.jpg", "work1-02.jpg", "work1-03.jpg"] 
+            },
+            { 
+                id: 2, 
+                cover: "work2-cover.jpg", 
+                year: "2014-Present", 
+                zh: { title: "鬼講堂", desc: "焦吧哖事件", full: "《鬼講堂》是一個持續進行的計畫，試圖理解抗日事件中的多重敘事問題及背後社會成因。\n透過變文、唸歌與現代劇場的結合，我們召喚歷史的幽靈，在當下進行對話。" }, 
+                en: { title: "Lecture of Ghost", desc: "Tapani Incident Adaptation", full: "\"Lecture of Ghost\" is an ongoing project attempting to understand the multiple narratives behind anti-Japanese incidents.\nThrough the combination of 'Bianwen', 'Nian Ge' and modern theater, we summon historical ghosts for a dialogue in the present." }, 
+                images: ["work2-01.jpg", "work2-02.jpg"] 
+            },
+            { 
+                id: 3, 
+                cover: "https://images.unsplash.com/photo-1518640467707-6811f4a6ab73?w=800&q=80", 
+                year: "2015", 
+                zh: { title: "中國城藝術行動", desc: "台南", full: "針對台南中國城拆除前的藝術行動。記錄消逝的城市紋理。" }, 
+                en: { title: "Chinatown Art Action", desc: "Tainan", full: "An art action before the demolition of Tainan Chinatown. Recording the vanishing urban texture." }, 
+                images: ["work3-01.jpg"] 
+            }
         ];
 
         // --- TEST SYSTEM VARIABLES ---
         let isTesting = false;
         let testData = [];
         let testTimerInt;
-        let resultMode = 'normal'; // normal, hunter, wizard, child
+        let resultMode = 'normal'; 
 
         // --- RENDER FUNCTIONS ---
         function renderProjects() {
@@ -497,7 +519,7 @@
                 const div = document.createElement('div');
                 div.className = 'project-card';
                 div.onclick = () => openProject(index);
-                // Magnetic Trigger
+                // 磁吸效果觸發
                 div.onmouseenter = () => hoverEffect(true);
                 div.onmouseleave = () => hoverEffect(false);
                 
@@ -574,12 +596,15 @@
             document.getElementById('result-ui').classList.add('active');
         }
 
+        // 修正後的演算法：使用歸一化座標的閾值
         function analyzeResult() {
             if(testData.length < 10) { resultMode = 'hunter'; updateResultText(); return; }
             let stops = 0, speedSum = 0, directionChanges = 0, lastAngle = 0;
             for(let i=1; i<testData.length; i++) {
                 const d = Math.sqrt(Math.pow(testData[i].x - testData[i-1].x, 2) + Math.pow(testData[i].y - testData[i-1].y, 2));
-                speedSum += d; if(d < 2) stops++;
+                speedSum += d; 
+                // 手機上的微小移動可能小於 0.005
+                if(d < 0.005) stops++;
                 const angle = Math.atan2(testData[i].y - testData[i-1].y, testData[i].x - testData[i-1].x);
                 if(Math.abs(angle - lastAngle) > 0.5) directionChanges++;
                 lastAngle = angle;
@@ -587,8 +612,9 @@
             const avgSpeed = speedSum / testData.length;
             const stopRatio = stops / testData.length;
             
-            if (avgSpeed < 5 || stopRatio > 0.4) resultMode = 'hunter';
-            else if (avgSpeed > 15 || directionChanges > testData.length * 0.3) resultMode = 'child';
+            // 調整後的參數
+            if (avgSpeed < 0.01 || stopRatio > 0.5) resultMode = 'hunter';
+            else if (avgSpeed > 0.03 || directionChanges > testData.length * 0.3) resultMode = 'child';
             else resultMode = 'wizard';
             updateResultText();
         }
@@ -611,15 +637,12 @@
         function resetTest(retry) {
             document.getElementById('result-ui').classList.remove('active');
             if(retry) { resultMode = 'normal'; startTest(); }
-            else { resultMode = 'normal'; finishTest(); } // If clicking 'retry' but not restarting, default to normal logic? Actually retry should call startTest.
+            else { resultMode = 'normal'; finishTest(); }
         }
 
         function finishTest() {
             document.getElementById('result-ui').classList.remove('active');
             gsap.to('#site-header', { opacity: 1 }); gsap.to('#main-nav', { opacity: 1 });
-            // Keep the result visual active, or reset? Let's keep it active for fun, 
-            // but if user hovers gallery later, it might conflict. 
-            // Let's reset to normal so gallery works.
             resultMode = 'normal';
         }
 
@@ -710,9 +733,9 @@
             const time = clock.getElapsedTime();
             if (isAudioActive && analyser) { const data = analyser.getAverageFrequency(); pulseFactor = 1 + (data / 256) * 0.6; } else { pulseFactor = 1 + Math.sin(time * 2) * 0.1; }
             
+            // 記錄測試數據
             if(isTesting) { testData.push({x: mouse.x, y: mouse.y}); }
 
-            // MAGNETIC FACTOR
             let magneticFactor = isHoveringProject ? 2.5 : 1;
             bgParticles.rotation.y = time * 0.05 * magneticFactor; 
             bgParticles.material.opacity = 0.2 * pulseFactor;
