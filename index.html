@@ -25,11 +25,15 @@
         #ui-layer { position: relative; z-index: 10; width: 100%; height: 100%; pointer-events: none; }
         .interactive { pointer-events: auto; }
 
-        /* --- LANGUAGE SCREEN --- */
+        /* --- LANGUAGE TOGGLE CLASSES --- */
+        body.lang-en .zh-only { display: none !important; }
+        body.lang-zh .en-only { display: none !important; }
+
+        /* --- 0. LANGUAGE SELECT --- */
         #lang-screen {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            background: #000; z-index: 100; transition: opacity 1s ease;
+            background: #000; z-index: 200; transition: opacity 1s ease;
         }
         .lang-opt {
             font-size: 1rem; letter-spacing: 5px; color: #888; cursor: pointer;
@@ -37,10 +41,8 @@
             text-transform: uppercase; margin: 10px 0; width: 200px; text-align: center;
         }
         .lang-opt:hover { color: #fff; border: 1px solid #333; letter-spacing: 8px; background: rgba(255,255,255,0.05); }
-        body.lang-en .zh-only { display: none !important; }
-        body.lang-zh .en-only { display: none !important; }
 
-        /* --- LANDING --- */
+        /* --- 1. LANDING --- */
         #landing-screen {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             display: none; flex-direction: column; justify-content: center; align-items: center;
@@ -52,21 +54,21 @@
             cursor: pointer; transition: opacity 0.3s;
         }
         h1:hover { opacity: 0.7; }
+        
         #enter-btn {
             background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.4); color: #fff;
             padding: 15px 50px; font-size: 0.9rem; cursor: pointer; transition: all 0.3s ease; letter-spacing: 3px;
         }
         #enter-btn:active, #enter-btn:hover { background: rgba(255,255,255,0.25); box-shadow: 0 0 25px rgba(255,255,255,0.3); }
 
-        /* --- NAV --- */
+        /* --- NAV & HEADER --- */
         #site-header { position: absolute; top: 40px; left: 50px; z-index: 40; opacity: 0; transform: translateY(-20px); pointer-events: auto; }
         #site-title { font-size: 1.2rem; letter-spacing: 5px; color: #fff; text-decoration: none; font-weight: 300; cursor: pointer; display: block; margin-bottom: 5px; }
-
         nav { position: absolute; bottom: 40px; left: 50px; display: flex; gap: 25px; opacity: 0; transform: translateY(20px); z-index: 40; flex-wrap: wrap;}
         .nav-link { text-decoration: none; color: #777; font-size: 0.85rem; letter-spacing: 1.5px; cursor: pointer; transition: color 0.3s; padding: 5px 0; }
         .nav-link:hover, .nav-link.active { color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.6); border-bottom: 1px solid #fff; }
 
-        /* --- CONTENT GENERAL --- */
+        /* --- CONTENT SECTION --- */
         .content-section {
             position: absolute; top: 0; right: 0; width: 50%; height: 100%;
             background: linear-gradient(to left, rgba(0,0,0,0.98) 20%, rgba(0,0,0,0.85) 100%);
@@ -77,75 +79,65 @@
         .content-section::-webkit-scrollbar { width: 6px; }
         .content-section::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
 
+        /* Typography */
         .text-block { margin-top: 40px; margin-bottom: 120px; }
         .text-block h2 { font-weight: 200; font-size: 2rem; margin-bottom: 40px; border-bottom: 1px solid #555; padding-bottom: 15px; color: #fff; letter-spacing: 2px; }
         .category-title { font-size: 1.1rem; color: #fff; margin-top: 60px; margin-bottom: 30px; padding-left: 10px; border-left: 3px solid #888; letter-spacing: 1px; }
         .text-block p { line-height: 1.8; font-size: 0.95rem; color: #ccc; margin-bottom: 20px; text-align: justify; }
-
-        /* --- ANIMATION: MIST EMERGENCE (Text) --- */
-        .mist-text { opacity: 0; display: block; }
-
-        /* --- ANIMATION: GHOST ECHO (Photo) --- */
-        .ghost-container {
-            position: relative; width: 100%; max-width: 300px; margin-bottom: 40px; aspect-ratio: 1/1.2;
-        }
-        .ghost-img {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
-            transition: transform 0.1s ease-out; border-radius: 2px;
-        }
-        .ghost-main { z-index: 3; filter: grayscale(100%); opacity: 0.9; }
-        .ghost-cyan { z-index: 2; opacity: 0.5; filter: grayscale(100%) brightness(1.2) sepia(100%) hue-rotate(130deg); mix-blend-mode: screen; }
-        .ghost-red { z-index: 1; opacity: 0.5; filter: grayscale(100%) brightness(1.2) sepia(100%) hue-rotate(320deg); mix-blend-mode: screen; }
-
-        /* Method Styles */
+        
+        /* Method Specific */
         .method-quote { border-left: 2px solid #fff; padding-left: 20px; margin: 30px 0; font-style: italic; color: #aaa; font-size: 1.1rem;}
         .method-list { margin-left: 20px; margin-bottom: 30px; }
         .method-list li { margin-bottom: 15px; color: #ccc; line-height: 1.6; }
         .method-subtitle { color: #fff; font-size: 1.1rem; margin-top: 30px; margin-bottom: 15px; font-weight: 500;}
 
-        /* Experience Timeline */
+        /* TEST UI OVERLAY */
+        #test-ui, #result-ui {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            display: none; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 60; pointer-events: none; /* Let clicks pass through for interaction */
+        }
+        #test-ui.active, #result-ui.active { display: flex; }
+        
+        .test-msg { font-size: 1.2rem; color: #fff; letter-spacing: 2px; text-align: center; margin-bottom: 20px; text-shadow: 0 0 10px #000; }
+        .timer { font-size: 4rem; font-weight: 100; color: #fff; font-family: monospace; }
+        
+        /* RESULT UI */
+        #result-ui { background: rgba(0,0,0,0.6); pointer-events: auto; }
+        .result-title { font-size: 3rem; color: #fff; letter-spacing: 5px; margin-bottom: 10px; text-transform: uppercase; text-shadow: 0 0 20px rgba(255,255,255,0.5); }
+        .result-desc { font-size: 1rem; color: #ccc; max-width: 600px; text-align: center; line-height: 1.6; margin-bottom: 40px; }
+        .result-btn-group { display: flex; gap: 20px; }
+        .result-btn {
+            background: transparent; border: 1px solid #fff; color: #fff; padding: 10px 30px;
+            cursor: pointer; transition: all 0.3s; letter-spacing: 2px;
+        }
+        .result-btn:hover { background: #fff; color: #000; }
+
+        /* Other Styles (Timeline, Expand, Photo, Gallery) */
+        .photo-wrapper { width: 100%; max-width: 300px; margin-bottom: 40px; perspective: 1000px; }
+        .about-photo { width: 100%; height: auto; display: block; filter: grayscale(100%) contrast(1.2) brightness(0.9); transition: filter 0.5s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transform-style: preserve-3d; }
+        .photo-wrapper:hover .about-photo { filter: grayscale(0%) contrast(1) brightness(1); }
         .timeline-item { position: relative; padding-left: 20px; margin-bottom: 25px; border-left: 1px solid #333; }
         .timeline-item::before { content: ''; position: absolute; left: -4px; top: 6px; width: 7px; height: 7px; background: #666; border-radius: 50%; }
         .year { font-size: 0.8rem; color: #888; font-family: monospace; display: block; margin-bottom: 3px; }
         .job-title { font-size: 0.95rem; color: #fff; font-weight: 500; }
         .job-desc { font-size: 0.85rem; color: #aaa; margin-top: 2px; }
-
-        /* Expander */
         .expand-container { max-height: 0; overflow: hidden; transition: max-height 0.8s ease; position: relative; }
         .expand-container.collapsed { max-height: 280px; } 
-        .expand-container.collapsed::after { 
-            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 80px; 
-            background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(5,5,5,0.95)); pointer-events: none; 
-        }
-        .method-expand.collapsed { max-height: 0; }
-        .expand-btn { 
-            display: block; width: 100%; padding: 12px; margin-top: 15px; 
-            background: rgba(255,255,255,0.05); border: 1px solid #444; color: #888; 
-            cursor: pointer; text-align: center; font-size: 0.8rem; transition: all 0.3s; 
-        }
+        .expand-container.collapsed::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 80px; background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(5,5,5,0.95)); pointer-events: none; }
+        .method-expand.collapsed { max-height: 0; } 
+        .expand-btn { display: block; width: 100%; padding: 12px; margin-top: 15px; background: rgba(255,255,255,0.05); border: 1px solid #444; color: #888; cursor: pointer; text-align: center; font-size: 0.8rem; transition: all 0.3s; }
         .expand-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
-
-        /* Gallery Grid */
         .project-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
         .project-card { cursor: pointer; position: relative; transition: transform 0.3s; }
-        .project-card:hover { transform: scale(1.02); }
+        .project-card:hover { transform: translateY(-5px); }
         .project-cover { width: 100%; aspect-ratio: 4/3; object-fit: cover; filter: grayscale(100%); transition: filter 0.5s; border-radius: 2px; }
         .project-card:hover .project-cover { filter: grayscale(0%); }
         .project-title { margin-top: 10px; font-size: 0.9rem; color: #fff; letter-spacing: 1px; }
         .project-year { font-size: 0.8rem; color: #666; font-family: monospace; }
-
-        /* Project Overlay */
-        #project-overlay {
-            position: fixed; top: 0; right: 0; width: 60%; height: 100%;
-            background: #0a0a0a; z-index: 100;
-            transform: translateX(100%); transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-            overflow-y: auto; padding: 60px; box-sizing: border-box; border-left: 1px solid #333;
-        }
+        #project-overlay { position: fixed; top: 0; right: 0; width: 60%; height: 100%; background: #0a0a0a; z-index: 100; transform: translateX(100%); transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1); overflow-y: auto; padding: 60px; box-sizing: border-box; border-left: 1px solid #333; }
         #project-overlay.open { transform: translateX(0); }
-        #close-project {
-            position: absolute; top: 30px; right: 30px; font-size: 1.5rem; color: #fff; cursor: pointer;
-            border: 1px solid #333; padding: 5px 15px; transition: all 0.3s;
-        }
+        #close-project { position: absolute; top: 30px; right: 30px; font-size: 1.5rem; color: #fff; cursor: pointer; border: 1px solid #333; padding: 5px 15px; transition: all 0.3s; }
         #close-project:hover { background: #fff; color: #000; }
         .detail-header { margin-bottom: 40px; margin-top: 20px;}
         .detail-title { font-size: 2rem; color: #fff; margin-bottom: 10px; }
@@ -154,14 +146,8 @@
         .detail-media { margin-bottom: 40px; }
         .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin-bottom: 30px; }
         .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0; }
-        
-        .detail-images img { 
-            width: 100%; margin-bottom: 20px; display: block; filter: grayscale(20%); transition: all 0.8s ease; 
-        }
-        .detail-images img:hover { 
-            filter: grayscale(0%); transform: scale(1.02); 
-        }
-
+        .detail-images img { width: 100%; margin-bottom: 20px; display: block; filter: grayscale(20%); transition: filter 0.5s; }
+        .detail-images img:hover { filter: grayscale(0%); }
         .social-links { margin-top: 30px; display: flex; gap: 15px; }
         .social-btn { padding: 8px 20px; border: 1px solid #666; color: #ccc; text-decoration: none; font-size: 0.9rem; border-radius: 2px; }
         .social-btn:hover { border-color: #fff; color: #fff; background: rgba(255,255,255,0.1); }
@@ -172,6 +158,7 @@
             nav { bottom: 0; left: 0; width: 100%; background: rgba(10,10,10,0.95); padding: 15px 0; justify-content: center; gap: 15px; border-top: 1px solid #333; }
             #site-header { top: 30px; left: 30px; }
             .project-grid { grid-template-columns: 1fr; }
+            .result-title { font-size: 2rem; }
         }
     </style>
 </head>
@@ -207,94 +194,91 @@
             <a class="nav-link" onclick="navigateTo('gallery')">WORKS</a>
         </nav>
 
+        <div id="test-ui">
+            <div class="test-msg zh-only">請在 10 秒內，依照直覺移動你的手指或滑鼠。</div>
+            <div class="test-msg en-only">Move your cursor or finger intuitively for 10 seconds.</div>
+            <div class="timer" id="test-timer">10</div>
+        </div>
+
+        <div id="result-ui" class="interactive">
+            <div class="result-title" id="res-type">HUNTER</div>
+            <div class="result-desc" id="res-desc">...</div>
+            <div class="result-btn-group">
+                <button class="result-btn" onclick="resetTest(true)">
+                    <span class="zh-only">再測一次</span><span class="en-only">RETRY</span>
+                </button>
+                <button class="result-btn" onclick="finishTest()">
+                    <span class="zh-only">完成</span><span class="en-only">FINISH</span>
+                </button>
+            </div>
+        </div>
+
         <div id="method" class="content-section interactive">
             <div class="text-block">
-                <h2 class="mist-text">
-                    <span class="zh-only">意義場行動表演法</span>
-                    <span class="en-only">Meaning Field Method</span>
-                </h2>
+                <h2 class="decode-text" data-zh="意義場行動表演法" data-en="Meaning Field Method">意義場行動表演法</h2>
                 
+                <div style="margin-bottom: 40px; text-align: center;">
+                    <button class="expand-btn" style="border: 1px solid #fff; color: #fff; padding: 15px;" onclick="startTest()">
+                        <span class="zh-only">◆ 測試你是哪一型 (Hunter / Wizard / Child)</span>
+                        <span class="en-only">◆ Test Your Type (Hunter / Wizard / Child)</span>
+                    </button>
+                </div>
+
                 <div class="zh-only">
-                    <div class="method-quote mist-text">「表演行動並非再現既有內容，而是在多重脈絡交會中即時生成可被感知的關係結構。」</div>
-                    <h3 class="mist-text">摘要</h3>
-                    <p class="mist-text">《意義場行動表演法》是一種以「意義生成」而非文本、角色或心理動機為起點的表演方法論。此方法將角色、語言、空間、物件、時間與觀者視為同時運作的意義場（field of meaning）。</p>
-                    <p class="mist-text">台詞不被視為語義單位，而是一組可被拆解、重組並與其他脈絡交織的參數；角色亦非固定人格，而是暫時穩定的意義組態。</p>
-                    
+                    <div class="method-quote">「表演行動並非再現既有內容，而是在多重脈絡交會中即時生成可被感知的關係結構。」</div>
+                    <h3>摘要</h3>
+                    <p>《意義場行動表演法》是一種以「意義生成」而非文本、角色或心理動機為起點的表演方法論。</p>
                     <div id="method-full-zh" class="expand-container method-expand collapsed">
-                        <div class="method-subtitle">一、問題意識</div>
-                        <p>當代表演藝術中，對「合理性」的判準長期建立在：行動須由角色心理動機所支撐、角色行為須可被現實經驗類比。然而，在非寫實劇場或即興創作中，這些假設經常失效。本文主張，問題並非源自表演能力，而是源自對「合理性來源」的單一化理解。</p>
-                        <div class="method-subtitle">二、理論基礎</div>
-                        <p>「意義場」指一組由語言、角色位置、社會脈絡、歷史殘留、空間條件與時間尺度所構成的動態關係網絡。意義並非預先存在，而是在多重脈絡交會時暫時生成。</p>
-                        <div class="method-subtitle">三、方法核心</div>
-                        <p>創作者與演員需將時間尺度、身分變化、存在狀態、空間層級視為可展開的軸線。當多條脈絡在特定時刻同時成立，便形成一組「組態」。</p>
-                        <div class="method-subtitle">四、三種初始行動樣態</div>
+                        <div class="method-subtitle">一、理論基礎</div>
+                        <p>「意義場」指一組由語言、角色位置、社會脈絡、歷史殘留、空間條件與時間尺度所構成的動態關係網絡。</p>
+                        <div class="method-subtitle">二、三種初始行動樣態</div>
                         <ul class="method-list">
-                            <li><strong>獵人 (Hunter)：</strong>對高密度交會組態的辨識與追蹤能力。</li>
-                            <li><strong>巫師 (Wizard)：</strong>在既有交會處引入另一層意義維度。</li>
-                            <li><strong>小孩 (Child)：</strong>刻意將行動投向非交會、非合理預期之處。</li>
+                            <li><strong>獵人 (Hunter)：</strong>對高密度交會組態的辨識與追蹤能力。行動沿著已形成的結構推進。</li>
+                            <li><strong>巫師 (Wizard)：</strong>在既有交會處引入另一層意義維度（如儀式、時間），基於已成立的結構進行擴展。</li>
+                            <li><strong>小孩 (Child)：</strong>刻意將行動投向非交會、非合理預期之處，以迫使意義場重新配置。</li>
                         </ul>
                     </div>
-                    <button class="expand-btn mist-text" onclick="toggleExpand('method-full-zh', this)">+ 閱讀完整論述</button>
+                    <button class="expand-btn" onclick="toggleExpand('method-full-zh', this)">+ 閱讀完整論述</button>
                 </div>
 
                 <div class="en-only">
-                    <div class="method-quote mist-text">"Action is not the reproduction of existing content, but the real-time generation of perceptible relational structures within multiple intersecting contexts."</div>
-                    <h3 class="mist-text">Abstract</h3>
-                    <p class="mist-text">The "Meaning Field Action Performance Method" is a methodology that takes "meaning generation" rather than text, character, or psychological motivation as its starting point.</p>
-                    <p class="mist-text">Lines are not semantic units but parameters to be deconstructed and interwoven; characters are not fixed personalities but temporarily stable configurations of meaning.</p>
-
+                    <div class="method-quote">"Action is not the reproduction of existing content, but the real-time generation of perceptible relational structures."</div>
+                    <h3>Abstract</h3>
+                    <p>The "Meaning Field Action Performance Method" takes "meaning generation" as its starting point.</p>
                     <div id="method-full-en" class="expand-container method-expand collapsed">
-                        <div class="method-subtitle">1. Problem Consciousness</div>
-                        <p>In contemporary performance art, the criteria for "rationality" are often based on psychological motivation and realistic analogy. However, in non-realistic theater, these assumptions often fail.</p>
-                        <div class="method-subtitle">2. Theoretical Basis</div>
-                        <p>"Meaning Field" refers to a dynamic network composed of language, social context, historical residue, spatial conditions, and time scales. Meaning does not pre-exist but is generated temporarily when contexts intersect.</p>
-                        <div class="method-subtitle">3. Core Methodology</div>
-                        <p>Creators and actors must view time scales, identity changes, and states of existence as expandable axes. When multiple contexts hold true simultaneously, they form a "configuration."</p>
-                        <div class="method-subtitle">4. Three Initial Action Modes</div>
+                        <div class="method-subtitle">1. Theoretical Basis</div>
+                        <p>"Meaning Field" refers to a dynamic network composed of language, social context, historical residue, spatial conditions, and time scales.</p>
+                        <div class="method-subtitle">2. Three Action Modes</div>
                         <ul class="method-list">
-                            <li><strong>Hunter:</strong> The ability to identify and track high-density intersection configurations.</li>
-                            <li><strong>Wizard:</strong> Introducing another dimension of meaning (e.g., ritual, time) into existing intersections.</li>
-                            <li><strong>Child:</strong> Deliberately casting action towards non-intersecting, irrational places to force reconfiguration.</li>
+                            <li><strong>Hunter:</strong> Ability to identify and track high-density intersection configurations.</li>
+                            <li><strong>Wizard:</strong> Introducing another dimension of meaning (e.g., ritual) into existing intersections.</li>
+                            <li><strong>Child:</strong> Deliberately casting action towards non-intersecting places to force reconfiguration.</li>
                         </ul>
                     </div>
-                    <button class="expand-btn mist-text" onclick="toggleExpand('method-full-en', this)">+ Read Full Manifesto</button>
+                    <button class="expand-btn" onclick="toggleExpand('method-full-en', this)">+ Read Full Manifesto</button>
                 </div>
             </div>
         </div>
 
         <div id="about" class="content-section interactive">
             <div class="text-block">
-                <h2>
-                    <span class="zh-only">關於</span><span class="en-only">About</span>
-                </h2>
-                
-                <div class="ghost-container" id="ghost-wrapper">
-                    <img src="profile.jpg" class="ghost-img ghost-cyan">
-                    <img src="profile.jpg" class="ghost-img ghost-red">
-                    <img src="profile.jpg" class="ghost-img ghost-main" onerror="this.style.display='none'">
+                <h2 class="decode-text" data-zh="關於" data-en="About">關於</h2>
+                <div class="photo-wrapper" id="photo-tilt">
+                    <img src="profile.jpg" alt="Po-Hao Tseng" class="about-photo" onerror="this.style.display='none'">
                 </div>
-
-                <div class="zh-only mist-text">
-                    <div class="category-title">簡介</div>
+                <div class="zh-only">
                     <p>台北藝術大學藝術跨域研究所畢。從小學習中國音樂，而後曾師承周定邦先生學習台灣唸歌。</p>
-                    <p>2012年與友人創立《迷宮迴廊》樂團，2013年參與《小嫩豬》樂團。2014年創立鬼講堂。近年常參與劇場與聲音相關創作，曾與各國藝術家合作或即興音樂交流。</p>
-                    <p>近來在音樂間流浪以及嘗試理解何謂「在當場」，除鬼講堂計畫試圖理解抗日事件中的多重敘事問題及背後社會成因外，音樂作品則與社會議題及個人情感相關。</p>
-                    <div class="category-title">專注領域</div>
-                    <p>演奏、歌唱、詞曲創作、唸歌創作演唱、藝術創作、藝術理論</p>
+                    <p>近年常參與劇場與聲音相關創作，試圖理解何謂「在當場」。</p>
+                    <div class="category-title">聯絡</div>
+                    <p>Email: jerry801022@gmail.com</p>
                 </div>
-
-                <div class="en-only mist-text">
-                    <div class="category-title">Introduction</div>
-                    <p>MFA, Trans-disciplinary Arts, Taipei University of the Arts. Started learning Chinese music from a young age and later studied Taiwanese "Nian Ge" (chanting) under Master Ding-Bang Chou.</p>
-                    <p>Founded "Maze Of Corridors" band in 2012, joined "Little Sexy Young Pig" band in 2013. Founded "Lecture of Ghost" in 2014.</p>
-                    <p>Exploring the concept of "Being in the Scene." His works span from historical narrative deconstruction to social issues and personal emotions.</p>
-                    <div class="category-title">Focus</div>
-                    <p>Music Performance, Composition, Nian Ge, Art Creation, Art Theory</p>
+                <div class="en-only">
+                    <p>MFA, Trans-disciplinary Arts, TNUA. Studied Taiwanese "Nian Ge" under Master Ding-Bang Chou.</p>
+                    <p>Actively involved in theater and sound art, exploring the concept of "Being in the Scene."</p>
+                    <div class="category-title">Contact</div>
+                    <p>Email: jerry801022@gmail.com</p>
                 </div>
-
-                <div class="category-title mist-text">Contact</div>
-                <p class="mist-text">Email: jerry801022@gmail.com</p>
-                <div class="social-links mist-text">
+                <div class="social-links">
                     <a href="https://www.facebook.com/share/1ATPLBnGpg/?mibextid=wwXIfr" target="_blank" class="social-btn">Facebook</a>
                     <a href="https://www.instagram.com/po_hao_tseng?igsh=MTV2dXFiODZwZW4wYg%3D%3D&utm_source=qr" target="_blank" class="social-btn">Instagram</a>
                 </div>
@@ -303,78 +287,31 @@
 
         <div id="experiences" class="content-section interactive">
             <div class="text-block">
-                <h2><span class="zh-only">經歷</span><span class="en-only">Experience</span></h2>
+                <h2 class="decode-text" data-zh="經歷" data-en="Experience">經歷</h2>
                 <div class="zh-only">
                     <div class="category-title">學歷</div>
                     <div class="timeline-item"><span class="year">Present</span><div class="job-title">台北藝術大學 藝術跨領域研究所 (MFA)</div></div>
-                    <div class="timeline-item"><span class="year">2010 - 2015</span><div class="job-title">台南藝術大學 材質創作與設計系 (BA)</div></div>
-                    
                     <div class="category-title">現職</div>
                     <div class="timeline-item"><span class="year">Now</span><div class="job-title">藝術、音樂、劇場相關工作者</div></div>
-                    <div class="timeline-item"><span class="year">Now</span><div class="job-title">《小嫩豬》樂團樂手</div></div>
                     <div class="timeline-item"><span class="year">Now</span><div class="job-title">《鬼講堂》計劃人</div></div>
-                    
-                    <div class="category-title">個人創作演出</div>
-                    <div id="zh-perf" class="expand-container collapsed">
-                        <div class="timeline-item"><span class="year">2020</span><div class="job-title">漫遊者劇場《池子》</div><div class="job-desc">臺灣大學水源校區</div></div>
-                        <div class="timeline-item"><span class="year">2019</span><div class="job-title">《落對話-譯○》聲音劇場</div></div>
-                        <div class="timeline-item"><span class="year">2017</span><div class="job-title">《日日新微型表演行動》</div></div>
-                        <div class="timeline-item"><span class="year">2015</span><div class="job-title">《中國城藝術行動》</div></div>
-                    </div>
-                    <button class="expand-btn" onclick="toggleExpand('zh-perf', this)">+ 查看完整列表</button>
-
-                    <div class="category-title">鬼講堂</div>
-                    <div id="zh-ghost" class="expand-container collapsed">
+                    <button class="expand-btn" onclick="toggleExpand('zh-full-list', this)">+ 查看完整列表 (Demo)</button>
+                    <div id="zh-full-list" class="expand-container collapsed">
+                        <div class="timeline-item"><span class="year">2019</span><div class="job-title">台新藝術獎 年度大獎</div></div>
                         <div class="timeline-item"><span class="year">2016</span><div class="job-title">台北雙年展《當下檔案・未來系譜》</div></div>
-                        <div class="timeline-item"><span class="year">2015</span><div class="job-title">大稻埕國際藝術節《鬼講堂第一講》</div></div>
-                        <div class="timeline-item"><span class="year">2015</span><div class="job-title">鬼講堂成立</div></div>
                     </div>
-                    <button class="expand-btn" onclick="toggleExpand('zh-ghost', this)">+ 查看完整列表</button>
-                    
-                    <div class="category-title">獎項</div>
-                    <div class="timeline-item"><span class="year">2019</span><div class="job-title">台新藝術獎 年度大獎</div><div class="job-desc">《明白歌-未竟的故人事》再拒劇團</div></div>
-
-                    <div class="category-title">合作與其他</div>
-                    <div id="zh-other" class="expand-container collapsed">
-                        <div class="timeline-item"><span class="year">2021</span><div class="job-title">《島遊情書》臺灣歷史博物館</div></div>
-                        <div class="timeline-item"><span class="year">2019</span><div class="job-title">《層中隙》 Kitt Johnson</div></div>
-                        <div class="timeline-item"><span class="year">2018</span><div class="job-title">《夷》個人音樂會</div></div>
-                    </div>
-                    <button class="expand-btn" onclick="toggleExpand('zh-other', this)">+ 查看完整列表</button>
                 </div>
-
                 <div class="en-only">
                     <div class="category-title">Education</div>
                     <div class="timeline-item"><span class="year">Present</span><div class="job-title">MFA, Trans-disciplinary Arts, TNUA</div></div>
-                    <div class="timeline-item"><span class="year">2010 - 2015</span><div class="job-title">BA, Material Art and Design, TNNUA</div></div>
                     <div class="category-title">Current Position</div>
-                    <div class="timeline-item"><span class="year">Now</span><div class="job-title">Artist, Musician, Performer</div></div>
-                    <div class="timeline-item"><span class="year">Now</span><div class="job-title">Musician, Little Sexy Young Pig Band</div></div>
                     <div class="timeline-item"><span class="year">Now</span><div class="job-title">Organizer, Lecture Of Ghost</div></div>
-                    <div class="category-title">Live Performances</div>
-                    <div id="en-perf" class="expand-container collapsed">
-                        <div class="timeline-item"><span class="year">2020</span><div class="job-title">Flâneur Theatre "Pond"</div></div>
-                        <div class="timeline-item"><span class="year">2019</span><div class="job-title">Sound Theatre "Dialogue-Translation O"</div></div>
-                        <div class="timeline-item"><span class="year">2017</span><div class="job-title">Mini-performance of Daily Renovation</div></div>
-                        <div class="timeline-item"><span class="year">2015</span><div class="job-title">Chinatown Art Action</div></div>
-                    </div>
-                    <button class="expand-btn" onclick="toggleExpand('en-perf', this)">+ View Full List</button>
-                    <div class="category-title">Awards</div>
-                    <div class="timeline-item"><span class="year">2019</span><div class="job-title">Taishin Arts Award (Grand Prize)</div><div class="job-desc">"The Song of Clarity"</div></div>
-                    <div class="category-title">Collaborations</div>
-                    <div id="en-other" class="expand-container collapsed">
-                        <div class="timeline-item"><span class="year">2021</span><div class="job-title">Music Design, NMTH</div></div>
-                        <div class="timeline-item"><span class="year">2019</span><div class="job-title">"In-Between" with Kitt Johnson</div></div>
-                        <div class="timeline-item"><span class="year">2018</span><div class="job-title">"Yi" Solo Concert</div></div>
-                    </div>
-                    <button class="expand-btn" onclick="toggleExpand('en-other', this)">+ View Full List</button>
                 </div>
             </div>
         </div>
 
         <div id="gallery" class="content-section interactive">
             <div class="text-block">
-                <h2><span class="zh-only">作品</span><span class="en-only">Works</span></h2>
+                <h2 class="decode-text" data-zh="作品" data-en="Works">作品</h2>
                 <div id="project-grid-container" class="project-grid"></div>
             </div>
         </div>
@@ -386,43 +323,20 @@
     </div>
 
     <script>
-        // --- DATA ---
+        // --- DATA & CONFIG ---
         let currentLang = 'zh';
-
         const projects = [
-            {
-                id: 1,
-                cover: "work1-cover.jpg",
-                year: "2019",
-                zh: { 
-                    title: "漫遊者劇場《層中隙-東菜市》", 
-                    desc: "台南東菜市，現地創作", 
-                    full: "與丹麥藝術家 Kitt Johnson 合作，於台南東菜市進行的表演藝術現地製作。\n\n我們探索了市場中那些被忽視的縫隙與角落，如同意義場中的微小脈絡。透過身體的介入，重新喚醒這個日常空間中的非日常感知。" 
-                },
-                en: { 
-                    title: "Flâneur Theatre: In-Between (East Market)", 
-                    desc: "Tainan East Market, Site-Specific", 
-                    full: "A site-specific performance in Tainan East Market, in collaboration with Danish artist Kitt Johnson.\n\nWe explored the overlooked gaps and corners of the market, akin to the minute contexts within a meaning field. Through bodily intervention, we reawakened the extraordinary perceptions within this everyday space." 
-                },
-                images: ["work1-01.jpg", "work1-02.jpg", "work1-03.jpg", "work1-04.jpg", "work1-05.jpg", "work1-06.jpg", "work1-07.jpg"]
-            },
-            {
-                id: 2,
-                cover: "work2-cover.jpg",
-                year: "2014-Present",
-                zh: { title: "鬼講堂", desc: "改編焦吧哖事件", full: "《鬼講堂》是一個持續進行的計畫，試圖理解抗日事件中的多重敘事問題及背後社會成因。\n透過變文、唸歌與現代劇場的結合，我們召喚歷史的幽靈，在當下進行對話。" },
-                en: { title: "Lecture of Ghost", desc: "Tapani Incident Adaptation", full: "\"Lecture of Ghost\" is an ongoing project attempting to understand the multiple narratives and social causes behind anti-Japanese incidents.\nThrough the combination of 'Bianwen', 'Nian Ge' and modern theater, we summon historical ghosts for a dialogue in the present." },
-                images: ["work2-01.jpg", "work2-02.jpg", "work2-03.jpg", "work2-04.jpg", "work2-05.jpg", "work2-06.jpg", "work2-07.jpg", "work2-08.jpg", "work2-09.jpg", "work2-10.jpg", "work2-11.jpg", "work2-12.jpg"]
-            },
-            {
-                id: 3,
-                cover: "https://images.unsplash.com/photo-1518640467707-6811f4a6ab73?w=800&q=80",
-                year: "2015",
-                zh: { title: "中國城藝術行動", desc: "台南中國城", full: "針對台南中國城拆除前的藝術行動。記錄消逝的城市紋理。" },
-                en: { title: "Chinatown Art Action", desc: "Tainan Chinatown", full: "An art action before the demolition of Tainan Chinatown. Recording the vanishing urban texture." },
-                images: ["https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=800&q=80"]
-            }
+            { id: 1, cover: "work1-cover.jpg", year: "2020", zh: { title: "漫遊者劇場《池子》", desc: "臺北", full: "這是一個關於空間記憶與身體介入的場域特定創作。" }, en: { title: "Flâneur Theatre: Pond", desc: "Taipei", full: "A site-specific creation about spatial memory and bodily intervention." }, images: ["work1-01.jpg"] },
+            { id: 2, cover: "work2-cover.jpg", year: "2014-Present", zh: { title: "鬼講堂", desc: "焦吧哖事件", full: "試圖理解抗日事件中的多重敘事問題。" }, en: { title: "Lecture of Ghost", desc: "Tapani Incident", full: "Attempting to understand the multiple narratives behind anti-Japanese incidents." }, images: ["work2-01.jpg"] },
+            { id: 3, cover: "https://images.unsplash.com/photo-1518640467707-6811f4a6ab73?w=800&q=80", year: "2015", zh: { title: "中國城藝術行動", desc: "台南", full: "記錄消逝的城市紋理。" }, en: { title: "Chinatown Art Action", desc: "Tainan", full: "Recording the vanishing urban texture." }, images: [] }
         ];
+
+        // --- TEST SYSTEM VARIABLES ---
+        let isTesting = false;
+        let testStartTime = 0;
+        let testData = []; // {x, y, time}
+        let testTimerInt;
+        let resultMode = 'normal'; // normal, hunter, wizard, child
 
         // --- RENDER FUNCTIONS ---
         function renderProjects() {
@@ -434,126 +348,173 @@
                 div.onclick = () => openProject(index);
                 div.onmouseenter = () => hoverEffect(true);
                 div.onmouseleave = () => hoverEffect(false);
-                
                 const info = p[currentLang];
                 const imgSrc = p.cover ? p.cover : 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iNzUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiMzMzMiLz48L3N2Zz4=';
-                
-                div.innerHTML = `
-                    <img src="${imgSrc}" class="project-cover" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iNzUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiMzMzMiLz48L3N2Zz4='">
-                    <div class="project-title">${info.title}</div>
-                    <div class="project-year">${p.year}</div>
-                `;
+                div.innerHTML = `<img src="${imgSrc}" class="project-cover" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iNzUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiMzMzMiLz48L3N2Zz4='"><div class="project-title">${info.title}</div><div class="project-year">${p.year}</div>`;
                 container.appendChild(div);
             });
         }
-
         function openProject(index) {
-            const p = projects[index];
-            const info = p[currentLang];
+            const p = projects[index]; const info = p[currentLang];
             const content = document.getElementById('project-content');
-            
-            let html = `
-                <div class="detail-header">
-                    <div class="detail-title">${info.title}</div>
-                    <div class="detail-meta">${p.year}</div>
-                </div>
-                <div class="detail-desc">${info.full}</div>
-            `;
-            if (p.images && p.images.length > 0) {
-                html += '<div class="detail-images">';
-                p.images.forEach(img => { html += `<img src="${img}" onerror="this.style.display='none'">`; });
-                html += '</div>';
-            }
-            content.innerHTML = html;
-            document.getElementById('project-overlay').classList.add('open');
-            hoverEffect(true);
+            let html = `<div class="detail-header"><div class="detail-title">${info.title}</div><div class="detail-meta">${p.year}</div></div><div class="detail-desc">${info.full}</div>`;
+            if (p.images && p.images.length > 0) { html += '<div class="detail-images">'; p.images.forEach(img => { html += `<img src="${img}" onerror="this.style.display='none'">`; }); html += '</div>'; }
+            content.innerHTML = html; document.getElementById('project-overlay').classList.add('open');
         }
-        function closeProject() { 
-            document.getElementById('project-overlay').classList.remove('open');
-            hoverEffect(false);
-        }
+        function closeProject() { document.getElementById('project-overlay').classList.remove('open'); }
 
-        // --- INTERACTION: GHOST ECHO ---
-        const ghostWrapper = document.getElementById('ghost-wrapper');
-        if(ghostWrapper) {
-            ghostWrapper.addEventListener('mousemove', (e) => {
-                const rect = ghostWrapper.getBoundingClientRect();
-                const x = (e.clientX - rect.left) / rect.width - 0.5;
-                const y = (e.clientY - rect.top) / rect.height - 0.5;
-                
-                const cyan = ghostWrapper.querySelector('.ghost-cyan');
-                const red = ghostWrapper.querySelector('.ghost-red');
-                const main = ghostWrapper.querySelector('.ghost-main');
-
-                gsap.to(cyan, { x: x * -20, y: y * -20, duration: 0.5 });
-                gsap.to(red, { x: x * 20, y: y * 20, duration: 0.5 });
-                gsap.to(main, { x: x * 5, y: y * 5, duration: 0.5 }); 
+        // --- INTERACTION LOGIC ---
+        const photoWrapper = document.getElementById('photo-tilt');
+        if(photoWrapper) {
+            photoWrapper.addEventListener('mousemove', (e) => {
+                const rect = photoWrapper.getBoundingClientRect();
+                const rotateY = ((e.clientX - rect.left) / rect.width - 0.5) * 30;
+                const rotateX = ((e.clientY - rect.top) / rect.height - 0.5) * -30;
+                photoWrapper.querySelector('img').style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
             });
-            ghostWrapper.addEventListener('mouseleave', () => {
-                gsap.to('.ghost-img', { x: 0, y: 0, duration: 0.8, ease: "power2.out" });
+            photoWrapper.addEventListener('mouseleave', () => { photoWrapper.querySelector('img').style.transform = `rotateX(0) rotateY(0)`; });
+        }
+
+        function decodeTextEffect() {
+            document.querySelectorAll('.decode-text').forEach(el => {
+                const originalText = el.getAttribute(`data-${currentLang}`);
+                if(!originalText) return;
+                let iterations = 0;
+                const interval = setInterval(() => {
+                    el.innerText = originalText.split('').map((l, i) => {
+                        if(i < iterations) return originalText[i];
+                        return String.fromCharCode(65 + Math.floor(Math.random() * 26));
+                    }).join('');
+                    if(iterations >= originalText.length) clearInterval(interval);
+                    iterations += 1/2; 
+                }, 30);
             });
         }
 
-        // --- INTERACTION: MIST TEXT EMERGENCE ---
-        function animateTextEmergence() {
-            gsap.set('.mist-text', { opacity: 0, filter: 'blur(15px)', letterSpacing: '8px' });
-            gsap.to('.mist-text', { 
-                opacity: 1, 
-                filter: 'blur(0px)', 
-                letterSpacing: '0px',
-                duration: 2, 
-                stagger: 0.1, 
-                ease: "power2.out" 
-            });
-        }
-
-        // --- LANGUAGE & NAV ---
         function setLanguage(lang) {
-            currentLang = lang;
-            document.body.className = `lang-${lang}`;
+            currentLang = lang; document.body.className = `lang-${lang}`;
             renderProjects();
-            
             gsap.to('#lang-screen', { duration: 1, opacity: 0, pointerEvents: 'none' });
             document.getElementById('landing-screen').style.display = 'flex';
             gsap.from('#landing-screen', { duration: 1.5, opacity: 0, delay: 0.5 });
         }
 
-        function navigateTo(id) {
-            document.querySelectorAll('.content-section').forEach(el => { el.classList.remove('active'); gsap.to(el, { opacity: 0, duration: 0.5 }); });
-            document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+        // --- METHOD INTERACTION TEST LOGIC ---
+        function startTest() {
+            navigateTo('home');
+            // Hide header and nav for immersion
+            gsap.to('#site-header', { opacity: 0 });
+            gsap.to('#main-nav', { opacity: 0 });
             
-            if(id === 'home') {
-                gsap.to(camera.position, { duration: 2, z: 400, x: 0, y: 0, ease: "power2.inOut" });
-                return; 
+            isTesting = true;
+            testData = [];
+            document.getElementById('test-ui').classList.add('active');
+            
+            let timeLeft = 10;
+            document.getElementById('test-timer').innerText = timeLeft;
+            
+            testTimerInt = setInterval(() => {
+                timeLeft--;
+                document.getElementById('test-timer').innerText = timeLeft;
+                if(timeLeft <= 0) {
+                    endTest();
+                }
+            }, 1000);
+        }
+
+        function endTest() {
+            clearInterval(testTimerInt);
+            isTesting = false;
+            document.getElementById('test-ui').classList.remove('active');
+            
+            // Analyze Data
+            analyzeResult();
+            
+            // Show Result UI
+            document.getElementById('result-ui').classList.add('active');
+        }
+
+        function analyzeResult() {
+            if(testData.length < 10) { resultMode = 'hunter'; return; } // Too little movement
+
+            let totalDist = 0;
+            let stops = 0;
+            let speedSum = 0;
+            let directionChanges = 0;
+            let lastAngle = 0;
+
+            for(let i=1; i<testData.length; i++) {
+                const d = Math.sqrt(Math.pow(testData[i].x - testData[i-1].x, 2) + Math.pow(testData[i].y - testData[i-1].y, 2));
+                totalDist += d;
+                const speed = d; // since interval is consistent roughly per frame
+                speedSum += speed;
+                
+                if(speed < 2) stops++;
+
+                const angle = Math.atan2(testData[i].y - testData[i-1].y, testData[i].x - testData[i-1].x);
+                if(Math.abs(angle - lastAngle) > 0.5) directionChanges++;
+                lastAngle = angle;
             }
 
-            const btn = Array.from(document.querySelectorAll('.nav-link')).find(b => b.getAttribute('onclick').includes(id));
-            if(btn) btn.classList.add('active');
+            const avgSpeed = speedSum / testData.length;
+            const stopRatio = stops / testData.length;
+
+            // Simple Heuristic Logic
+            // Hunter: Low speed, high stops
+            // Child: High speed, high direction changes
+            // Wizard: Moderate speed, circular (hard to detect perfectly, using fallback)
+
+            if (avgSpeed < 5 || stopRatio > 0.4) {
+                resultMode = 'hunter';
+            } else if (avgSpeed > 15 || directionChanges > testData.length * 0.3) {
+                resultMode = 'child';
+            } else {
+                resultMode = 'wizard';
+            }
+
+            updateResultText();
+        }
+
+        function updateResultText() {
+            const titleEl = document.getElementById('res-type');
+            const descEl = document.getElementById('res-desc');
             
-            const target = document.getElementById(id);
-            if(target) { 
-                target.classList.add('active'); 
-                gsap.to(target, { opacity: 1, duration: 1, delay: 0.5 }); 
-                target.scrollTop = 0;
-                
-                if(id === 'method' || id === 'about') {
-                    setTimeout(animateTextEmergence, 100);
-                }
+            if(resultMode === 'hunter') {
+                titleEl.innerText = currentLang === 'zh' ? '獵人 HUNTER' : 'HUNTER';
+                descEl.innerText = currentLang === 'zh' 
+                    ? '掌握脈絡交匯點的觀察者。你的移動沉穩而精確，善於在混亂中尋找結構。' 
+                    : 'The Observer of intersecting contexts. Your movement is steady and precise, skilled at finding structure in chaos.';
+            } else if (resultMode === 'child') {
+                titleEl.innerText = currentLang === 'zh' ? '小孩 CHILD' : 'CHILD';
+                descEl.innerText = currentLang === 'zh' 
+                    ? '在規則之外創造遊戲的玩家。你的能量充滿爆發力，試圖打破既有的意義場邊界。' 
+                    : 'The Player who creates games outside the rules. Your energy is explosive, attempting to break the boundaries of the meaning field.';
+            } else {
+                titleEl.innerText = currentLang === 'zh' ? '巫師 WIZARD' : 'WIZARD';
+                descEl.innerText = currentLang === 'zh' 
+                    ? '在脈絡交匯點生長新意義的操作者。你透過持續的運作與迴旋，編織出新的可能性。' 
+                    : 'The Operator growing new meaning at intersections. Through continuous operation and weaving, you create new possibilities.';
             }
         }
 
-        window.toggleExpand = function(id, btn) {
-            const content = document.getElementById(id);
-            if (content.classList.contains('collapsed')) {
-                content.style.maxHeight = content.scrollHeight + "px"; content.classList.remove('collapsed');
-                btn.innerText = currentLang === 'zh' ? '- 收起列表' : '- Collapse List';
-            } else {
-                content.style.maxHeight = null; content.classList.add('collapsed');
-                btn.innerText = currentLang === 'zh' ? '+ 查看完整列表' : '+ View Full List';
+        function resetTest(retry) {
+            document.getElementById('result-ui').classList.remove('active');
+            if(retry) {
+                resultMode = 'normal'; // Reset visuals temporarily
+                startTest();
             }
-        };
+        }
 
-        // --- Three.js Logic (Massive Particle Boost) ---
+        function finishTest() {
+            document.getElementById('result-ui').classList.remove('active');
+            // Bring back UI
+            gsap.to('#site-header', { opacity: 1 });
+            gsap.to('#main-nav', { opacity: 1 });
+            // Visuals remain in the detected mode for user to play with
+        }
+
+
+        // --- THREE.JS ---
         let scene, camera, renderer, clock;
         let bgParticles, fgParticles, linesMesh;
         let mouse = new THREE.Vector2(9999, 9999);
@@ -561,13 +522,9 @@
         let sound, analyser, audioLoader, listener;
         let isAudioActive = false;
         let pulseFactor = 1;
-        let isHoveringProject = false; 
+        let isHoveringProject = false;
 
-        // UPDATED COUNTS FOR V12
-        const BG_COUNT = 4500;  // Massive background
-        const FG_COUNT = 1500;  // Interactive neurons
-        const CONNECT_DIST = 70; 
-        const MOUSE_RADIUS = 300; // Larger radius
+        const BG_COUNT = 3000, FG_COUNT = 800, CONNECT_DIST = 70, MOUSE_RADIUS = 250;
 
         init();
         animate();
@@ -591,30 +548,35 @@
             // BG
             const bgGeo = new THREE.BufferGeometry();
             const bgPos = [];
-            for (let i = 0; i < BG_COUNT; i++) bgPos.push((Math.random()-0.5)*3500, (Math.random()-0.5)*2500, (Math.random()-0.5)*2000 - 500);
+            for (let i = 0; i < BG_COUNT; i++) bgPos.push((Math.random()-0.5)*3000, (Math.random()-0.5)*2000, (Math.random()-0.5)*2000 - 500);
             bgGeo.setAttribute('position', new THREE.Float32BufferAttribute(bgPos, 3));
-            const bgMat = new THREE.PointsMaterial({ color: 0x888888, size: 6, map: sprite, transparent: true, opacity: 0.25, blending: THREE.AdditiveBlending, depthWrite: false });
+            const bgMat = new THREE.PointsMaterial({ color: 0x888888, size: 8, map: sprite, transparent: true, opacity: 0.2, blending: THREE.AdditiveBlending, depthWrite: false });
             bgParticles = new THREE.Points(bgGeo, bgMat);
             scene.add(bgParticles);
             
             // FG
             const fgGeo = new THREE.BufferGeometry();
-            const fgPos = [], fgVel = [];
+            const fgPos = [], fgVel = [], fgOrigin = [];
             for (let i = 0; i < FG_COUNT; i++) {
-                fgPos.push((Math.random()-0.5)*1400, (Math.random()-0.5)*1000, (Math.random()-0.5)*800);
+                const x = (Math.random()-0.5)*1200;
+                const y = (Math.random()-0.5)*900;
+                const z = (Math.random()-0.5)*600;
+                fgPos.push(x, y, z);
+                fgOrigin.push(x, y, z);
                 fgVel.push({x: (Math.random()-0.5)*0.4, y: (Math.random()-0.5)*0.4, z: (Math.random()-0.5)*0.4});
             }
             fgGeo.setAttribute('position', new THREE.Float32BufferAttribute(fgPos, 3));
-            const fgMat = new THREE.PointsMaterial({ color: 0xffffff, size: 4, map: sprite, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending, depthWrite: false });
+            fgGeo.setAttribute('origin', new THREE.Float32BufferAttribute(fgOrigin, 3));
+            
+            const fgMat = new THREE.PointsMaterial({ color: 0xffffff, size: 5, map: sprite, transparent: true, opacity: 0.9, blending: THREE.AdditiveBlending, depthWrite: false });
             fgParticles = new THREE.Points(fgGeo, fgMat);
             fgParticles.userData = { velocity: fgVel };
             scene.add(fgParticles);
 
-            // Lines
             const lineGeo = new THREE.BufferGeometry();
             const linePos = new Float32Array(FG_COUNT * 2 * 3 * 2);
             lineGeo.setAttribute('position', new THREE.BufferAttribute(linePos, 3));
-            const lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.2, blending: THREE.AdditiveBlending });
+            const lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.3, blending: THREE.AdditiveBlending });
             linesMesh = new THREE.LineSegments(lineGeo, lineMat);
             scene.add(linesMesh);
 
@@ -645,12 +607,20 @@
             const time = clock.getElapsedTime();
             if (isAudioActive && analyser) { const data = analyser.getAverageFrequency(); pulseFactor = 1 + (data / 256) * 0.6; } else { pulseFactor = 1 + Math.sin(time * 2) * 0.1; }
             
-            // Magnetism
+            // Record Data if Testing
+            if(isTesting) {
+                // Approximate mouse position in world space for recording isn't strictly necessary, screen space is fine
+                // Here we record normalized screen space
+                testData.push({x: mouse.x, y: mouse.y, t: Date.now()});
+            }
+
+            // --- PARTICLES BEHAVIOR SWITCH ---
             let magneticFactor = isHoveringProject ? 2.5 : 1;
             bgParticles.rotation.y = time * 0.05 * magneticFactor; 
-            bgParticles.material.opacity = 0.25 * pulseFactor;
+            bgParticles.material.opacity = 0.2 * pulseFactor;
 
-            const pos = fgParticles.geometry.attributes.position.array; const vel = fgParticles.userData.velocity;
+            const pos = fgParticles.geometry.attributes.position.array; 
+            const vel = fgParticles.userData.velocity;
             
             raycaster.setFromCamera(mouse, camera);
             const vec = new THREE.Vector3(mouse.x, mouse.y, 0.5); vec.unproject(camera);
@@ -662,19 +632,68 @@
                 let vx = vel[i].x * pulseFactor;
                 let vy = vel[i].y * pulseFactor;
                 let vz = vel[i].z * pulseFactor;
-                // Stronger Magnetism
-                if(isHoveringProject) {
-                    const dx = targetPos.x - pos[ix]; const dy = targetPos.y - pos[ix+1];
-                    if(Math.abs(dx) < 400 && Math.abs(dy) < 400) {
-                        vx += dx * 0.01; vy += dy * 0.01;
+
+                // SPECIAL BEHAVIORS BASED ON RESULT
+                if(resultMode === 'hunter') {
+                    // Hunter: Particles slowly gather towards mouse (Focus/Structure)
+                    const dx = targetPos.x - pos[ix];
+                    const dy = targetPos.y - pos[ix+1];
+                    const d = Math.sqrt(dx*dx + dy*dy);
+                    if(d < 400) {
+                        vx += dx * 0.002;
+                        vy += dy * 0.002;
+                        // High friction
+                        vx *= 0.5; vy *= 0.5;
+                    }
+                    fgParticles.material.color.setHex(0xaaddff); // Blue-ish white
+
+                } else if (resultMode === 'child') {
+                    // Child: Particles explode/scatter from mouse (Chaos)
+                    const dx = targetPos.x - pos[ix];
+                    const dy = targetPos.y - pos[ix+1];
+                    const d = Math.sqrt(dx*dx + dy*dy);
+                    if(d < 300) {
+                        vx -= dx * 0.05 + (Math.random()-0.5)*2;
+                        vy -= dy * 0.05 + (Math.random()-0.5)*2;
+                    }
+                    fgParticles.material.color.setHex(0xffaa88); // Red-ish white
+
+                } else if (resultMode === 'wizard') {
+                    // Wizard: Spiral/Vortex around mouse (Operation)
+                    const dx = pos[ix] - targetPos.x;
+                    const dy = pos[ix+1] - targetPos.y;
+                    const d = Math.sqrt(dx*dx + dy*dy);
+                    if(d < 400) {
+                        // Rotation force: (-y, x)
+                        vx += -dy * 0.005;
+                        vy += dx * 0.005;
+                        // Gentle attraction
+                        vx -= dx * 0.001;
+                        vy -= dy * 0.001;
+                    }
+                     fgParticles.material.color.setHex(0xcc88ff); // Purple-ish white
+
+                } else {
+                    // Normal + Magnetic for Gallery
+                    fgParticles.material.color.setHex(0xffffff);
+                    if(isHoveringProject) {
+                        const dx = targetPos.x - pos[ix];
+                        const dy = targetPos.y - pos[ix+1];
+                        if(Math.abs(dx) < 300 && Math.abs(dy) < 300) {
+                            vx += dx * 0.005; vy += dy * 0.005;
+                        }
                     }
                 }
+
                 pos[ix]+=vx; pos[ix+1]+=vy; pos[ix+2]+=vz;
-                if(pos[ix]>700) pos[ix]=-700; if(pos[ix]<-700) pos[ix]=700;
+                
+                // Bounds
+                if(pos[ix]>600) pos[ix]=-600; if(pos[ix]<-600) pos[ix]=600;
                 if(pos[ix+1]>500) pos[ix+1]=-500; if(pos[ix+1]<-500) pos[ix+1]=500;
             }
             fgParticles.geometry.attributes.position.needsUpdate = true;
 
+            // Connections
             let idx = 0; const lineArr = linesMesh.geometry.attributes.position.array;
             const p1 = new THREE.Vector3(), p2 = new THREE.Vector3(); const radius = MOUSE_RADIUS * pulseFactor;
             for(let i=0; i<FG_COUNT; i++) {
@@ -712,6 +731,39 @@
             gsap.to('#site-header', { duration: 1, opacity: 1, y: 0, delay: 0.5 });
             gsap.to('nav', { duration: 1, opacity: 1, y: 0, delay: 0.5 });
             gsap.to(camera.position, { duration: 2.5, z: 400, ease: "power2.inOut" });
+        }
+
+        window.toggleExpand = function(id, btn) {
+            const content = document.getElementById(id);
+            if (content.classList.contains('collapsed')) {
+                content.style.maxHeight = content.scrollHeight + "px";
+                content.classList.remove('collapsed');
+                btn.innerText = currentLang === 'zh' ? '- 收起列表' : '- Collapse List';
+            } else {
+                content.style.maxHeight = null; content.classList.add('collapsed');
+                btn.innerText = currentLang === 'zh' ? '+ 查看完整列表' : '+ View Full List';
+            }
+        };
+
+        window.navigateTo = function(id) {
+            document.querySelectorAll('.content-section').forEach(el => { el.classList.remove('active'); gsap.to(el, { opacity: 0, duration: 0.5 }); });
+            document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+            
+            if(id === 'home') {
+                gsap.to(camera.position, { duration: 2, z: 400, x: 0, y: 0, ease: "power2.inOut" });
+                return; 
+            }
+
+            const btn = Array.from(document.querySelectorAll('.nav-link')).find(b => b.getAttribute('onclick').includes(id));
+            if(btn) btn.classList.add('active');
+            
+            const target = document.getElementById(id);
+            if(target) { 
+                target.classList.add('active'); 
+                gsap.to(target, { opacity: 1, duration: 1, delay: 0.5 }); 
+                target.scrollTop = 0; 
+                decodeTextEffect();
+            }
         }
     </script>
 </body>
