@@ -30,15 +30,30 @@
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             background: rgba(5,5,5,0.85); transition: opacity 1.5s ease; z-index: 50;
         }
-        h1 { font-weight: 300; letter-spacing: 8px; font-size: 1.5rem; margin-bottom: 2rem; text-transform: uppercase; text-shadow: 0 0 15px rgba(255,255,255,0.3); text-align: center; }
+        h1 { 
+            font-weight: 300; letter-spacing: 8px; font-size: 1.5rem; margin-bottom: 2rem; 
+            text-transform: uppercase; text-shadow: 0 0 15px rgba(255,255,255,0.3); text-align: center;
+            cursor: pointer; transition: opacity 0.3s;
+        }
+        h1:hover { opacity: 0.7; }
+        
         #enter-btn {
             background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.4); color: #fff;
             padding: 15px 50px; font-size: 0.9rem; cursor: pointer; transition: all 0.3s ease; letter-spacing: 3px;
         }
         #enter-btn:active, #enter-btn:hover { background: rgba(255,255,255,0.25); box-shadow: 0 0 25px rgba(255,255,255,0.3); }
 
-        /* Nav */
-        nav { position: absolute; bottom: 40px; left: 50px; display: flex; gap: 30px; opacity: 0; transform: translateY(20px); z-index: 40; flex-wrap: wrap;}
+        /* Header / Nav Area (Top Left for Title, Bottom Left for Menu) */
+        #site-header {
+            position: absolute; top: 40px; left: 50px; z-index: 40;
+            opacity: 0; transform: translateY(-20px); pointer-events: auto;
+        }
+        #site-title {
+            font-size: 1.2rem; letter-spacing: 5px; color: #fff; text-decoration: none; font-weight: 300;
+            cursor: pointer; display: block; margin-bottom: 5px;
+        }
+
+        nav { position: absolute; bottom: 40px; left: 50px; display: flex; gap: 25px; opacity: 0; transform: translateY(20px); z-index: 40; flex-wrap: wrap;}
         .nav-link { text-decoration: none; color: #777; font-size: 0.85rem; letter-spacing: 1.5px; cursor: pointer; transition: color 0.3s; padding: 5px 0; }
         .nav-link:hover, .nav-link.active { color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.6); border-bottom: 1px solid #fff; }
 
@@ -56,83 +71,78 @@
         /* Typography */
         .text-block { margin-top: 40px; margin-bottom: 120px; }
         .text-block h2 { font-weight: 200; font-size: 2rem; margin-bottom: 40px; border-bottom: 1px solid #555; padding-bottom: 15px; color: #fff; letter-spacing: 2px; }
-        .category-title { font-size: 1.1rem; color: #fff; margin-top: 50px; margin-bottom: 25px; padding-left: 10px; border-left: 3px solid #888; letter-spacing: 1px; }
+        .category-title { font-size: 1.1rem; color: #fff; margin-top: 60px; margin-bottom: 30px; padding-left: 10px; border-left: 3px solid #888; letter-spacing: 1px; }
         .text-block p { line-height: 1.8; font-size: 0.95rem; color: #ccc; margin-bottom: 20px; text-align: justify; }
-        .text-block h3 { font-size: 1.2rem; color: #ddd; margin-top: 30px; margin-bottom: 15px; }
-
-        /* --- Method Page Specific --- */
-        .method-quote {
-            border-left: 2px solid #fff; padding-left: 20px; margin: 30px 0; font-style: italic; color: #aaa;
-        }
-        .method-list li { margin-bottom: 10px; color: #ccc; line-height: 1.6; }
-
-        /* --- New Gallery Grid (Covers) --- */
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-        .project-card {
-            cursor: pointer;
-            position: relative;
-            transition: transform 0.3s;
-        }
-        .project-card:hover { transform: translateY(-5px); }
-        .project-cover {
-            width: 100%; aspect-ratio: 4/3; object-fit: cover;
-            filter: grayscale(100%); transition: filter 0.5s;
-            border-radius: 2px;
-        }
-        .project-card:hover .project-cover { filter: grayscale(0%); }
-        .project-title {
-            margin-top: 10px; font-size: 0.9rem; color: #fff; letter-spacing: 1px;
-        }
-        .project-year { font-size: 0.8rem; color: #666; font-family: monospace; }
-
-        /* --- Project Detail Overlay (The "Museum" View) --- */
-        #project-overlay {
-            position: fixed; top: 0; right: 0; width: 60%; height: 100%;
-            background: #0a0a0a; z-index: 100;
-            transform: translateX(100%); transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-            overflow-y: auto; padding: 60px; box-sizing: border-box;
-            border-left: 1px solid #333;
-        }
-        #project-overlay.open { transform: translateX(0); }
         
-        #close-project {
-            position: absolute; top: 30px; right: 30px; 
-            font-size: 1.5rem; color: #fff; cursor: pointer;
-            border: 1px solid #333; padding: 5px 15px; transition: all 0.3s;
-        }
-        #close-project:hover { background: #fff; color: #000; }
+        /* Method Specific */
+        .method-quote { border-left: 2px solid #fff; padding-left: 20px; margin: 30px 0; font-style: italic; color: #aaa; font-size: 1.1rem;}
+        .method-list { margin-left: 20px; margin-bottom: 30px; }
+        .method-list li { margin-bottom: 15px; color: #ccc; line-height: 1.6; }
+        .method-subtitle { color: #fff; font-size: 1.1rem; margin-top: 30px; margin-bottom: 15px; font-weight: 500;}
 
-        .detail-header { margin-bottom: 40px; margin-top: 20px;}
-        .detail-title { font-size: 2rem; color: #fff; margin-bottom: 10px; }
-        .detail-meta { font-family: monospace; color: #888; font-size: 0.9rem; margin-bottom: 30px; }
-        .detail-desc { line-height: 1.8; color: #ccc; margin-bottom: 40px; white-space: pre-wrap; }
-        
-        .detail-media { margin-bottom: 40px; }
-        .video-container {
-            position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin-bottom: 30px;
-        }
-        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0; }
-        
-        .detail-images img {
-            width: 100%; margin-bottom: 20px; display: block;
-            filter: grayscale(20%); transition: filter 0.5s;
-        }
-        .detail-images img:hover { filter: grayscale(0%); }
-
-        /* Timeline & Other Styles from V8 */
+        /* Timeline Item */
         .timeline-item { position: relative; padding-left: 20px; margin-bottom: 25px; border-left: 1px solid #333; }
         .timeline-item::before { content: ''; position: absolute; left: -4px; top: 6px; width: 7px; height: 7px; background: #666; border-radius: 50%; }
         .year { font-size: 0.8rem; color: #888; font-family: monospace; display: block; margin-bottom: 3px; }
         .job-title { font-size: 0.95rem; color: #fff; font-weight: 500; }
         .job-desc { font-size: 0.85rem; color: #aaa; margin-top: 2px; }
-        .expand-container { max-height: 200px; overflow: hidden; transition: max-height 0.8s ease; position: relative; }
-        .expand-container.collapsed::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 50px; background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(5,5,5,0.9)); pointer-events: none; }
-        .expand-btn { display: block; width: 100%; padding: 10px; margin-top: 10px; background: rgba(255,255,255,0.05); border: 1px solid #444; color: #888; cursor: pointer; text-align: center; font-size: 0.8rem; transition: all 0.3s; }
+
+        /* Expandable Logic */
+        .expand-container { 
+            max-height: 0; /* JS will toggle this */
+            overflow: hidden; 
+            transition: max-height 0.8s ease; 
+            position: relative; 
+        }
+        /* Default state for lists that need expander: show first 3-4 items approx 250px */
+        .expand-container.collapsed { max-height: 280px; } 
+        .expand-container.collapsed::after { 
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 80px; 
+            background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(5,5,5,0.95)); pointer-events: none; 
+        }
+        
+        /* Method expander starts completely hidden or just summary */
+        .method-expand.collapsed { max-height: 0; } 
+        
+        .expand-btn { 
+            display: block; width: 100%; padding: 12px; margin-top: 15px; 
+            background: rgba(255,255,255,0.05); border: 1px solid #444; color: #888; 
+            cursor: pointer; text-align: center; font-size: 0.8rem; transition: all 0.3s; 
+        }
         .expand-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+        /* Gallery Grid */
+        .project-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .project-card { cursor: pointer; position: relative; transition: transform 0.3s; }
+        .project-card:hover { transform: translateY(-5px); }
+        .project-cover { width: 100%; aspect-ratio: 4/3; object-fit: cover; filter: grayscale(100%); transition: filter 0.5s; border-radius: 2px; }
+        .project-card:hover .project-cover { filter: grayscale(0%); }
+        .project-title { margin-top: 10px; font-size: 0.9rem; color: #fff; letter-spacing: 1px; }
+        .project-year { font-size: 0.8rem; color: #666; font-family: monospace; }
+
+        /* Project Overlay */
+        #project-overlay {
+            position: fixed; top: 0; right: 0; width: 60%; height: 100%;
+            background: #0a0a0a; z-index: 100;
+            transform: translateX(100%); transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            overflow-y: auto; padding: 60px; box-sizing: border-box; border-left: 1px solid #333;
+        }
+        #project-overlay.open { transform: translateX(0); }
+        #close-project {
+            position: absolute; top: 30px; right: 30px; font-size: 1.5rem; color: #fff; cursor: pointer;
+            border: 1px solid #333; padding: 5px 15px; transition: all 0.3s;
+        }
+        #close-project:hover { background: #fff; color: #000; }
+        .detail-header { margin-bottom: 40px; margin-top: 20px;}
+        .detail-title { font-size: 2rem; color: #fff; margin-bottom: 10px; }
+        .detail-meta { font-family: monospace; color: #888; font-size: 0.9rem; margin-bottom: 30px; }
+        .detail-desc { line-height: 1.8; color: #ccc; margin-bottom: 40px; white-space: pre-wrap; }
+        .detail-media { margin-bottom: 40px; }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin-bottom: 30px; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0; }
+        .detail-images img { width: 100%; margin-bottom: 20px; display: block; filter: grayscale(20%); transition: filter 0.5s; }
+        .detail-images img:hover { filter: grayscale(0%); }
+
         .about-photo { width: 100%; max-width: 300px; filter: grayscale(100%) contrast(1.2); transition: filter 1s ease; opacity: 0.9; margin-bottom: 40px;}
         .about-photo:hover { filter: grayscale(0%) contrast(1); }
         .social-links { margin-top: 30px; display: flex; gap: 15px; }
@@ -142,7 +152,8 @@
         @media (max-width: 768px) {
             .content-section { width: 100%; padding: 30px; padding-top: 80px; }
             #project-overlay { width: 100%; padding: 30px; padding-top: 80px; }
-            nav { bottom: 0; left: 0; width: 100%; background: rgba(10,10,10,0.95); padding: 15px 0; justify-content: center; gap: 20px; border-top: 1px solid #333; }
+            nav { bottom: 0; left: 0; width: 100%; background: rgba(10,10,10,0.95); padding: 15px 0; justify-content: center; gap: 15px; border-top: 1px solid #333; }
+            #site-header { top: 30px; left: 30px; }
             .project-grid { grid-template-columns: 1fr; }
         }
     </style>
@@ -154,12 +165,17 @@
     <div id="ui-layer">
         
         <div id="landing-screen" class="interactive">
-            <h1>PO-HAO TSENG</h1>
-            <button id="enter-btn">ENTER MEANING FIELD</button>
+            <h1 onclick="enterSite()">PO-HAO TSENG</h1>
+            <button id="enter-btn" onclick="enterSite()">ENTER MEANING FIELD</button>
             <p id="audio-status" style="margin-top: 15px; font-size: 0.7rem; color: #555;">Headphones Recommended</p>
         </div>
 
+        <div id="site-header" class="interactive">
+            <div id="site-title" onclick="navigateTo('home')">PO-HAO TSENG</div>
+        </div>
+
         <nav id="main-nav" class="interactive">
+            <a class="nav-link" onclick="navigateTo('home')">HOME</a>
             <a class="nav-link" onclick="navigateTo('method')">METHOD</a>
             <a class="nav-link" onclick="navigateTo('about')">ABOUT</a>
             <a class="nav-link" onclick="navigateTo('experiences')">EXPERIENCES</a>
@@ -169,25 +185,35 @@
         <div id="method" class="content-section interactive">
             <div class="text-block">
                 <h2>意義場行動表演法 / Method</h2>
-                
                 <div class="method-quote">
                     「表演行動並非再現既有內容，而是在多重脈絡交會中即時生成可被感知的關係結構。」
                 </div>
-
-                <h3>1. 摘要 Abstract</h3>
+                
+                <h3>摘要 / Abstract</h3>
                 <p>《意義場行動表演法》是一種以「意義生成」而非文本、角色或心理動機為起點的表演方法論。此方法將角色、語言、空間、物件、時間與觀者視為同時運作的意義場（field of meaning）。</p>
                 <p>台詞不被視為語義單位，而是一組可被拆解、重組並與其他脈絡交織的參數；角色亦非固定人格，而是暫時穩定的意義組態。</p>
 
-                <h3>2. 理論基礎 Theory</h3>
-                <p>此方法的核心假設是：當多條脈絡在行動中反覆交會，其重疊密度將自然產生結構上的合理性，而無需回溯至表演者的生命經驗或心理模擬。</p>
-                <p>演員的任務不在於「理解角色」，而在於辨認、延續或偏移這些交會所形成的路徑，並以行動回應其張力。由此，即興不再等同於自由反應，而是一種對意義場變化的即時運算。</p>
-                
-                <h3>3. 三種行動樣態 Action Modes</h3>
-                <ul class="method-list" style="margin-left: 20px;">
-                    <li><strong>獵人 (Hunter)：</strong>對高密度交會組態的辨識與追蹤能力。行動沿著已形成的結構推進，強調連續性與穩定性。</li>
-                    <li><strong>巫師 (Wizard)：</strong>在既有交會處引入另一層意義維度（如儀式、時間），基於已成立的結構進行擴展。</li>
-                    <li><strong>小孩 (Child)：</strong>刻意將行動投向非交會、非合理預期之處，以迫使意義場重新配置。具有實驗性與風險性。</li>
-                </ul>
+                <div id="method-full" class="expand-container method-expand collapsed" style="max-height: 0;">
+                    <div class="method-subtitle">一、問題意識：表演中的合理性從何而來？</div>
+                    <p>當代表演藝術中，對「合理性」的判準長期建立在：行動須由角色心理動機所支撐、角色行為須可被現實經驗類比。然而，在非寫實劇場或即興創作中，這些假設經常失效。本文主張，問題並非源自表演能力，而是源自對「合理性來源」的單一化理解。</p>
+
+                    <div class="method-subtitle">二、理論基礎：意義場而非心理模型</div>
+                    <p>「意義場」指一組由語言、角色位置、社會脈絡、歷史殘留、空間條件與時間尺度所構成的動態關係網絡。意義並非預先存在，而是在多重脈絡交會時暫時生成。角色不被視為具有穩定人格的主體，而是一組可被展開的意義參數集合。</p>
+
+                    <div class="method-subtitle">三、方法核心：多重脈絡的交會與組態</div>
+                    <p>創作者與演員需將時間尺度、身分變化、存在狀態、空間層級視為可展開的軸線。當多條脈絡在特定時刻同時成立，便形成一組「組態」。表演並非落在單一組態上，而是在組態之間移動。</p>
+
+                    <div class="method-subtitle">四、三種初始行動樣態</div>
+                    <ul class="method-list">
+                        <li><strong>獵人 (Hunter)：</strong>對高密度交會組態的辨識與追蹤能力。行動沿著已形成的結構推進，強調連續性與穩定性。</li>
+                        <li><strong>巫師 (Wizard)：</strong>在既有交會處引入另一層意義維度（如儀式、時間），基於已成立的結構進行擴展。</li>
+                        <li><strong>小孩 (Child)：</strong>刻意將行動投向非交會、非合理預期之處，以迫使意義場重新配置。具有實驗性與風險性。</li>
+                    </ul>
+
+                    <div class="method-subtitle">五、結論</div>
+                    <p>《意義場行動表演法》並不試圖取代既有表演體系，而是提供一種替代性操作邏輯。其合理性不來自心理連貫或敘事因果，而來自多重脈絡交會所形成的結構穩定性。此方法的價值，並不在於避免不適，而在於使不適成為可被操作與觀看的結果。</p>
+                </div>
+                <button class="expand-btn" onclick="toggleExpand('method-full', this)">+ Read Full Manifesto / 閱讀完整論述</button>
             </div>
         </div>
 
@@ -201,10 +227,12 @@
                 <p>台北藝術大學藝術跨域研究所畢。從小學習中國音樂，而後曾師承周定邦先生學習台灣唸歌。</p>
                 <p>2012年與友人創立《迷宮迴廊》樂團，2013年參與《小嫩豬》樂團。2014年創立鬼講堂，與表演者吳宗恩、戴開成共創改編焦吧哖事件。2018年於臺北和鳴南樂社學習南管。</p>
                 <p>近年常參與劇場與聲音相關創作，曾與各國藝術家：Kitt Johnson（丹麥）、坂本弘道、內橋和久、千野秀一、李世揚、李慈湄、黃思農等人合作或即興音樂交流。</p>
+                <p>近來在音樂間流浪以及嘗試理解何謂「在當場」，除鬼講堂計畫試圖理解抗日事件中的多重敘事問題及背後社會成因外，音樂作品則與社會議題及個人情感相關。</p>
                 <div class="category-title">Focus 專注領域</div>
                 <p>演奏、歌唱、詞曲創作、唸歌創作演唱、藝術創作、藝術理論</p>
                 <div class="category-title">Contact 聯絡</div>
                 <p>Email: jerry801022@gmail.com</p>
+                <p>Phone: +886 988 463 036</p>
                 <div class="social-links">
                     <a href="https://www.facebook.com/share/1ATPLBnGpg/?mibextid=wwXIfr" target="_blank" class="social-btn">Facebook</a>
                     <a href="https://www.instagram.com/po_hao_tseng?igsh=MTV2dXFiODZwZW4wYg%3D%3D&utm_source=qr" target="_blank" class="social-btn">Instagram</a>
@@ -215,40 +243,143 @@
         <div id="experiences" class="content-section interactive">
             <div class="text-block">
                 <h2>經歷 / Experience</h2>
+
                 <div class="category-title">Education 學歷</div>
-                <div class="timeline-item"><span class="year">Present</span><div class="job-title">台北藝術大學 藝術跨領域研究所 (MFA)</div></div>
-                <div class="timeline-item"><span class="year">2010 - 2015</span><div class="job-title">台南藝術大學 材質創作與設計系 (BA)</div></div>
+                <div class="timeline-item"><span class="year">Present</span><div class="job-title">台北藝術大學 藝術跨領域研究所 (MFA)</div><div class="job-desc">Taipei University of the Arts</div></div>
+                <div class="timeline-item"><span class="year">2010 - 2015</span><div class="job-title">台南藝術大學 材質創作與設計系 (BA)</div><div class="job-desc">Tainan University of the Arts</div></div>
+
                 <div class="category-title">Experience 現職</div>
                 <div class="timeline-item"><span class="year">Now</span><div class="job-title">藝術、音樂、劇場相關工作者</div></div>
-                <div class="timeline-item"><span class="year">Now</span><div class="job-title">《小嫩豬》樂團樂手</div></div>
-                <div class="timeline-item"><span class="year">Now</span><div class="job-title">《鬼講堂》計劃人</div></div>
+                <div class="timeline-item"><span class="year">Now</span><div class="job-title">《小嫩豬》樂團樂手</div><div class="job-desc">Bandsman of Little Sexy Young Pig Band</div></div>
+                <div class="timeline-item"><span class="year">Now</span><div class="job-title">《鬼講堂》計劃人</div><div class="job-desc">Organizer of Lecture Of Ghost</div></div>
+                <div class="timeline-item"><span class="year">2014-2015</span><div class="job-title">冠筑樂集 / 冠彥樂集 二胡樂師</div></div>
+                <div class="timeline-item"><span class="year">2010-2015</span><div class="job-title">迷宮迴廊樂團主唱</div><div class="job-desc">Vocal of Maze Of Corridors Band</div></div>
+                <div class="timeline-item"><span class="year">2011-2013</span><div class="job-title">7-11店員</div></div>
+
                 <div class="category-title">Live Performances 個人創作演出</div>
                 <div id="list-performances" class="expand-container collapsed">
-                    <div class="timeline-item"><span class="year">2020</span><div class="job-title">漫遊者劇場《池子》</div><div class="job-desc">臺灣大學水源校區</div></div>
-                    <div class="timeline-item"><span class="year">2019</span><div class="job-title">《落對話-譯○》聲音劇場</div></div>
-                    <div class="timeline-item"><span class="year">2017</span><div class="job-title">《日日新微型表演行動》</div></div>
-                    <div class="timeline-item"><span class="year">2015</span><div class="job-title">《中國城藝術行動》</div></div>
+                    <div class="timeline-item"><span class="year">2020</span><div class="job-title">漫遊者劇場《池子》</div><div class="job-desc">臺灣大學水源校區，臺北</div></div>
+                    <div class="timeline-item"><span class="year">2019</span><div class="job-title">《落對話-譯○》聲音劇場</div><div class="job-desc">空總創新基地，臺北</div></div>
+                    <div class="timeline-item"><span class="year">2017</span><div class="job-title">《日日新微型表演行動》</div><div class="job-desc">太原五百完人塚，台北</div></div>
+                    <div class="timeline-item"><span class="year">2015</span><div class="job-title">《中國城藝術行動》</div><div class="job-desc">《運河無崁蓋》演出，中國城，台南</div></div>
                 </div>
                 <button class="expand-btn" onclick="toggleExpand('list-performances', this)">+ View Full List</button>
+                
                 <div class="category-title">Lecture of Ghost 鬼講堂</div>
                 <div id="list-ghost" class="expand-container collapsed">
-                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">台北雙年展《當下檔案・未來系譜》</div></div>
-                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">大稻埕國際藝術節《鬼話練習曲》</div></div>
-                    <div class="timeline-item"><span class="year">2015</span><div class="job-title">大稻埕國際藝術節《鬼講堂第一講》</div></div>
-                    <div class="timeline-item"><span class="year">2015</span><div class="job-title">鬼講堂成立</div></div>
+                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">台北雙年展《當下檔案・未來系譜》</div><div class="job-desc">鬼講堂第二講演出，紀州庵文學森林</div></div>
+                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">大稻埕國際藝術節《鬼話練習曲》讀劇</div><div class="job-desc">衣戲院，台北</div></div>
+                    <div class="timeline-item"><span class="year">2015</span><div class="job-title">《鬼講堂第二講前言》</div><div class="job-desc">寶藏巖國際藝術村 尖蚪</div></div>
+                    <div class="timeline-item"><span class="year">2015</span><div class="job-title">大稻埕國際藝術節《鬼講堂第一講》</div><div class="job-desc">小酒趴，台北</div></div>
+                    <div class="timeline-item"><span class="year">2015</span><div class="job-title">草埕文化工作室《都市傳說》</div><div class="job-desc">台南321巷藝術聚落</div></div>
+                    <div class="timeline-item"><span class="year">2015</span><div class="job-title">《鬼講堂第一講》演出</div><div class="job-desc">半路咖啡 台北 / 衛屋茶事 台南</div></div>
+                    <div class="timeline-item"><span class="year">2015</span><div class="job-title">鬼講堂成立 (April)</div></div>
                 </div>
                 <button class="expand-btn" onclick="toggleExpand('list-ghost', this)">+ View Full List</button>
+
+                <div class="category-title">Group Exhibitions 聯展</div>
+                <div id="list-exhibitions" class="expand-container collapsed">
+                    <div class="timeline-item"><span class="year">2017</span><div class="job-title">《破碎的神聖》</div><div class="job-desc">空總創新基地，台北</div></div>
+                    <div class="timeline-item"><span class="year">2017</span><div class="job-title">《高雄獎夢幻隊與四道戰帖》</div><div class="job-desc">高雄美術館</div></div>
+                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">《2016水田部落行為藝術節》</div><div class="job-desc">水田部落，新竹</div></div>
+                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">《月讀展2.0：爽》</div><div class="job-desc">海馬迴光畫館，台南</div></div>
+                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">《藝術新聲十校聯展》</div><div class="job-desc">台中圖書館</div></div>
+                    <div class="timeline-item"><span class="year">2015</span><div class="job-title">《2015藝術家博覽會》</div><div class="job-desc">花博爭艷館，台北</div></div>
+                    <div class="timeline-item"><span class="year">2015</span><div class="job-title">《2015大稻埕國際藝術節》</div><div class="job-desc">鬼講堂第一講演出，小酒趴</div></div>
+                    <div class="timeline-item"><span class="year">2015</span><div class="job-title">《都市傳說》草埕文化工作室駐市計畫</div><div class="job-desc">齁空間後方，台南</div></div>
+                    <div class="timeline-item"><span class="year">2014</span><div class="job-title">《焦慮彼得》材質創作與設計系畢展</div><div class="job-desc">華山文創園區</div></div>
+                    <div class="timeline-item"><span class="year">2014</span><div class="job-title">《關於那些我想／說的未來》</div><div class="job-desc">寶藏巖國際藝術村</div></div>
+                    <div class="timeline-item"><span class="year">2012</span><div class="job-title">《磨合的一致》系展</div><div class="job-desc">中山創意基地URS21</div></div>
+                    <div class="timeline-item"><span class="year">2012</span><div class="job-title">《緣住交際》大崎藝術聚落探勘</div><div class="job-desc">台南藝術大學</div></div>
+                </div>
+                <button class="expand-btn" onclick="toggleExpand('list-exhibitions', this)">+ View Full List</button>
+
+                <div class="category-title">Collaborations 合作</div>
+                <div id="list-collabs" class="expand-container collapsed">
+                    <div class="timeline-item"><span class="year">2021</span><div class="job-title">《島遊情書》臺灣歷史博物館</div><div class="job-desc">文學配音及音樂設計</div></div>
+                    <div class="timeline-item"><span class="year">2020</span><div class="job-title">《話鼓電臺》說唱的技倆</div><div class="job-desc">線上收聽節目錄製</div></div>
+                    <div class="timeline-item"><span class="year">2020</span><div class="job-title">《葉石濤紀錄片-群雞之王片段》</div><div class="job-desc">演員合作</div></div>
+                    <div class="timeline-item"><span class="year">2020</span><div class="job-title">《新北線上博物館》</div><div class="job-desc">再拒劇團臺語翻譯，配音合作</div></div>
+                    <div class="timeline-item"><span class="year">2020</span><div class="job-title">《明白歌-未竟的故人事》校園巡迴</div></div>
+                    <div class="timeline-item"><span class="year">2019</span><div class="job-title">《層中隙》 Kitt Johnson</div><div class="job-desc">表演藝術現地製作，臺南</div></div>
+                    <div class="timeline-item"><span class="year">2019</span><div class="job-title">《明白歌-未竟的故人事》再拒劇團</div><div class="job-desc">演員、樂手、音樂設計</div></div>
+                    <div class="timeline-item"><span class="year">2018</span><div class="job-title">《我歌我茶》劇場音樂合作</div><div class="job-desc">客家文化主題公園</div></div>
+                    <div class="timeline-item"><span class="year">2018</span><div class="job-title">《一時間差-珠珠娜娜in釜山》</div><div class="job-desc">音樂設計、現場樂手，韓國釜山</div></div>
+                    <div class="timeline-item"><span class="year">2018</span><div class="job-title">《白晝之夜》 / 《TPAM》</div><div class="job-desc">黃思農 年度考核協奏</div></div>
+                    <div class="timeline-item"><span class="year">2017</span><div class="job-title">《福士正一工作坊》</div><div class="job-desc">總爺藝文中心</div></div>
+                    <div class="timeline-item"><span class="year">2017</span><div class="job-title">《交陪》福士正一舞踏演出</div><div class="job-desc">臺中</div></div>
+                    <div class="timeline-item"><span class="year">2017</span><div class="job-title">《巢迴》桃園眷村藝術節</div><div class="job-desc">聲音劇場配音合作</div></div>
+                    <div class="timeline-item"><span class="year">2017</span><div class="job-title">《年度考核協奏》再拒劇團</div><div class="job-desc">演員，台北市立美術館</div></div>
+                    <div class="timeline-item"><span class="year">2017</span><div class="job-title">《其境‧他方》再拒劇團</div><div class="job-desc">聲音演員</div></div>
+                    <div class="timeline-item"><span class="year">2017</span><div class="job-title">《近未來交陪：2017蕭壟國際藝術節》</div></div>
+                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">差事劇團《尋里山》</div><div class="job-desc">環境劇場演出 (南投/高雄/台中)</div></div>
+                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">《飛魚馬戲團─爆發前夕篇》</div><div class="job-desc">現場演奏，蘭嶼</div></div>
+                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">《苗‧春祭》〈弧於〉</div><div class="job-desc">行為藝術演出，台中</div></div>
+                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">差事劇團《返鄉的進擊》</div><div class="job-desc">音樂演出及戲劇演出，彰化大城鄉</div></div>
+                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">《東亞大笨蛋串聯Party》</div><div class="job-desc">策展合作，台北</div></div>
+                    <div class="timeline-item"><span class="year">2015</span><div class="job-title">《中國城藝術行動》小嫩豬樂團</div><div class="job-desc">現場音樂事件，台南</div></div>
+                    <div class="timeline-item"><span class="year">2015</span><div class="job-title">差事劇團《女媧變身》</div><div class="job-desc">現場音樂製作，寶藏巖</div></div>
+                </div>
+                <button class="expand-btn" onclick="toggleExpand('list-collabs', this)">+ View Full List</button>
+
                 <div class="category-title">Awards 獎項經歷</div>
                 <div class="timeline-item"><span class="year">2019</span><div class="job-title">台新藝術獎 年度大獎</div><div class="job-desc">《明白歌-未竟的故人事》再拒劇團</div></div>
-                <div class="timeline-item"><span class="year">2012</span><div class="job-title">南面而歌 原創歌曲 評審推薦獎</div></div>
-                <div class="category-title">Collaborations & Others</div>
-                <div id="list-others" class="expand-container collapsed">
-                    <div class="timeline-item"><span class="year">2021</span><div class="job-title">《島遊情書》臺灣歷史博物館</div></div>
-                    <div class="timeline-item"><span class="year">2019</span><div class="job-title">《層中隙》 Kitt Johnson</div></div>
-                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">《仙渡莊計畫II》策展</div></div>
-                    <div class="timeline-item"><span class="year">2018</span><div class="job-title">《夷》個人音樂會</div></div>
+                <div class="timeline-item"><span class="year">2013</span><div class="job-title">《莿桐音樂季》個人組第二名</div><div class="job-desc">南藝大歌唱比賽</div></div>
+                <div class="timeline-item"><span class="year">2012</span><div class="job-title">南面而歌 原創歌曲 評審推薦獎</div><div class="job-desc">作品《連根拔起》</div></div>
+                <div class="timeline-item"><span class="year">2012</span><div class="job-title">《莿桐音樂季》個人組首獎</div></div>
+
+                <div class="category-title">Curator 策展經驗</div>
+                <div id="list-curator" class="expand-container collapsed">
+                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">《仙渡莊計畫II：想像的地理中心》</div><div class="job-desc">八里大舟造船廠/關渡三合院</div></div>
+                    <div class="timeline-item"><span class="year">2015</span><div class="job-title">《藝跨所五大行動》</div><div class="job-desc">工作室接力開放展、貓打架、阿呼呼地獄、投錯胎放映會等</div></div>
+                    <div class="timeline-item"><span class="year">2014</span><div class="job-title">《如是《》聞 – 千手計畫》</div><div class="job-desc">台南藝術大學</div></div>
                 </div>
-                <button class="expand-btn" onclick="toggleExpand('list-others', this)">+ View Full List</button>
+                <button class="expand-btn" onclick="toggleExpand('list-curator', this)">+ View Full List</button>
+
+                <div class="category-title">Music Performances 音樂演出</div>
+                <div id="list-music" class="expand-container collapsed">
+                    <div class="timeline-item"><span class="year">2021</span><div class="job-title">《家●變 藝術計劃 開幕演出》</div><div class="job-desc">政大藝文中心</div></div>
+                    <div class="timeline-item"><span class="year">2020</span><div class="job-title">《彰化環保聯盟募款餐會》</div></div>
+                    <div class="timeline-item"><span class="year">2020</span><div class="job-title">《寂靜的迴響》白色恐怖人權音樂會</div></div>
+                    <div class="timeline-item"><span class="year">2020</span><div class="job-title">《人權藝術節開幕演出》</div><div class="job-desc">景美人權園區</div></div>
+                    <div class="timeline-item"><span class="year">2019</span><div class="job-title">《內橋和久-即興音樂會》</div><div class="job-desc">打里折空間，臺中</div></div>
+                    <div class="timeline-item"><span class="year">2019</span><div class="job-title">《和鳴南樂社演出》</div><div class="job-desc">鹿港南管春祭，演唱《感謝公主》</div></div>
+                    <div class="timeline-item"><span class="year">2019</span><div class="job-title">《顛倒夢想》音樂會</div><div class="job-desc">臺北</div></div>
+                    <div class="timeline-item"><span class="year">2019</span><div class="job-title">《九歌聲音文件集結4年展》</div><div class="job-desc">收錄歌曲《南風起》</div></div>
+                    <div class="timeline-item"><span class="year">2019</span><div class="job-title">《傳統與現代的對話》即興音樂會</div><div class="job-desc">行天宮圖書館音樂廳</div></div>
+                    <div class="timeline-item"><span class="year">2018</span><div class="job-title">《失神記》南藝大校慶演出</div></div>
+                    <div class="timeline-item"><span class="year">2018</span><div class="job-title">《客家後生藝文音樂會》</div><div class="job-desc">臺北客家文化主題公園</div></div>
+                    <div class="timeline-item"><span class="year">2018</span><div class="job-title">《夷》個人音樂會</div><div class="job-desc">流民棧，臺北</div></div>
+                    <div class="timeline-item"><span class="year">2018</span><div class="job-title">《大音希聲-南、北管談X彈實驗音樂》</div></div>
+                    <div class="timeline-item"><span class="year">2018</span><div class="job-title">《反空汙大遊行》</div><div class="job-desc">臺中</div></div>
+                    <div class="timeline-item"><span class="year">2018</span><div class="job-title">《水交社夏末地景音樂會》</div><div class="job-desc">臺南</div></div>
+                    <div class="timeline-item"><span class="year">2018</span><div class="job-title">《都市浪人之夜》音樂會</div><div class="job-desc">與手碟音樂家Angus</div></div>
+                    <div class="timeline-item"><span class="year">2018</span><div class="job-title">《怨憎會別離》曲目發表</div><div class="job-desc">今秋藝術節，鹿港龍山寺</div></div>
+                    <div class="timeline-item"><span class="year">2018</span><div class="job-title">《YNGEL專場演出/ with 曾伯豪》</div><div class="job-desc">玩具島小劇場，臺中</div></div>
+                    <div class="timeline-item"><span class="year">2017</span><div class="job-title">《陳映真追思會》</div><div class="job-desc">客家文化園區</div></div>
+                    <div class="timeline-item"><span class="year">2017</span><div class="job-title">《天語公社社聚》龍頭樂團</div><div class="job-desc">玩劇島小劇場</div></div>
+                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">《趨豬達乳，道德八景》小嫩豬專場</div><div class="job-desc">PIPE 台北 / 院子劇場 高雄</div></div>
+                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">《差事20週年音樂會》</div></div>
+                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">《巨獸搖滾音樂祭》天語公社</div></div>
+                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">《江山勞改音樂營》小嫩豬演出</div><div class="job-desc">新竹</div></div>
+                    <div class="timeline-item"><span class="year">2015</span><div class="job-title">《苗‧春祭》小嫩豬演出</div></div>
+                    <div class="timeline-item"><span class="year">2015</span><div class="job-title">《巨獸搖滾音樂祭》小嫩豬演出</div></div>
+                    <div class="timeline-item"><span class="year">2012</span><div class="job-title">麻豆總爺音樂會</div></div>
+                </div>
+                <button class="expand-btn" onclick="toggleExpand('list-music', this)">+ View Full List</button>
+
+                <div class="category-title">Article & Workshop</div>
+                <div id="list-misc" class="expand-container collapsed">
+                    <div class="timeline-item"><span class="year">2019</span><div class="job-title">音樂評論 《傳統與現代的對話》</div></div>
+                    <div class="timeline-item"><span class="year">2019</span><div class="job-title">ARTPLUS 九月號 訪問</div></div>
+                    <div class="timeline-item"><span class="year">2019</span><div class="job-title">《明白歌》親子工作坊</div></div>
+                    <div class="timeline-item"><span class="year">2018</span><div class="job-title">表演工作坊，臺南藝術大學</div></div>
+                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">人聲與即興舞蹈工作坊</div><div class="job-desc">台北藝術大學</div></div>
+                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">故事與繪畫工作坊</div><div class="job-desc">關渡國小</div></div>
+                    <div class="timeline-item"><span class="year">2016</span><div class="job-title">〈做作他人——（非）關田調工作坊〉</div></div>
+                </div>
+                <button class="expand-btn" onclick="toggleExpand('list-misc', this)">+ View Full List</button>
+
             </div>
         </div>
 
@@ -263,29 +394,22 @@
 
         <div id="project-overlay" class="interactive">
             <div id="close-project" onclick="closeProject()">× CLOSE</div>
-            
-            <div id="project-content">
-                </div>
+            <div id="project-content"></div>
         </div>
     </div>
 
     <script>
-        // --- 核心：作品資料庫 (Project Database) ---
-        // 請在此處填寫您的作品資料
+        // --- 核心：作品資料庫 ---
         const projects = [
             {
                 id: 1,
-                title: "漫遊者劇場《池子》",
-                year: "2020",
-                cover: "work1-cover.jpg", // 封面圖
-                description: "臺灣大學水源校區 (原國防醫學院)，臺北。", // 簡述 (列表用)
-                fullDescription: "這是一個關於空間記憶與身體介入的場域特定創作。在原國防醫學院的遺址中，我們試圖透過漫遊者的視角，重新測量歷史的重量。\n\n表演者在廢棄的池子周圍移動，聲音在空曠的建築中迴盪，形成了一個獨特的意義場。觀眾不再是被動的觀看者，而是場域中的一部分。", // 完整論述 (支援換行)
-                video: "", // 如果有 YouTube 影片，請填入 Embed 網址 (例如: https://www.youtube.com/embed/xxxxxx)
-                images: [
-                    "work1-01.jpg", 
-                    "work1-02.jpg",
-                    "work1-03.jpg"
-                ]
+                title: "漫遊者劇場《層中隙》",
+                year: "2019",
+                cover: "work1-cover.jpg", 
+                description: "台南藝術節 台南東市場東嶽殿後方，臺南。",
+                fullDescription: "這是一個關於空間記憶與身體介入的場域特定創作。在台南東市場中，曾伯豪觀察到動物與市場、廟宇的關係，試圖透過漫遊者的視角，重新測量關於虐狗事件和市場動物與場域歷史的重量。\n\n表演者在東市場移動，聲音在空曠的建築中迴盪，形成了一個類似降靈者與人、神、動物靈的敘事透過非語言的移動和聲音創造獨特的意義場。觀眾不再是被動的觀看者，而是場域中的一部分。",
+                video: "",
+                images: ["work1-01.jpg", "work1-02.jpg", "work1-03.jpg","work1-04.jpg","work1-05.jpg","work1-06.jpg","work1-07.jpg"]
             },
             {
                 id: 2,
@@ -295,12 +419,8 @@
                 description: "與表演者吳宗恩、戴開成共創，改編焦吧哖事件。",
                 fullDescription: "《鬼講堂》是一個持續進行的計畫，試圖理解抗日事件中的多重敘事問題及背後社會成因。\n\n透過變文、唸歌與現代劇場的結合，我們召喚歷史的幽靈，在當下進行對話。這不僅是一場演出，更是一次集體的降靈儀式。",
                 video: "", 
-                images: [
-                    "work2-01.jpg",
-                    "work2-02.jpg"
-                ]
+                images: ["work2-01.jpg", "work2-02.jpg"]
             },
-            // 下方為範例 (若無圖片會顯示灰色塊)
             {
                 id: 3,
                 title: "中國城藝術行動",
@@ -309,10 +429,7 @@
                 description: "台南中國城，運河無崁蓋演出。",
                 fullDescription: "針對台南中國城拆除前的藝術行動。記錄消逝的城市紋理。",
                 video: "",
-                images: [
-                    "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=800&q=80",
-                    "https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=800&q=80"
-                ]
+                images: ["https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=800&q=80"]
             }
         ];
 
@@ -320,15 +437,11 @@
         function renderProjects() {
             const container = document.getElementById('project-grid-container');
             container.innerHTML = '';
-            
             projects.forEach((p, index) => {
                 const div = document.createElement('div');
                 div.className = 'project-card';
                 div.onclick = () => openProject(index);
-                
-                // 處理圖片載入失敗的情況
                 const imgSrc = p.cover ? p.cover : 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iNzUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiMzMzMiLz48L3N2Zz4=';
-                
                 div.innerHTML = `
                     <img src="${imgSrc}" class="project-cover" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iNzUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiMzMzMiLz48L3N2Zz4='">
                     <div class="project-title">${p.title}</div>
@@ -338,12 +451,9 @@
             });
         }
 
-        // --- 打開作品詳情 (Detail View) ---
         function openProject(index) {
             const p = projects[index];
             const content = document.getElementById('project-content');
-            
-            // 生成詳情 HTML
             let html = `
                 <div class="detail-header">
                     <div class="detail-title">${p.title}</div>
@@ -351,39 +461,21 @@
                 </div>
                 <div class="detail-desc">${p.fullDescription}</div>
             `;
-
-            // 如果有影片
             if (p.video) {
-                html += `
-                    <div class="detail-media">
-                        <div class="video-container">
-                            <iframe src="${p.video}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                `;
+                html += `<div class="detail-media"><div class="video-container"><iframe src="${p.video}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div></div>`;
             }
-
-            // 生成圖片列表
             if (p.images && p.images.length > 0) {
                 html += '<div class="detail-images">';
-                p.images.forEach(img => {
-                    html += `<img src="${img}" onerror="this.style.display='none'">`;
-                });
+                p.images.forEach(img => { html += `<img src="${img}" onerror="this.style.display='none'">`; });
                 html += '</div>';
             }
-
             content.innerHTML = html;
-            
-            // 滑出視窗
             document.getElementById('project-overlay').classList.add('open');
         }
 
-        function closeProject() {
-            document.getElementById('project-overlay').classList.remove('open');
-        }
+        function closeProject() { document.getElementById('project-overlay').classList.remove('open'); }
 
-
-        // --- Three.js & Basic Logic (Same as before) ---
+        // --- Three.js Logic ---
         let scene, camera, renderer, clock;
         let bgParticles, fgParticles, linesMesh;
         let mouse = new THREE.Vector2(9999, 9999);
@@ -391,15 +483,11 @@
         let sound, analyser, audioLoader, listener;
         let isAudioActive = false;
         let pulseFactor = 1;
-
-        const BG_COUNT = 3000;
-        const FG_COUNT = 600;
-        const CONNECT_DIST = 70;
-        const MOUSE_RADIUS = 250;
+        const BG_COUNT = 3000, FG_COUNT = 600, CONNECT_DIST = 70, MOUSE_RADIUS = 250;
 
         init();
         animate();
-        renderProjects(); // Init Gallery
+        renderProjects();
 
         function init() {
             const container = document.getElementById('canvas-container');
@@ -412,22 +500,16 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(window.devicePixelRatio);
             container.appendChild(renderer.domElement);
-
             const sprite = createGlowSprite();
-            
             const bgGeo = new THREE.BufferGeometry();
             const bgPos = [];
-            for (let i = 0; i < BG_COUNT; i++) {
-                bgPos.push((Math.random()-0.5)*3000, (Math.random()-0.5)*2000, (Math.random()-0.5)*2000 - 500);
-            }
+            for (let i = 0; i < BG_COUNT; i++) bgPos.push((Math.random()-0.5)*3000, (Math.random()-0.5)*2000, (Math.random()-0.5)*2000 - 500);
             bgGeo.setAttribute('position', new THREE.Float32BufferAttribute(bgPos, 3));
             const bgMat = new THREE.PointsMaterial({ color: 0x888888, size: 8, map: sprite, transparent: true, opacity: 0.2, blending: THREE.AdditiveBlending, depthWrite: false });
             bgParticles = new THREE.Points(bgGeo, bgMat);
             scene.add(bgParticles);
-
             const fgGeo = new THREE.BufferGeometry();
-            const fgPos = [];
-            const fgVel = [];
+            const fgPos = [], fgVel = [];
             for (let i = 0; i < FG_COUNT; i++) {
                 fgPos.push((Math.random()-0.5)*1200, (Math.random()-0.5)*900, (Math.random()-0.5)*600);
                 fgVel.push({x: (Math.random()-0.5)*0.4, y: (Math.random()-0.5)*0.4, z: (Math.random()-0.5)*0.4});
@@ -437,20 +519,17 @@
             fgParticles = new THREE.Points(fgGeo, fgMat);
             fgParticles.userData = { velocity: fgVel };
             scene.add(fgParticles);
-
             const lineGeo = new THREE.BufferGeometry();
             const linePos = new Float32Array(FG_COUNT * 2 * 3 * 2);
             lineGeo.setAttribute('position', new THREE.BufferAttribute(linePos, 3));
             const lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.3, blending: THREE.AdditiveBlending });
             linesMesh = new THREE.LineSegments(lineGeo, lineMat);
             scene.add(linesMesh);
-
             raycaster = new THREE.Raycaster();
             document.addEventListener('mousemove', onMouseMove, false);
             document.addEventListener('touchmove', onTouchMove, { passive: false });
             document.addEventListener('touchstart', onTouchMove, { passive: false });
             window.addEventListener('resize', onResize, false);
-            
             listener = new THREE.AudioListener();
             camera.add(listener);
             sound = new THREE.Audio(listener);
@@ -465,49 +544,26 @@
             ctx.fillStyle=g; ctx.fillRect(0,0,64,64);
             return new THREE.CanvasTexture(c);
         }
-
         function onTouchMove(e) { if(e.touches.length===1) { const t = e.touches[0]; mouse.x = (t.clientX/window.innerWidth)*2-1; mouse.y = -(t.clientY/window.innerHeight)*2+1; } }
         function onMouseMove(e) { mouse.x = (e.clientX/window.innerWidth)*2-1; mouse.y = -(e.clientY/window.innerHeight)*2+1; }
-
         function animate() {
             requestAnimationFrame(animate);
             const time = clock.getElapsedTime();
-
-            if (isAudioActive && analyser) {
-                const data = analyser.getAverageFrequency();
-                pulseFactor = 1 + (data / 256) * 0.6; 
-            } else {
-                pulseFactor = 1 + Math.sin(time * 2) * 0.1;
-            }
-
-            bgParticles.rotation.y = time * 0.05;
-            bgParticles.material.opacity = 0.2 * pulseFactor;
-
-            const pos = fgParticles.geometry.attributes.position.array;
-            const vel = fgParticles.userData.velocity;
-
+            if (isAudioActive && analyser) { const data = analyser.getAverageFrequency(); pulseFactor = 1 + (data / 256) * 0.6; } else { pulseFactor = 1 + Math.sin(time * 2) * 0.1; }
+            bgParticles.rotation.y = time * 0.05; bgParticles.material.opacity = 0.2 * pulseFactor;
+            const pos = fgParticles.geometry.attributes.position.array; const vel = fgParticles.userData.velocity;
             for(let i=0; i<FG_COUNT; i++) {
-                const ix = i*3;
-                pos[ix] += vel[i].x * pulseFactor;
-                pos[ix+1] += vel[i].y * pulseFactor;
-                pos[ix+2] += vel[i].z * pulseFactor;
+                const ix = i*3; pos[ix]+=vel[i].x*pulseFactor; pos[ix+1]+=vel[i].y*pulseFactor; pos[ix+2]+=vel[i].z*pulseFactor;
                 if(pos[ix]>600) pos[ix]=-600; if(pos[ix]<-600) pos[ix]=600;
                 if(pos[ix+1]>500) pos[ix+1]=-500; if(pos[ix+1]<-500) pos[ix+1]=500;
             }
             fgParticles.geometry.attributes.position.needsUpdate = true;
-
             raycaster.setFromCamera(mouse, camera);
-            const vec = new THREE.Vector3(mouse.x, mouse.y, 0.5);
-            vec.unproject(camera);
-            const dir = vec.sub(camera.position).normalize();
-            const dist = -camera.position.z / dir.z;
+            const vec = new THREE.Vector3(mouse.x, mouse.y, 0.5); vec.unproject(camera);
+            const dir = vec.sub(camera.position).normalize(); const dist = -camera.position.z / dir.z;
             const targetPos = new THREE.Vector3().copy(camera.position).add(dir.multiplyScalar(dist));
-
-            let idx = 0;
-            const lineArr = linesMesh.geometry.attributes.position.array;
-            const p1 = new THREE.Vector3(), p2 = new THREE.Vector3();
-            const radius = MOUSE_RADIUS * pulseFactor;
-
+            let idx = 0; const lineArr = linesMesh.geometry.attributes.position.array;
+            const p1 = new THREE.Vector3(), p2 = new THREE.Vector3(); const radius = MOUSE_RADIUS * pulseFactor;
             for(let i=0; i<FG_COUNT; i++) {
                 p1.set(pos[i*3], pos[i*3+1], pos[i*3+2]);
                 if(p1.distanceTo(targetPos) < radius) {
@@ -521,20 +577,13 @@
                     }
                 }
             }
-            linesMesh.geometry.setDrawRange(0, idx/3);
-            linesMesh.geometry.attributes.position.needsUpdate = true;
+            linesMesh.geometry.setDrawRange(0, idx/3); linesMesh.geometry.attributes.position.needsUpdate = true;
             linesMesh.material.opacity = 0.3 * pulseFactor;
-
             renderer.render(scene, camera);
         }
+        function onResize() { camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); }
 
-        function onResize() {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        }
-
-        document.getElementById('enter-btn').addEventListener('click', () => {
+        function enterSite() {
             if (listener.context.state === 'suspended') { listener.context.resume(); }
             document.getElementById('audio-status').innerText = "Loading...";
             audioLoader.load('bgm.mp3', 
@@ -547,22 +596,39 @@
                 function() { document.getElementById('audio-status').innerText = "Silent Mode"; }
             );
             gsap.to('#landing-screen', { duration: 1.5, opacity: 0, pointerEvents: 'none' });
+            gsap.to('#site-header', { duration: 1, opacity: 1, y: 0, delay: 0.5 });
             gsap.to('nav', { duration: 1, opacity: 1, y: 0, delay: 0.5 });
             gsap.to(camera.position, { duration: 2.5, z: 400, ease: "power2.inOut" });
-        });
+        }
 
         window.toggleExpand = function(id, btn) {
             const content = document.getElementById(id);
-            if (content.style.maxHeight === 'none') {
-                content.style.maxHeight = '200px'; content.classList.add('collapsed'); btn.innerText = '+ View Full List';
+            if (content.classList.contains('collapsed')) {
+                content.style.maxHeight = content.scrollHeight + "px"; // Expand to fit content
+                content.classList.remove('collapsed');
+                // Change text based on ID
+                if(id === 'method-full') btn.innerText = '- Close Manifesto';
+                else btn.innerText = '- Collapse List';
             } else {
-                content.style.maxHeight = 'none'; content.classList.remove('collapsed'); btn.innerText = '- Collapse List';
+                if(id === 'method-full') content.style.maxHeight = '0';
+                else content.style.maxHeight = null; // Revert to CSS default (collapsed)
+                
+                content.classList.add('collapsed');
+                if(id === 'method-full') btn.innerText = '+ Read Full Manifesto / 閱讀完整論述';
+                else btn.innerText = '+ View Full List';
             }
         };
 
         window.navigateTo = function(id) {
             document.querySelectorAll('.content-section').forEach(el => { el.classList.remove('active'); gsap.to(el, { opacity: 0, duration: 0.5 }); });
             document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+            
+            // Handle Home
+            if(id === 'home') {
+                gsap.to(camera.position, { duration: 2, z: 400, x: 0, y: 0, ease: "power2.inOut" });
+                return; 
+            }
+
             const btn = Array.from(document.querySelectorAll('.nav-link')).find(b => b.getAttribute('onclick').includes(id));
             if(btn) btn.classList.add('active');
             
