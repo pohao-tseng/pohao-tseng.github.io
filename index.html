@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PO-HAO TSENG | 意義場 V4</title>
+    <title>PO-HAO TSENG | 意義場 V5</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
     <style>
         :root {
-            --bg-color: #020202; /* 極致黑 */
-            --text-color: #e0e0e0;
+            --bg-color: #050505; /* 稍微提亮背景，避免死黑 */
+            --text-color: #ffffff;
         }
 
         body, html {
@@ -23,6 +23,7 @@
             color: var(--text-color);
         }
 
+        /* 畫布層 */
         #canvas-container {
             position: fixed;
             top: 0;
@@ -32,6 +33,7 @@
             z-index: 1;
         }
 
+        /* UI 層 */
         #ui-layer {
             position: relative;
             z-index: 10;
@@ -44,7 +46,7 @@
             pointer-events: auto;
         }
 
-        /* Landing Screen */
+        /* 進入畫面 */
         #landing-screen {
             position: absolute;
             top: 0;
@@ -55,72 +57,71 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
+            background: rgba(5,5,5,0.8); /* 確保文字可見 */
             transition: opacity 1.5s ease;
         }
 
         h1 {
             font-weight: 300;
-            letter-spacing: 15px;
-            font-size: 1rem;
-            margin-bottom: 3rem;
-            color: rgba(255,255,255,0.8);
+            letter-spacing: 10px;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
             text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
         }
 
         #enter-btn {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.5);
             color: #fff;
-            padding: 15px 60px;
-            font-size: 0.8rem;
+            padding: 15px 50px;
+            font-size: 0.9rem;
             cursor: pointer;
-            transition: all 0.5s ease;
+            transition: all 0.3s ease;
             letter-spacing: 3px;
         }
 
         #enter-btn:hover {
-            background: rgba(255,255,255,0.2);
-            box-shadow: 0 0 30px rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.3);
+            box-shadow: 0 0 20px rgba(255,255,255,0.4);
         }
 
-        /* Nav */
+        /* 導覽列 */
         nav {
             position: absolute;
-            bottom: 50px;
-            left: 50px;
+            bottom: 40px;
+            left: 40px;
             display: flex;
-            flex-direction: row;
-            gap: 40px;
+            gap: 30px;
             opacity: 0;
             transform: translateY(20px);
         }
 
         .nav-link {
             text-decoration: none;
-            color: #666;
-            font-size: 0.8rem;
+            color: #888;
+            font-size: 0.85rem;
             letter-spacing: 2px;
             cursor: pointer;
-            transition: color 0.3s;
+            transition: color 0.3s, text-shadow 0.3s;
         }
 
         .nav-link:hover, .nav-link.active {
             color: #fff;
-            text-shadow: 0 0 8px rgba(255,255,255,0.6);
+            text-shadow: 0 0 8px rgba(255,255,255,0.8);
         }
 
-        /* Content */
+        /* 內容區塊 */
         .content-section {
             position: absolute;
             top: 0;
             right: 0;
-            width: 40%;
+            width: 45%;
             height: 100%;
-            background: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.8) 30%);
+            background: linear-gradient(to left, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
             display: none;
             opacity: 0;
-            padding: 100px 50px;
+            padding: 80px;
             box-sizing: border-box;
             overflow-y: auto;
         }
@@ -135,23 +136,23 @@
 
         .text-block h2 {
             font-weight: 200;
-            font-size: 2rem;
+            font-size: 1.8rem;
             margin-bottom: 30px;
-            color: #fff;
-            letter-spacing: 4px;
+            border-bottom: 1px solid #444;
+            padding-bottom: 15px;
         }
 
         .text-block p {
             line-height: 1.8;
             font-size: 0.95rem;
-            color: #bbb;
+            color: #ccc;
             margin-bottom: 20px;
             text-align: justify;
         }
 
         @media (max-width: 768px) {
-            .content-section { width: 100%; background: rgba(0,0,0,0.8); }
-            nav { bottom: 20px; left: 0; width: 100%; justify-content: center; }
+            .content-section { width: 100%; background: rgba(0,0,0,0.9); padding: 40px; }
+            nav { left: 0; width: 100%; justify-content: center; bottom: 20px; }
         }
     </style>
 </head>
@@ -163,7 +164,7 @@
         <div id="landing-screen" class="interactive">
             <h1>PO-HAO TSENG</h1>
             <button id="enter-btn">ENTER FIELD</button>
-            <p style="font-size:0.7rem; color:#555; margin-top:20px;">Audio Interactive Enabled</p>
+            <p id="status-text" style="margin-top:20px; font-size: 0.7rem; color: #666;">Ready</p>
         </div>
 
         <nav id="main-nav" class="interactive">
@@ -174,293 +175,326 @@
 
         <div id="about" class="content-section interactive">
             <div class="text-block">
-                <h2>意義場</h2>
-                <p>角色、語言、空間與觀者同時運作的場域。</p>
-                <p>在這裡，脈絡是流動的，如同這些粒子。每一個瞬間的交會都產生了暫時的結構，但隨即消散，重組為新的意義。</p>
-                <p>請嘗試移動您的滑鼠並聆聽，聲音的振動正在重組這個場域的連結。</p>
+                <h2>意義場 / Meaning Field</h2>
+                <p>這是一個多重脈絡交會的即時生成場域。</p>
+                <p>前景的光點代表當下的「行動」，背景的迷霧則是深層的「潛在脈絡」。</p>
+                <p>當您移動滑鼠（意識介入），神經般的連結將會產生。若有音樂播放，整個場域將隨著頻率呼吸。</p>
             </div>
         </div>
 
         <div id="experiences" class="content-section interactive">
             <div class="text-block">
-                <h2>經歷脈絡</h2>
+                <h2>經歷 / Timeline</h2>
                 <p>2026 | 未命名的結構測試 [台北]</p>
                 <p>2025 | 湧現的邊界 [台南藝術節]</p>
-                <p>2023 | 駐村藝術家, 巴黎西帖</p>
+                <p>2023 | 駐村藝術家, 巴黎西帖國際藝術村</p>
+                <p>2022 | 導演, 《虛構的重力》</p>
             </div>
         </div>
 
         <div id="gallery" class="content-section interactive">
             <div class="text-block">
-                <h2>視覺殘留</h2>
-                <p>（作品集影像區域）</p>
+                <h2>作品 / Works</h2>
+                <p>[ 影像載入區域 ]</p>
             </div>
         </div>
     </div>
 
     <script>
-        let scene, camera, renderer;
-        let bgSystem, fgSystem; // 背景層, 前景層
-        let linesMesh; // 線條
+        // 全域變數
+        let scene, camera, renderer, clock;
+        let bgParticles, fgParticles, linesMesh;
         let mouse = new THREE.Vector2(9999, 9999);
         let raycaster;
         
-        // 音訊相關
-        let sound, analyser, dataArray;
-        let isAudioPlaying = false;
+        // 音訊變數
+        let analyser;
+        let isAudioActive = false;
+        let pulseFactor = 1; // 用來控制呼吸的參數 (1 = 正常)
 
         // 參數設定
-        const BG_COUNT = 4000;  // 背景粒子 (製造迷霧感)
-        const FG_COUNT = 800;   // 前景粒子 (可互動)
-        const CONNECTION_DIST = 60; // 連線距離
-        const MOUSE_DIST = 200;     // 滑鼠觸發範圍
+        const BG_COUNT = 3000;    // 背景粒子數量
+        const FG_COUNT = 600;     // 前景粒子數量
+        const CONNECT_DIST = 70;  // 連線觸發距離
+        const MOUSE_RADIUS = 250; // 滑鼠影響範圍
+
+        init();
+        animate();
 
         function init() {
             const container = document.getElementById('canvas-container');
-            
+            clock = new THREE.Clock();
+
             // 1. 場景
             scene = new THREE.Scene();
-            // 霧氣：距離感，讓遠處粒子模糊
-            scene.fog = new THREE.FogExp2(0x020202, 0.0012);
+            // 降低霧的濃度，確保不會太黑
+            scene.fog = new THREE.FogExp2(0x050505, 0.001); 
 
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 2000);
-            camera.position.z = 500;
+            // 2. 相機
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 3000);
+            camera.position.z = 600;
 
+            // 3. 渲染器
             renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(window.devicePixelRatio);
+            // 啟用 gamma 校正讓光線更柔和
+            renderer.outputEncoding = THREE.sRGBEncoding;
             container.appendChild(renderer.domElement);
 
-            // 2. 材質生成 (極柔和的光暈)
-            const softSprite = getSoftSprite();
+            // 4. 生成貼圖
+            const sprite = createGlowSprite();
 
-            // 3. Layer 1: 背景層 (Deep Field) - 永遠摸不到，只有聲音能影響
-            const bgGeometry = new THREE.BufferGeometry();
+            // --- 層級 A：背景迷霧 (Background Mist) ---
+            const bgGeo = new THREE.BufferGeometry();
             const bgPos = [];
-            const bgSizes = [];
-
+            
             for (let i = 0; i < BG_COUNT; i++) {
-                // 球體隨機分佈
-                const r = 800 + Math.random() * 800; // 距離較遠 (800~1600)
-                const theta = Math.random() * 2 * Math.PI;
-                const phi = Math.acos(2 * Math.random() - 1);
-                
-                bgPos.push(
-                    r * Math.sin(phi) * Math.cos(theta),
-                    r * Math.sin(phi) * Math.sin(theta),
-                    r * Math.cos(phi)
-                );
-                bgSizes.push(Math.random() * 3 + 1);
+                // 擴大分佈範圍
+                const x = (Math.random() - 0.5) * 3000;
+                const y = (Math.random() - 0.5) * 2000;
+                const z = (Math.random() - 0.5) * 2000 - 500; // 偏後方
+                bgPos.push(x, y, z);
             }
-            bgGeometry.setAttribute('position', new THREE.Float32BufferAttribute(bgPos, 3));
-            bgGeometry.setAttribute('size', new THREE.Float32BufferAttribute(bgSizes, 1)); // 支援縮放
-
-            const bgMaterial = new THREE.PointsMaterial({
-                color: 0x444444, // 深灰
-                size: 4,
-                map: softSprite,
-                blending: THREE.AdditiveBlending, // 疊加變亮
-                depthWrite: false,
+            bgGeo.setAttribute('position', new THREE.Float32BufferAttribute(bgPos, 3));
+            
+            const bgMat = new THREE.PointsMaterial({
+                color: 0x888888, // 亮灰色
+                size: 8,         // 較大的粒子形成霧感
+                map: sprite,
                 transparent: true,
-                opacity: 0.3
+                opacity: 0.2,    // 低透明度
+                blending: THREE.AdditiveBlending,
+                depthWrite: false
             });
-            bgSystem = new THREE.Points(bgGeometry, bgMaterial);
-            scene.add(bgSystem);
+            bgParticles = new THREE.Points(bgGeo, bgMat);
+            scene.add(bgParticles);
 
-
-            // 4. Layer 2: 前景層 (Interactive) - V2的漂浮邏輯 + 神經連線
-            const fgGeometry = new THREE.BufferGeometry();
+            // --- 層級 B：前景神經 (Foreground Neurons) ---
+            const fgGeo = new THREE.BufferGeometry();
             const fgPos = [];
-            const fgVel = []; // 速度
+            const fgVel = [];
 
             for (let i = 0; i < FG_COUNT; i++) {
-                // 分佈在較近處 (-600 ~ 600)
+                // 分佈在相機前方較近處
                 const x = (Math.random() - 0.5) * 1200;
-                const y = (Math.random() - 0.5) * 1000;
-                const z = (Math.random() - 0.5) * 800;
+                const y = (Math.random() - 0.5) * 900;
+                const z = (Math.random() - 0.5) * 600;
                 fgPos.push(x, y, z);
-                
-                // V2 的漂浮速度
+
+                // 漂浮速度 (V2 風格)
                 fgVel.push({
-                    x: (Math.random() - 0.5) * 0.4,
-                    y: (Math.random() - 0.5) * 0.4,
-                    z: (Math.random() - 0.5) * 0.4
+                    x: (Math.random() - 0.5) * 0.5,
+                    y: (Math.random() - 0.5) * 0.5,
+                    z: (Math.random() - 0.5) * 0.5
                 });
             }
-            fgGeometry.setAttribute('position', new THREE.Float32BufferAttribute(fgPos, 3));
+            fgGeo.setAttribute('position', new THREE.Float32BufferAttribute(fgPos, 3));
             
-            const fgMaterial = new THREE.PointsMaterial({
-                color: 0xaaccff, // 微微藍光
-                size: 6,
-                map: softSprite,
-                blending: THREE.AdditiveBlending,
-                depthWrite: false,
+            const fgMat = new THREE.PointsMaterial({
+                color: 0xffffff, // 純白高亮
+                size: 5,
+                map: sprite,
                 transparent: true,
-                opacity: 0.8
+                opacity: 0.9,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false
             });
-            fgSystem = new THREE.Points(fgGeometry, fgMaterial);
-            fgSystem.userData = { velocities: fgVel }; // 綁定速度資料
-            scene.add(fgSystem);
+            fgParticles = new THREE.Points(fgGeo, fgMat);
+            fgParticles.userData = { velocity: fgVel };
+            scene.add(fgParticles);
 
-
-            // 5. 連線系統 (Dynamic Lines)
+            // --- 連線系統 (Line Connections) ---
             const lineGeo = new THREE.BufferGeometry();
+            // 預先配置緩衝區，避免每幀重新分配記憶體 (效能優化)
+            const maxConnections = FG_COUNT * 2; 
+            const linePos = new Float32Array(maxConnections * 3 * 2); // 每個連結2個點，每個點3個座標
+            lineGeo.setAttribute('position', new THREE.BufferAttribute(linePos, 3));
+            lineGeo.setDrawRange(0, 0); // 初始不畫線
+
             const lineMat = new THREE.LineBasicMaterial({
                 color: 0xffffff,
                 transparent: true,
-                opacity: 0.15,
+                opacity: 0.3,
                 blending: THREE.AdditiveBlending
             });
             linesMesh = new THREE.LineSegments(lineGeo, lineMat);
             scene.add(linesMesh);
 
-            // 6. 互動與監聽
+            // 5. 事件監聽
             raycaster = new THREE.Raycaster();
-            document.addEventListener('mousemove', onDocumentMouseMove, false);
-            window.addEventListener('resize', onWindowResize, false);
-
-            animate();
+            document.addEventListener('mousemove', onMouseMove, false);
+            window.addEventListener('resize', onResize, false);
         }
 
-        // 建立音訊監聽器 (需在使用者點擊後觸發)
-        function initAudio() {
-            const listener = new THREE.AudioListener();
-            camera.add(listener);
-
-            sound = new THREE.Audio(listener);
-            const audioLoader = new THREE.AudioLoader();
-            
-            // 載入音檔
-            audioLoader.load('bgm.mp3', function(buffer) {
-                sound.setBuffer(buffer);
-                sound.setLoop(true);
-                sound.setVolume(0.8);
-                sound.play();
-                isAudioPlaying = true;
-            });
-
-            // 建立分析器
-            analyser = new THREE.AudioAnalyser(sound, 32); // 32 代表採樣精度，不用太高
-        }
-
-        // 柔和光暈貼圖
-        function getSoftSprite() {
+        // 創建發光貼圖
+        function createGlowSprite() {
             const canvas = document.createElement('canvas');
-            canvas.width = 32;
-            canvas.height = 32;
+            canvas.width = 64;
+            canvas.height = 64;
             const ctx = canvas.getContext('2d');
-            const grad = ctx.createRadialGradient(16,16,0, 16,16,16);
-            grad.addColorStop(0, 'rgba(255,255,255,1)');     // 中心白
-            grad.addColorStop(0.2, 'rgba(255,255,255,0.8)'); // 過渡
-            grad.addColorStop(0.5, 'rgba(255,255,255,0.2)'); // 外光暈
-            grad.addColorStop(1, 'rgba(0,0,0,0)');           // 透明
-            ctx.fillStyle = grad;
-            ctx.fillRect(0,0,32,32);
+            const gradient = ctx.createRadialGradient(32,32,0, 32,32,32);
+            gradient.addColorStop(0, 'rgba(255,255,255,1)');
+            gradient.addColorStop(0.3, 'rgba(255,255,255,0.4)');
+            gradient.addColorStop(1, 'rgba(0,0,0,0)');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0,0,64,64);
             return new THREE.CanvasTexture(canvas);
         }
 
-        function onDocumentMouseMove(event) {
-            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+        function onMouseMove(e) {
+            mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
         }
 
-        function animate() {
-            requestAnimationFrame(animate);
-
-            // --- 0. 取得音訊資料 ---
-            let audioLevel = 1; // 預設值
-            if (isAudioPlaying && analyser) {
-                const data = analyser.getAverageFrequency(); // 0 ~ 255
-                // 將 0~255 映射到 1.0 ~ 1.5 的縮放比例
-                audioLevel = 1 + (data / 256) * 0.8;
-                
-                // 讓背景隨音樂稍微閃爍 (呼吸感)
-                bgSystem.material.opacity = 0.3 + (data / 256) * 0.2;
-                bgSystem.material.size = 4 * audioLevel;
-            }
-
-            // --- 1. 背景層動畫 (緩慢旋轉) ---
-            bgSystem.rotation.y += 0.0005;
-            bgSystem.rotation.x += 0.0002;
-
-            // --- 2. 前景層動畫 (V2 漂浮 + 音訊加速) ---
-            const positions = fgSystem.geometry.attributes.position.array;
-            const velocities = fgSystem.userData.velocities;
-            
-            for (let i = 0; i < FG_COUNT; i++) {
-                const ix = i * 3;
-                
-                // 加上速度 (如果有音樂，粒子會稍微興奮一點，移動快一點點)
-                positions[ix]     += velocities[i].x * audioLevel;
-                positions[ix + 1] += velocities[i].y * audioLevel;
-                positions[ix + 2] += velocities[i].z * audioLevel;
-
-                // 邊界循環 (Wrap around)
-                if(positions[ix] > 600) positions[ix] = -600;
-                if(positions[ix] < -600) positions[ix] = 600;
-                if(positions[ix+1] > 500) positions[ix+1] = -500;
-                if(positions[ix+1] < -500) positions[ix+1] = 500;
-            }
-            fgSystem.geometry.attributes.position.needsUpdate = true;
-            
-            // --- 3. 神經連線 (根據滑鼠位置) ---
-            // 計算滑鼠在 3D 空間的投影線
-            raycaster.setFromCamera(mouse, camera);
-            const mousePos3D = new THREE.Vector3(mouse.x, mouse.y, 0.5);
-            mousePos3D.unproject(camera);
-            const dir = mousePos3D.sub(camera.position).normalize();
-            const distance = -camera.position.z / dir.z;
-            const targetPos = camera.position.clone().add(dir.multiplyScalar(distance));
-
-            const linePositions = [];
-            const p1 = new THREE.Vector3();
-            const p2 = new THREE.Vector3();
-
-            // 互動範圍也會隨著聲音變大！
-            const activeDist = MOUSE_DIST * audioLevel;
-
-            for (let i = 0; i < FG_COUNT; i++) {
-                p1.set(positions[i*3], positions[i*3+1], positions[i*3+2]);
-                
-                // 只有當粒子靠近滑鼠時，才去檢查連線 (優化效能)
-                if (p1.distanceTo(targetPos) < activeDist) {
-                    
-                    // 檢查鄰居
-                    for (let j = i + 1; j < FG_COUNT; j++) {
-                        p2.set(positions[j*3], positions[j*3+1], positions[j*3+2]);
-                        
-                        // 如果兩個粒子夠近，連線
-                        if (p1.distanceTo(p2) < CONNECTION_DIST) {
-                            linePositions.push(p1.x, p1.y, p1.z);
-                            linePositions.push(p2.x, p2.y, p2.z);
-                        }
-                    }
-                }
-            }
-            lineGeo.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
-            
-            // 線條亮度也隨聲音變化
-            linesMesh.material.opacity = 0.15 * audioLevel;
-
-            renderer.render(scene, camera);
-        }
-
-        function onWindowResize() {
+        function onResize() {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
         }
 
-        // --- 點擊進入 ---
+        // 音訊初始化 (包含錯誤處理)
+        function initAudio() {
+            const listener = new THREE.AudioListener();
+            camera.add(listener);
+            
+            const sound = new THREE.Audio(listener);
+            const loader = new THREE.AudioLoader();
+            
+            document.getElementById('status-text').innerText = "Loading Audio...";
+
+            // 嘗試載入 bgm.mp3
+            loader.load(
+                'bgm.mp3', 
+                function(buffer) { // Success
+                    sound.setBuffer(buffer);
+                    sound.setLoop(true);
+                    sound.setVolume(0.8);
+                    sound.play();
+                    analyser = new THREE.AudioAnalyser(sound, 32);
+                    isAudioActive = true;
+                    document.getElementById('status-text').innerText = "Audio Active";
+                },
+                function(xhr) {}, // Progress
+                function(err) { // Error
+                    console.warn("Audio load failed (likely CORS or file missing). Switch to visual simulation.");
+                    document.getElementById('status-text').innerText = "Visual Mode Only";
+                    isAudioActive = false;
+                }
+            );
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            const time = clock.getElapsedTime();
+
+            // --- 1. 計算呼吸係數 (Pulse) ---
+            if (isAudioActive && analyser) {
+                // 有音樂：用頻譜
+                const data = analyser.getAverageFrequency();
+                pulseFactor = 1 + (data / 256) * 0.6; // 範圍約 1.0 ~ 1.6
+            } else {
+                // 無音樂：用 Sine 波模擬呼吸
+                pulseFactor = 1 + Math.sin(time * 2) * 0.1; // 範圍約 0.9 ~ 1.1
+            }
+
+            // --- 2. 背景動畫 ---
+            // 背景隨時間緩慢旋轉
+            bgParticles.rotation.y = time * 0.05;
+            // 背景亮度隨呼吸改變
+            bgParticles.material.opacity = 0.2 * pulseFactor;
+
+            // --- 3. 前景動畫 (V2 漂浮 + 景深速度) ---
+            const positions = fgParticles.geometry.attributes.position.array;
+            const velocities = fgParticles.userData.velocity;
+
+            for(let i=0; i < FG_COUNT; i++) {
+                const ix = i * 3;
+                
+                // 加上速度，並受呼吸影響稍微加速
+                positions[ix]     += velocities[i].x * pulseFactor;
+                positions[ix + 1] += velocities[i].y * pulseFactor;
+                positions[ix + 2] += velocities[i].z * pulseFactor;
+
+                // 邊界循環
+                if(positions[ix] > 600) positions[ix] = -600;
+                if(positions[ix] < -600) positions[ix] = 600;
+                if(positions[ix+1] > 500) positions[ix+1] = -500;
+                if(positions[ix+1] < -500) positions[ix+1] = 500;
+                if(positions[ix+2] > 300) positions[ix+2] = -300;
+                if(positions[ix+2] < -300) positions[ix+2] = 300;
+            }
+            fgParticles.geometry.attributes.position.needsUpdate = true;
+
+            // --- 4. 神經連線邏輯 ---
+            // 找出滑鼠在 3D 空間的位置
+            raycaster.setFromCamera(mouse, camera);
+            const targetPos = new THREE.Vector3(0, 0, 0); // 預設中心
+            
+            // 計算滑鼠射線與 Z=0 平面的交點
+            const mousePos3D = new THREE.Vector3(mouse.x, mouse.y, 0.5);
+            mousePos3D.unproject(camera);
+            const dir = mousePos3D.sub(camera.position).normalize();
+            const distance = -camera.position.z / dir.z;
+            targetPos.copy(camera.position).add(dir.multiplyScalar(distance));
+
+            // 更新連線
+            let vertexIndex = 0;
+            const linePositions = linesMesh.geometry.attributes.position.array;
+            const p1 = new THREE.Vector3();
+            const p2 = new THREE.Vector3();
+
+            // 影響範圍隨呼吸變大
+            const activeRadius = MOUSE_RADIUS * pulseFactor;
+
+            for (let i = 0; i < FG_COUNT; i++) {
+                p1.set(positions[i*3], positions[i*3+1], positions[i*3+2]);
+
+                // 優化：只計算滑鼠附近的點
+                if (p1.distanceTo(targetPos) < activeRadius) {
+                    
+                    // 尋找鄰居
+                    for (let j = i + 1; j < FG_COUNT; j++) {
+                        p2.set(positions[j*3], positions[j*3+1], positions[j*3+2]);
+
+                        if (p1.distanceTo(p2) < CONNECT_DIST) {
+                            // 寫入線段端點
+                            linePositions[vertexIndex++] = p1.x;
+                            linePositions[vertexIndex++] = p1.y;
+                            linePositions[vertexIndex++] = p1.z;
+                            
+                            linePositions[vertexIndex++] = p2.x;
+                            linePositions[vertexIndex++] = p2.y;
+                            linePositions[vertexIndex++] = p2.z;
+
+                            // 安全檢查，防止陣列溢出
+                            if(vertexIndex >= linePositions.length) break;
+                        }
+                    }
+                }
+            }
+            
+            // 告訴 Three.js 這次畫了幾條線
+            linesMesh.geometry.setDrawRange(0, vertexIndex / 3);
+            linesMesh.geometry.attributes.position.needsUpdate = true;
+            
+            // 線條透明度也隨呼吸改變
+            linesMesh.material.opacity = 0.3 * pulseFactor;
+
+            renderer.render(scene, camera);
+        }
+
+        // --- 頁面互動 ---
         document.getElementById('enter-btn').addEventListener('click', () => {
-            initAudio(); // 啟動聲音分析
+            initAudio(); // 啟動聲音
 
             // UI 動畫
-            gsap.to('#landing-screen', { duration: 1.5, opacity: 0, pointerEvents: 'none' });
-            gsap.to('nav', { duration: 1.5, opacity: 1, y: 0, delay: 0.5 });
+            gsap.to('#landing-screen', { duration: 1, opacity: 0, pointerEvents: 'none' });
+            gsap.to('nav', { duration: 1, opacity: 1, y: 0, delay: 0.5 });
             
-            // 相機推進
-            gsap.to(camera.position, { duration: 3, z: 400, ease: "power2.inOut" });
+            // 相機推進 (進入迷霧)
+            gsap.to(camera.position, { duration: 2.5, z: 400, ease: "power2.inOut" });
         });
 
         window.navigateTo = function(id) {
@@ -468,7 +502,6 @@
                 el.classList.remove('active');
                 gsap.to(el, { opacity: 0, duration: 0.5 });
             });
-            
             document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
             event.target.classList.add('active');
 
@@ -476,8 +509,6 @@
             target.classList.add('active');
             gsap.to(target, { opacity: 1, duration: 1, delay: 0.5 });
         }
-
-        init();
     </script>
 </body>
 </html>
